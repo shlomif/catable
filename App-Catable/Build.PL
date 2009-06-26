@@ -24,7 +24,9 @@ my $build = Test::Run::Builder->new(
         'YAML' => 0,
     },
     license => "mit",
-    create_makefile_pl => 'traditional',
+    # Commenting out so we'll have the catalyst.pl-generated M::I-base
+    # Makefile.PL for safe-keeping.
+    # create_makefile_pl => 'traditional',
     script_files => glob("script/*.pl"),
 );
 
