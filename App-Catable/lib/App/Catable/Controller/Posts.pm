@@ -36,6 +36,22 @@ sub add : Local {
     # in your action methods (action methods respond to user input in
     # your controllers).
     $c->stash->{template} = 'posts/add.tt2';
+
+    return;
+}
+
+=head2 add_submit
+
+This controller method handles the blog post submission.
+
+=cut
+
+sub add_submit : Path('add-submit') {
+    my ($self, $c) = @_;
+
+    $c->stash->{template} = 'posts/add-submit.tt2';
+
+    return;
 }
 
 =head2 index 
