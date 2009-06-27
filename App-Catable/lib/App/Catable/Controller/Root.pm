@@ -43,12 +43,13 @@ sub end : ActionClass('RenderView') {}
 
 =head1 AUTHOR
 
-Catalyst developer
+Shlomi Fish, L<http://www.shlomifish.org/>
 
 =head1 LICENSE
 
-This library is free software, you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is distributed under the MIT/X11 License: 
+
+L<http://www.opensource.org/licenses/mit-license.php>
 
 =cut
 

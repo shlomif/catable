@@ -34,7 +34,7 @@ __PACKAGE__->setup;
 
 =head1 NAME
 
-App::Catable - Catalyst based application
+App::Catable - CATAlyst BLog Engine - written by Perl cats.
 
 =head1 SYNOPSIS
 
@@ -42,7 +42,8 @@ App::Catable - Catalyst based application
 
 =head1 DESCRIPTION
 
-[enter your description here]
+Catable stands for CATAlyst BLog Engine and aims to be a Catalyst-based blog
+engine freely available under the MIT/X11 License.
 
 =head1 SEE ALSO
 
@@ -50,12 +51,13 @@ L<App::Catable::Controller::Root>, L<Catalyst>
 
 =head1 AUTHOR
 
-Catalyst developer
+Shlomi Fish, L<http://www.shlomifish.org/>
 
 =head1 LICENSE
 
-This library is free software, you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is distributed under the MIT/X11 License: 
+
+L<http://www.opensource.org/licenses/mit-license.php>
 
 =cut
 
