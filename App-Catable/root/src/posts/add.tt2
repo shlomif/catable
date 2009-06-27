@@ -1,5 +1,14 @@
-[% META title = 'Add a new post' -%]
-
+[% META title = 'Add new post' -%]
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE
+    html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US">
+<head>
+<title>Add new post</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
 <form method="post" action="add-submit">
 <table>
 <tr>
@@ -11,12 +20,16 @@
 </tr>
 <tr>
 <td>Post Body</td>
-<td><textarea name="body"></textarea></td>
+<td><textarea name="body" rows="10" cols="70"></textarea></td>
 </tr>
 <tr>
 <td>Buttons</td>
-<td><input type="submit" name="submit" value="submit" />
+<td>
+<input type="submit" name="submit" value="submit" />
 <input type="submit" name="preview" value="preview" />
+</td>
 </tr>
 </table>
 </form>
+</body>
+</html>
