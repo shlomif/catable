@@ -1,4 +1,4 @@
-[% META title = 'Post Submission' -%]
+[% title = 'Post Submission' -%]
 <h1>Post Submission Failed</h1>
 
 <p>

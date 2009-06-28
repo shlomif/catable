@@ -1,4 +1,4 @@
-[% META title = 'Add new post' -%]
+[% title = 'Add new post' -%]
 <form method="post" action="add-submit">
 <table>
 <tr>
