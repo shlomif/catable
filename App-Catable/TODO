@@ -1,5 +1,5 @@
-* Extract the XHTML wrapping markup into a wrapper.tt. (see CPANHQ for
-an example).
+* Get the title [% META %] variable in the templates to work and affect
+the title.
 
 * Implement the add new post submission.
 
