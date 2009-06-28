@@ -1,0 +1,3 @@
+* Get the title [% META %] variable in the templates to work and affect
+the title.
+    - Fixed by getting rid of the "META" and just doing "title = ".

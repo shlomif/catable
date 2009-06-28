@@ -1,6 +1,3 @@
-* Get the title [% META %] variable in the templates to work and affect
-the title.
-
 * Implement the add new post submission.
 
 * Implement the add new post storage.
