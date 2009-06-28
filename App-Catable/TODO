@@ -1,0 +1,20 @@
+* Extract the XHTML wrapping markup into a wrapper.tt. (see CPANHQ for
+an example).
+
+* Implement the add new post submission.
+
+* Implement the add new post storage.
+
+* Implement a list of recent blog posts.
+
+* Style the add new post form better.
+
+* Implement comments.
+
+* Implement several blogs in one application.
+
+* Add previews for the posts / comments.
+
+* Implement JavaScript/AJAX goodness:
+    - AJAX previews.
+    - LiveJournal-like DHTML replies.
