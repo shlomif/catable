@@ -1,6 +1,6 @@
 [% title = 'Add new post' -%]
 <form method="post" action="add-submit">
-<table>
+<table class="add_post">
 <tr>
 <th>Field</th><th>Value</th>
 </tr>

@@ -1,0 +1,14 @@
+.add_post
+{
+    border-collapse: collapse;
+}
+.add_post td, .add_post th
+{
+    border: 2pt solid #8D9;
+    vertical-align: top;
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+    padding-top: 0.12em;
+    padding-bottom: 0.2em;
+    text-align: left;
+}
