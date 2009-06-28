@@ -12,6 +12,7 @@ __PACKAGE__->config(
     INCLUDE_PATH => [
     App::Catable->path_to( 'root', 'src' ),
     ],
+    WRAPPER => "wrapper.tt2",
 );
 
 =head1 NAME
