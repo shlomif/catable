@@ -29,7 +29,7 @@ This is the post schema class for L<CPANHQ>.
 
 use base qw( DBIx::Class );
 
-__PACKAGE__->load_components( qw( Core ) );
+__PACKAGE__->load_components( qw( InflateColumn::DateTime Core ) );
 __PACKAGE__->table( 'post' );
 __PACKAGE__->add_columns(
     id => {

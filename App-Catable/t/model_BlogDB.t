@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 6;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -61,12 +61,10 @@ EOF
             "Existing Post Body is OK."
         );
 
-        # These tests fail:
-        #
-        #-TEST
-        #-is ($cats_post->pubdate->year(), 2009, "Year is OK.");
+        # TEST
+        is ($cats_post->pubdate->year(), 2009, "Year is OK.");
 
-        #-TEST
-        #-is ($cats_post->pubdate->month(), 2009, "Year is OK.");
+        # TEST
+        is ($cats_post->pubdate->month(), 6, "Month is OK.");
     }
 }
