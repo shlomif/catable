@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/style.css') %]" />
 </head>
 <body>
+<h1>[% IF title; title ; ELSE; "Catable" ; END %]</h1>
 [% content %]
 </body>
 </html>
