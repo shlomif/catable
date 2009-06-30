@@ -2,5 +2,6 @@ App-Catable-*
 blib
 _build
 Build
+catable.db
 MANIFEST
 META.yml
