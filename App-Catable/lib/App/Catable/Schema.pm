@@ -17,7 +17,7 @@ App::Catable::Schema - the main schema module.
 
 =head1 SYNOPSIS
       
-    my $schema = App::Catable->model("BlogDB");
+    my $schema = App::Catable->model("BlogDB")
 
 =head1 DESCRIPTION
 
@@ -25,7 +25,17 @@ This is the main schema module for the L<App::Catable> BlogDB model.
 
 =head1 METHODS
 
-None.
+=head2 $self->create_initial_data()
+
+Populates the database with the initial data
+=cut
+
+sub create_initial_data
+{
+    my $self = shift;
+
+    return;
+}
 
 =head1 SEE ALSO
 
