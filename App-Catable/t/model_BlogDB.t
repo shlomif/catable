@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 6;
+use Test::More tests => 10;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -24,6 +24,15 @@ my $schema = AppCatableTestSchema->init_schema(no_populate => 0);
         second => 0,
     );
 
+    my $update_date = DateTime->new(
+        year => 2009,
+        month => 7,
+        day => 1,
+        hour => 10,
+        minute => 44,
+        second => 57,
+    );
+
     my $post_id;
 
     {
@@ -38,7 +47,7 @@ out this post</a> about a cute cat. Well, it's not the cutest cat ever
 </p>
 EOF
                 pubdate => $date,
-                update_date => $date,
+                update_date => $update_date,
             }
         );
 
@@ -66,5 +75,30 @@ EOF
 
         # TEST
         is ($cats_post->pubdate->month(), 6, "Month is OK.");
+        
+        # TEST
+        is (
+            $cats_post->update_date->month(), 7, 
+            "update_date Month is OK."
+        );
+
+        # TEST
+        is (
+            $cats_post->update_date->second(), 57, 
+            "update_date Second field is OK."
+        );
+
+        # TEST
+        is (
+            $cats_post->update_date->day(), 1, 
+            "update_date Second field is OK."
+        );
+
+        # TEST
+        is (
+            $cats_post->update_date->year(), 2009, 
+            "update_date Year field is OK."
+        );
+
     }
 }
