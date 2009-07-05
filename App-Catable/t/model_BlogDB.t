@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 10;
+use Test::More tests => 13;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -100,5 +100,41 @@ EOF
             "update_date Year field is OK."
         );
 
+    }
+
+    {
+        my $cats_post = $posts_rs->find( { id => $post_id } );
+
+        $cats_post->update_date(
+            DateTime->new(
+                year => 2009,
+                month => 7,
+                day => 5,
+                hour => 14,
+                minute => 0,
+                second => 0,
+            )
+        );
+
+        $cats_post->update();
+    }
+
+    {
+        my $cats_post = $posts_rs->find( { id => $post_id } );
+
+        # TEST
+        is ($cats_post->update_date->day(), 5,
+            "Day changed",
+        );
+
+        # TEST
+        is ($cats_post->update_date->hour(), 14,
+            "Hour changed.",
+        );
+
+        # TEST
+        is ($cats_post->update_date->minute(), 0,
+            "Hour changed.",
+        );
     }
 }
