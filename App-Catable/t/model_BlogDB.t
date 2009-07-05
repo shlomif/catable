@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 13;
+use Test::More tests => 18;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -137,4 +137,35 @@ EOF
             "Hour changed.",
         );
     }
+
+    {
+        my $cats_post = $posts_rs->find( { id => $post_id } );
+
+        # TEST
+        is ($cats_post->title(), "A Cute Cat", "Existing Title is OK.");
+
+        $cats_post->title("OMG! Ponies");
+
+        # TEST
+        is ($cats_post->title(), "OMG! Ponies", "Title changed");
+
+        $cats_post->update();
+
+        # TEST
+        is ($cats_post->title(), "OMG! Ponies",
+            "Title is still changed after update"
+        );
+    }
+
+    {
+        my $cats_post = $posts_rs->find( { id => $post_id } );
+
+        # TEST
+        ok ($cats_post, "Could find cat's post");
+
+        # TEST
+        is ($cats_post->title(), "OMG! Ponies", "Title has changed after update.");
+    }
+
+
 }
