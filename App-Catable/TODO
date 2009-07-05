@@ -1,5 +1,8 @@
 * Implement the add new post submission.
 
+* Implement a basic HTML validation and cross-site-scripting (XSS)
+prevention.
+
 * Implement the add new post storage.
 
 * Implement a list of recent blog posts.

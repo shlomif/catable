@@ -49,7 +49,29 @@ This controller method handles the blog post submission.
 sub add_submit : Path('add-submit') {
     my ($self, $c) = @_;
 
-    $c->stash->{template} = 'posts/add-submit.tt2';
+    my $req = $c->request;
+
+    my $title = $req->param('title');
+    my $body = $req->param('body');
+    my $is_preview = defined($req->param('preview'));
+    my $is_submit = defined($req->param('submit'));
+
+    if (!($is_preview xor $is_submit))
+    {
+        $c->response->status(404);
+        $c->response->body("Cannot submit and preview at once.");
+    }
+
+    if ($is_preview)
+    {
+        $c->stash->{template} = "posts/add-preview.tt2";
+        $c->stash->{post_title} = $title;
+        $c->stash->{post_body} = $body;
+    }
+    else
+    {
+        $c->stash->{template} = 'posts/add-submit.tt2';
+    }
 
     return;
 }
