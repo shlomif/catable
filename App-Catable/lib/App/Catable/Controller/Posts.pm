@@ -91,7 +91,7 @@ sub add_submit : Path('add-submit') {
 }
 
 
-sub show :PathPart(show) :CaptureArgs(1)  {
+sub show :Path(show) :CaptureArgs(1)  {
     my ($self, $c, $post_id) = @_;
 
     my $post = $c->model("BlogDB::Post")->find({id => $post_id });
