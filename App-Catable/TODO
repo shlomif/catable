@@ -1,3 +1,5 @@
+* Implement the http://telaviv1.shlomifish.org:3001/posts/show/1/ URL.
+
 * Implement the add new post submission.
 
 * Implement a basic HTML validation and cross-site-scripting (XSS)
