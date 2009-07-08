@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use base 'Catalyst::Controller';
 
+use DateTime;
+
 =head1 NAME
 
 App::Catable::Controller::Posts - Catalyst Posts Controller
@@ -61,8 +63,7 @@ sub add_submit : Path('add-submit') {
         $c->response->status(404);
         $c->response->body("Cannot submit and preview at once.");
     }
-
-    if ($is_preview)
+    elsif ($is_preview)
     {
         $c->stash->{template} = "posts/add-preview.tt2";
         $c->stash->{post_title} = $title;
@@ -70,6 +71,19 @@ sub add_submit : Path('add-submit') {
     }
     else
     {
+        my $now = DateTime->now();
+        # Add the post to the model.
+        my $new_post = $c->model('BlogDB::Post')->create(
+            {
+                title => $title,
+                body => $body,
+                pubdate => $now->clone(),
+                update_date => $now->clone(),
+            }
+        );
+
+        $c->stash->{new_post} = $new_post;
+        
         $c->stash->{template} = 'posts/add-submit.tt2';
     }
 

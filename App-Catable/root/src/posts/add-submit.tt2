@@ -1,6 +1,7 @@
 [% title = 'Post Submission' -%]
-<h1>Post Submission Failed</h1>
+<h1>New Blog Entry Posted Successfully</h1>
 
 <p>
-Tell the programmer to fix the bloody application.
+Submitted <a href="[% c.uri_for('/posts/show/', new_post.id()) %]">the New
+Post</a>. Go check it out.
 </p>
