@@ -90,6 +90,24 @@ sub add_submit : Path('add-submit') {
     return;
 }
 
+
+sub show :PathPart(show) :CaptureArgs(1)  {
+    my ($self, $c, $post_id) = @_;
+
+    my $post = $c->model("BlogDB::Post")->find({id => $post_id });
+
+    if (!$post)
+    {
+        $c->res->code( 404 );
+        # TODO : Possible XSS attack here?
+        $c->res->body( "Post '$post_id' not found." );
+        $c->detach;
+    }
+
+    $c->stash (post => $post);
+    $c->stash->{template} = 'posts/show.tt2';
+}
+
 =head2 index 
 
 =cut

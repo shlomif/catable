@@ -1,0 +1,17 @@
+[%- USE HTML -%]
+[% title = post.title() _ " - Catable" -%]
+
+<div class="post">
+<h3>[% HTML.escape(post.title()) %]</h3>
+
+<p>
+<b>Posted at:</b>
+[% HTML.escape(post.pubdate().strftime("%H:%M:%S %d-%m-%Y")) %]
+</p>
+
+[% # TODO : verify that the HTML does not contain any malicious code
+   # and is well-formed.
+%]
+[% post.body() %]
+</div>
+
