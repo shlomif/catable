@@ -46,6 +46,10 @@ __PACKAGE__->add_columns(
         data_type => 'blob',
         is_nullable => 1,
     },
+    publish => {
+        data_type => 'bool',
+        is_nullable => 0,
+    },
     pubdate => {
         data_type => 'datetime',
         is_nullable => 0,
