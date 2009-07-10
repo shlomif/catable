@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use base 'Catalyst::Controller';
 
+use DateTime;
+
 =head1 NAME
 
 App::Catable::Controller::Posts - Catalyst Posts Controller
@@ -49,9 +51,61 @@ This controller method handles the blog post submission.
 sub add_submit : Path('add-submit') {
     my ($self, $c) = @_;
 
-    $c->stash->{template} = 'posts/add-submit.tt2';
+    my $req = $c->request;
+
+    my $title = $req->param('title');
+    my $body = $req->param('body');
+    my $is_preview = defined($req->param('preview'));
+    my $is_submit = defined($req->param('submit'));
+
+    if (!($is_preview xor $is_submit))
+    {
+        $c->response->status(404);
+        $c->response->body("Cannot submit and preview at once.");
+    }
+    elsif ($is_preview)
+    {
+        $c->stash->{template} = "posts/add-preview.tt2";
+        $c->stash->{post_title} = $title;
+        $c->stash->{post_body} = $body;
+    }
+    else
+    {
+        my $now = DateTime->now();
+        # Add the post to the model.
+        my $new_post = $c->model('BlogDB::Post')->create(
+            {
+                title => $title,
+                body => $body,
+                pubdate => $now->clone(),
+                update_date => $now->clone(),
+            }
+        );
+
+        $c->stash->{new_post} = $new_post;
+        
+        $c->stash->{template} = 'posts/add-submit.tt2';
+    }
 
     return;
+}
+
+
+sub show :Path(show) :CaptureArgs(1)  {
+    my ($self, $c, $post_id) = @_;
+
+    my $post = $c->model("BlogDB::Post")->find({id => $post_id });
+
+    if (!$post)
+    {
+        $c->res->code( 404 );
+        # TODO : Possible XSS attack here?
+        $c->res->body( "Post '$post_id' not found." );
+        $c->detach;
+    }
+
+    $c->stash (post => $post);
+    $c->stash->{template} = 'posts/show.tt2';
 }
 
 =head2 index 

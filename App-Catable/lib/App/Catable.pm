@@ -59,6 +59,11 @@ This library is distributed under the MIT/X11 License:
 
 L<http://www.opensource.org/licenses/mit-license.php>
 
+=head1 ACKNOWLEDGEMENTS
+
+Thanks to the people on L<irc://irc.perl.org/#dbix-class> for their help
+with DBIx::Class problems.
+
 =cut
 
 1;

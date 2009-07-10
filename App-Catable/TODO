@@ -1,0 +1,36 @@
+* Implement the http://telaviv1.shlomifish.org:3001/posts/show/1/ URL.
+
+* Implement the add new post submission.
+
+* Implement a basic HTML validation and cross-site-scripting (XSS)
+prevention.
+
+* Implement the add new post storage.
+
+* Implement a list of recent blog posts.
+
+* Style the "add new post" form better.
+
+* Implement comments.
+
+* Implement several blogs in one application.
+
+* Add previews for the posts / comments.
+
+* Implement a base table/class for post and comments.
+
+
+* Implement JavaScript/AJAX goodness:
+    - AJAX previews.
+    - LiveJournal-like DHTML replies.
+
+*
+
+{{{
+<SubStack>	catable should have a "draft" or "hidden" mode
+where you can write an article that won't show up in the main page but you can
+link to it directly
+<SubStack>	so you can link people to drafts of your blog
+entries to request comments before posting them for real
+}}}
+
