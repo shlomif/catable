@@ -42,6 +42,22 @@ sub add : Local {
     return;
 }
 
+sub list : Path('list') {
+    my ($self, $c) = @_;
+
+    my @posts = $c->model('BlogDB')->resultset('Post')
+        ->search( { can_be_published => 1,
+                    pubdate => { "<" => \"DATETIME('NOW')" },
+                  } );
+
+    $c->log->debug( sprintf "Found %d posts", scalar @posts );
+
+    $c->stash->{posts} = \@posts;
+    $c->stash->{template} = 'posts/list.tt2';
+
+    return;
+}
+
 =head2 add_submit
 
 This controller method handles the blog post submission.
@@ -55,6 +71,7 @@ sub add_submit : Path('add-submit') {
 
     my $title = $req->param('title');
     my $body = $req->param('body');
+    my $can_be_published = $req->param('can_be_published');
     my $is_preview = defined($req->param('preview'));
     my $is_submit = defined($req->param('submit'));
 
@@ -77,6 +94,7 @@ sub add_submit : Path('add-submit') {
             {
                 title => $title,
                 body => $body,
+                can_be_published => $can_be_published ? 1 : 0,
                 pubdate => $now->clone(),
                 update_date => $now->clone(),
             }
