@@ -21,7 +21,40 @@ App::Catable::Schema::Post - a schema class representing a blog post.
 
 =head1 DESCRIPTION
 
-This is the post schema class for L<CPANHQ>.
+This is the post schema class for L<App::Catable>.
+
+=head1 FIELDS
+
+This field list also comprises a method list, since DBIC
+creates accessor methods for each field.
+
+=head2 id
+
+Auto-incremented post ID.
+
+=head2 title
+
+Each post can have a title up to 400 chars long.
+
+=head2 body
+
+The body of the blog post is arbitrary text. It is parsed between
+DB and display based on selected plugins to deal with markup.
+
+=head2 can_be_published
+
+This is a boolean field that suppresses the publishing of a
+post, in order to allow bloggers to draft posts or to write
+private posts.
+
+=head2 pubdate
+
+The date to publish this post, or the date the post was published
+*Shlomi to confirm*
+
+=head2 update_date
+
+A timestamp for when the post was last updated.
 
 =head1 METHODS
 
@@ -46,7 +79,7 @@ __PACKAGE__->add_columns(
         data_type => 'blob',
         is_nullable => 1,
     },
-    publish => {
+    can_be_published => {
         data_type => 'bool',
         is_nullable => 0,
     },
