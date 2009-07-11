@@ -24,7 +24,7 @@ prevention.
     - AJAX previews.
     - LiveJournal-like DHTML replies.
 
-*
+* Add more archive list view types
 
 {{{
 <SubStack>	catable should have a "draft" or "hidden" mode
