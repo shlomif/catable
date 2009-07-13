@@ -7,3 +7,13 @@ the title.
 * Add basic list view
 
 * Add do-not-publish "draft" or "hidden" option to posts
+
+* Implement the http://telaviv1.shlomifish.org:3001/posts/show/1/ URL.
+
+* Add a meaningful front page with links to all the correct actions.
+    - at the moment, there's only the generic Catalyst template.
+
+* Implement the add new post submission.
+
+* Implement the add new post storage.
+

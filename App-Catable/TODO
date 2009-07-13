@@ -1,14 +1,8 @@
-* Implement the http://telaviv1.shlomifish.org:3001/posts/show/1/ URL.
-
-* Add a meaningful front page with links to all the correct actions.
-    - at the moment, there's only the generic Catalyst template.
-
-* Implement the add new post submission.
+* Move the M::I-based Makefile.PL away to rejects/ because it messes up the 
+inc/ directory when run
 
 * Implement a basic HTML validation and cross-site-scripting (XSS)
 prevention.
-
-* Implement the add new post storage.
 
 * Implement a list of recent blog posts.
 
