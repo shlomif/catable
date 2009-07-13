@@ -42,6 +42,14 @@ sub add : Local {
     return;
 }
 
+=head2 list
+
+Displays a list of posts:
+
+http://localhost:3000/posts/list
+
+=cut
+
 sub list : Path('list') {
     my ($self, $c) = @_;
 
@@ -108,6 +116,13 @@ sub add_submit : Path('add-submit') {
     return;
 }
 
+=head2 show
+
+Displays a post . Accepts the post number as an argument:
+
+http://localhost:3000/posts/show/1/
+
+=cut
 
 sub show :Path(show) :CaptureArgs(1)  {
     my ($self, $c, $post_id) = @_;

@@ -48,6 +48,7 @@ out this post</a> about a cute cat. Well, it's not the cutest cat ever
 EOF
                 pubdate => $date,
                 update_date => $update_date,
+                can_be_published => 1,
             }
         );
 

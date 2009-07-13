@@ -1,0 +1,21 @@
+[% title = 'Welcome to Catable' -%]
+
+<p>
+Here's what you can find here:
+</p>
+
+<ul>
+<li>
+<a href="[% c.uri_for("/posts/add") %]">Add a post</a>
+</li>
+<li>
+<a href="[% c.uri_for("/posts/show/1/") %]">Show the first post</a>
+</li>
+<li>
+<a href="[% c.uri_for("/posts/list") %]">List the posts</a>
+</li>
+</ul>
+
+<p>
+Miss the <a href="[% c.uri_for("/welcome") %]">Catalyst welcome message</a>?
+</p>

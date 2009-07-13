@@ -29,8 +29,28 @@ App::Catable::Controller::Root - Root Controller for App::Catable
 sub default : Private {
     my ( $self, $c ) = @_;
 
+    $c->stash->{template} = 'index.tt2';
+
+    return;
+}
+
+=head2 welcome
+
+Displays the default Catalyst welcome message, which has some useful link.
+
+Access with something like:
+
+http://localhost:3000/welcome
+
+=cut
+
+sub welcome : Local {
+    my ( $self, $c ) = @_;
+
     # Hello World
     $c->response->body( $c->welcome_message );
+
+    return;
 }
 
 =head2 end
