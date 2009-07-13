@@ -1,6 +1,3 @@
-* Move the M::I-based Makefile.PL away to rejects/ because it messes up the 
-inc/ directory when run
-
 * Implement a basic HTML validation and cross-site-scripting (XSS)
 prevention.
 

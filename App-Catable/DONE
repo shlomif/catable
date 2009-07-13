@@ -17,3 +17,6 @@ the title.
 
 * Implement the add new post storage.
 
+* Move the M::I-based Makefile.PL away to rejects/ because it messes up the 
+inc/ directory when run
+
