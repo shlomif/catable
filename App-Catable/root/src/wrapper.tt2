@@ -6,6 +6,7 @@
 <head>
 <title>Catable[% IF title; " - $title" ; END %]</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/themes/mt/theme-forest_green/theme-forest_green.css') %]" />
 <link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/style.css') %]" />
 </head>
 <body>
