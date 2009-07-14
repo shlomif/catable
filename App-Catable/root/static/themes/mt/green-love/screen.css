@@ -1,0 +1,30 @@
+/*
+name: Green Love  
+designer: Converted by Mike Thomsen  Originally by Bob (http://www.blogohblog.com/) WordPress download: http://themes.wordpress.net/columns/2-columns/4070/green-love/
+designer_url: http://www.codemonkeyramblings.com
+layouts: layout-wt
+*/
+
+body { font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:10px; background:#000; color:#ccc; margin:0px;}
+a:link { text-decoration: none; color : #adb102; border: none;}
+a:active { text-decoration: none; color : #adb102; border: none;}
+a:visited { text-decoration: none; color : #adb102; border: none;}
+a:hover { text-decoration: none; color : #555353; border: none;
+cursor: crosshair; }
+#header-name { font-family: Georgia, "Times New Roman", Times, serif;ext-decoration: none; color : #1d2224; border: none; text-align:left; font-size:36px; line-height:100%; padding-top:20px;text-transform:capitalize; margin:0px; padding-left:200px; }
+#header-name a{ color: #1d2224}
+#header-description { float: left; color: #1d2224; padding-left:205px;
+text-align:left; font-size:12px; padding-top:5px;
+text-transform:capitalize; margin:0px; }
+#header { background:#1d2224
+url(top.gif)
+repeat-x; margin: 0px auto; padding: 0px; height: 135px; clear:both; }
+#container-inner { background-color: #1d2224}
+.widget-header, .archive-header { font-size: 14px; padding: 3px 0px;margin: 0px 7px 3px 7px; border-bottom: dashed 1px #ccc;}
+.recent-comments-list { margin: 0px; }
+li { list-style-type:none;  background: transparent url(bullet.gif) no-repeat 0 4px; padding: 0px 0px 2px 14px; border: 0; margin: 0;  }
+blockquote { margin: 15px 30px 0 10px; padding-left: 20px; border-left: 5px solid #ddd; }
+.entry-title { font-size: 16px; padding: 3px 0px; margin: 0px 7px 3px 0px; border-bottom: dashed 1px #ccc;}
+.asset-meta { background:#464c4f; font-size:10px; padding:5px; border-bottom:#666 1px solid; border-top:#666 1px solid; }
+#footer { font-size: 11px; color: #fff; background: #1d2224; padding: 0px; margin-top: 0px; text-align:center; clear:both; border-top:1px #adb102 solid; }

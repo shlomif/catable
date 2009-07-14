@@ -15,8 +15,8 @@ a { color: #a97700; }
 a:visited { color: #765301; }
 a:hover { color: #d3990e; }
 
-#banner a { color: #fff; text-decoration: none; }
-#banner a:hover { color: #d3990e; }
+#header a { color: #fff; text-decoration: none; }
+#header a:hover { color: #d3990e; }
 
 h1, h2, h3, h4, h5, h6
 {
@@ -78,7 +78,7 @@ body
 {
 	min-width: 780px;
 	color: #403610;
-	background: #d1cba1 url(theme-forestgreen/body-bg.gif) center top repeat-y;
+	background: #d1cba1 url(body-bg.gif) center top repeat-y;
 }
 
 #container
@@ -91,17 +91,17 @@ body
 #container-inner
 {
 	margin: 0;
-	background: transparent url(theme-forestgreen/medium-green-bg.gif) 300px 0 repeat;
+	background: transparent url(medium-green-bg.gif) 300px 0 repeat;
 }
 
-#banner
+#header
 {
 	position: relative; /* ie 5 win */
 	p\osition: static; /* everything else */
-	background: #3a813c url(theme-forestgreen/banner-bg.gif) no-repeat;
+	background: #3a813c url(banner-bg.gif) no-repeat;
 }
 
-#banner-inner { padding: 15px 15px 15px 50px; }
+#header-inner { padding: 15px 15px 15px 50px; }
 
 .banner-user
 {
@@ -112,7 +112,7 @@ body
 
 .banner-user-photo { border: 3px double #fff; }
 
-#banner-header
+#header-header
 {
 	margin: 0;
 	color: #fff;
@@ -123,7 +123,7 @@ body
 	letter-spacing: -1px;
 }
 
-#banner-description
+#header-description
 {
 	margin: 1px 0;
 	color: #cdc89d;
@@ -256,7 +256,7 @@ body
 	.module-mmt-calendar td
 	{
 		padding: 2px;
-		background: transparent url(theme-forestgreen/td-bg.gif) center top no-repeat;
+		background: transparent url(td-bg.gif) center top no-repeat;
 		text-align: right;
 	}
 
@@ -285,7 +285,7 @@ body
 	
 	.layout-moblog1 #pagebody
 	{
-		background: transparent url(theme-forestgreen/medium-green-bg.gif) -29px 0 repeat;
+		background: transparent url(medium-green-bg.gif) -29px 0 repeat;
 	}
 
 	.layout-moblog1 #alpha { width: 215px; }
@@ -304,12 +304,12 @@ body
 	
 	.layout-moblog2 #pagebody
 	{
-		background: transparent url(theme-forestgreen/light-green-bg.gif) -212px 0 repeat;
+		background: transparent url(light-green-bg.gif) -212px 0 repeat;
 	}
 	
 	.layout-moblog2 #pagebody-inner
 	{
-		background: transparent url(theme-forestgreen/medium-green-bg.gif) -1px 0 repeat;
+		background: transparent url(medium-green-bg.gif) -1px 0 repeat;
 	}
 	
 	.layout-moblog2 #alpha { width: 78px; }
@@ -350,7 +350,7 @@ body
 	.layout-timeline .module-recent-photos .module-content
 	{
 		padding: 0 0 7px 7px;
-		background: #e7e5ce url(theme-forestgreen/photo-bg.gif) 4px 4px repeat;
+		background: #e7e5ce url(photo-bg.gif) 4px 4px repeat;
 	}
 	
 	.layout-timeline .module-recent-photos .module-list { margin: 0; }
@@ -359,7 +359,7 @@ body
 
 /* one-column tweaks */
 	
-	body.layout-one-column { background-image: url(theme-forestgreen/body-one-column-bg.gif); }
+	body.layout-one-column { background-image: url(body-one-column-bg.gif); }
 	
 	.layout-one-column #container { width: 620px; }
 	.layout-one-column #container-inner { background: none; }
@@ -390,7 +390,7 @@ body
 	.layout-three-column #container-inner { background-position: 200px 0; }
 	.layout-three-column #pagebody
 	{
-		background: url(theme-forestgreen/light-green-bg.gif) -80px 0 repeat;
+		background: url(light-green-bg.gif) -80px 0 repeat;
 	}
 	
 	.layout-three-column #alpha { width: 200px; }

@@ -1,0 +1,112 @@
+/*
+name: Blogger's Cafe
+designer: Converted by Mike Thomsen. Based on WordPress theme by Laurentiu Piron (http://www.stealthsettings.com/)
+designer_url: http://www.codemonkeyramblings.com
+layouts: layout-wt
+
+*/
+
+body
+{
+	background:url(fon.jpg);
+}
+
+#header
+{
+	background:url(logo.jpg) no-repeat;
+	height:220px;
+	text-align:right;
+}
+
+#header-name a {
+	font:27px Nose Bleed,sans-serif;
+	color:white;
+}
+#header-description {
+	color:#58190A;
+}
+#alpha-inner
+{
+	background-color:#f1f1f1;
+	border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	padding-left:5px;
+}
+.entry-title a {
+	color:#58190A;
+	font-size:12pt;
+	font-weight:bold;
+}
+.asset-meta {
+	color:#4b4b4b;
+	font-size:11px;
+}
+
+.archive-list-item a {color:#58190A;}
+.asset-meta a:link {color:#58190A;}
+.asset-meta a:visited {color:#58190A;}
+.asset-meta a:hover {color:#58190A;}
+
+.asset-body {
+	border-bottom:1px solid black;
+}
+
+.widget
+{
+	background-color:#f1f1f1;
+	margin-bottom:10px;
+	padding-left:5px;
+	border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+}
+.widget-header {
+	font-weight:bold;
+}
+.widget-header a {
+	font-weight:bold;
+	color:black;
+}
+
+.widget-list, .recent-comments-list li
+{
+	list-style-image:url(ulli.gif);
+	margin-left:15px;
+}
+
+.widget-list-item a
+{
+	color:#58190A;
+}
+
+.widget a { color:#58190A;}
+.content-nav a { color:#58190A; }
+
+#trackbacks, #comments-open
+
+{
+	background-color:#f1f1f1;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding-left:10px;
+	padding-top:5px;
+}
+
+#trackbacks a
+{
+	color:#58190A;
+}
+
+#comments-open a
+{
+	color:#58190A;
+}
+
+blockquote 
+{
+	border-left: 5px solid #ccc;
+	margin-left: 1.5em;
+	padding-left: 5px;
+}
