@@ -9,9 +9,6 @@
 [% HTML.escape(post.pubdate().strftime("%H:%M:%S %d-%m-%Y")) %]
 </p>
 
-[% # TODO : verify that the HTML does not contain any malicious code
-   # and is well-formed.
-%]
-[% post.body() %]
+[% scrubber.scrub(post.body()) %]
 </div>
 

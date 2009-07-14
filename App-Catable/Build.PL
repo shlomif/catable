@@ -22,6 +22,7 @@ my $build = Test::Run::Builder->new(
         'Catalyst::Plugin::ConfigLoader' => 0,
         'Catalyst::Plugin::Static::Simple' => 0,
         'Catalyst::Action::RenderView' => 0,
+        'HTML::Scrubber' => 0.08,
         'YAML' => 0,
     },
     license => "mit",
