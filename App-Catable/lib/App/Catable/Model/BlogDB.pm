@@ -5,13 +5,22 @@ use base 'Catalyst::Model::DBIC::Schema';
 
 __PACKAGE__->config(
     schema_class => 'App::Catable::Schema',
-    
+);
+
+=begin BlockComment
+
+    Removing because it messes up the tests and over-rides the settings
+    in $ENV{CATALYST_CONFIG} .
+
     connect_info => {
         dsn => 'dbi:SQLite:catable.db',
         user => '',
         password => '',
     }
-);
+
+=end BlockComment
+
+=cut
 
 =head1 NAME
 

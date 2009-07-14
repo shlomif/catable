@@ -68,7 +68,7 @@ sub init_schema {
     }
     my $config = {
        name => 'App::Catable Test Suite',
-       'Model::DBIC' => {
+       'Model::BlogDB' => {
            connect_info => [ $dsn ],
        },
        authentication => {

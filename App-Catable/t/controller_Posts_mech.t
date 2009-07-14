@@ -8,6 +8,7 @@ use Test::More tests => 5;
 use vars qw($schema);
 BEGIN 
 { 
+    $ENV{CATALYST_CONFIG} = "t/var/catable.yml";
     use App::Catable::Model::BlogDB; 
 
     use lib 't/lib';

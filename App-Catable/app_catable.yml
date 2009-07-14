@@ -1,2 +1,5 @@
 ---
 name: App::Catable
+Model::BlogDB:
+  connect_info:
+    - dbi:SQLite:catable.db

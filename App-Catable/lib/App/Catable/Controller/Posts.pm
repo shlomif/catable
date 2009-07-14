@@ -55,7 +55,7 @@ sub list : Path('list') {
 
     my @posts = $c->model('BlogDB')->resultset('Post')
         ->search( { can_be_published => 1,
-                    pubdate => { "<" => \"DATETIME('NOW')" },
+                    pubdate => { "<=" => \"DATETIME('NOW')" },
                   } );
 
     $c->log->debug( sprintf "Found %d posts", scalar @posts );
