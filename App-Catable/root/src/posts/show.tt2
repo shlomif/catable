@@ -1,8 +1,8 @@
 [%- USE HTML -%]
 [% title = post.title() _ " - Catable" -%]
 
-<div class="post">
-<h3>[% HTML.escape(post.title()) %]</h3>
+<div class="post asset-body">
+<h3 class="entry-title">[% HTML.escape(post.title()) %]</h3>
 
 <p>
 <b>Posted at:</b>

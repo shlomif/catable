@@ -6,7 +6,8 @@
 <head>
 <title>Catable[% IF title; " - $title" ; END %]</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/themes/mt/bloggers-cafe/screen.css') %]" />
+<link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/themes/mt/abstrakt3c/screen.css') %]" />
+<link rel="alternate stylesheet" type="text/css" href="[% c.uri_for('/static/themes/mt/bloggers-cafe/screen.css') %]" />
 <link rel="alternate stylesheet" type="text/css" href="[% c.uri_for('/static/themes/mt/green-love/screen.css') %]" />
 <link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/style.css') %]" />
 </head>
@@ -16,7 +17,10 @@
 <div id="header">
 <div id="header-inner">
 <div id="header-content">
-<h1 id="header-name">[% IF title; title ; ELSE; "Catable" ; END %]</h1>
+<h1 id="header-name"><a href="[% c.uri_for('/') %]">[% IF title; title ; ELSE; "Catable" ; END %]</a></h1>
+<h2 id="header-description">Catable - CATAlyst BLog Engine - a free
+and open source software Catalyst-based blog engine under the MIT/X11 Licence.
+Based on Catalyst, DBIx::Class and other modern technologies.</h2>
 </div>
 </div>
 </div>
@@ -24,6 +28,15 @@
 <div id="content-inner">
 [% content %]
 </div>
+</div>
+<div id="footer">
+<p>
+The most up-to-date version of Catable can be found in
+<a href="http://github.com/shlomif/catable/tree/master">its github
+repository</a>. It was written from scratch by 
+<a href="http://www.shlomifish.org/">Shlomi Fish</a>
+and <a href="http://github.com/Altreus/">Alastair McGowan-Douglas</a>.
+</p>
 </div>
 </div>
 </div>

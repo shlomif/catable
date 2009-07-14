@@ -1,0 +1,128 @@
+/*
+name: Abstrakt3c
+designer: Converted by Mike Thomsen. Original work by Ivan Garcia (http://biboz.net/themes/)
+designer_url: http://www.codemonkeyramblings.com
+layouts: layout-wtt
+*/
+
+#header{
+	background: url(abstrakt-masthead.jpg) no-repeat;
+	background-color: black;
+	height:214px;
+	text-align:right;
+}
+
+#header-name
+{
+	margin-top:50px;
+	font-size: 1.7em;
+	text-align: center;
+}
+
+#header-name a {
+	font-weight: bold;
+	color: black;
+	text-decoration: none;
+	font-family: "Trebuchet MS";
+	font-size: 2em;
+	font-weight: bold;
+	
+}
+
+#header-description
+{
+	color: black;
+	font-size: 1.3em;
+	text-align: center;
+}
+
+
+
+body
+{
+	font-size: 62.5%; /* Resets 1em to 10px */
+	font-family: Verdana, Arial, Sans-Serif;
+	background-color: #1F2D14;
+	color: #000;
+	margin-left: auto;
+	margin-right: auto;
+	margin: 0;
+	padding: 0;
+}
+
+#content  { background-color: white; }
+
+a
+{
+	color: #c60;
+}
+
+.asset-body
+{
+	font-family: Georgia, serif;	
+	font-size: 1.1em;
+	line-height: 1.3em;
+	text-align: left;
+}
+
+#footer
+{
+	background-color: white;
+	color: #6B8445;
+	padding: 0 0 0 1px;
+	margin-left: auto;
+	margin-right: auto;
+	clear: both;
+	border: 1px solid #959596;
+}
+#footer a {
+	color: #6B8445;
+}
+#footer .widget-content {
+	 color: #6B8445;
+	text-align: center;
+
+}
+
+blockquote {
+	margin: 15px 30px 0 10px;
+	padding-left: 20px;
+	border: 3px double #cecece;
+	font-style: italic;
+}
+
+#page-title, .archive-header, .entry-title a
+{
+	color: black;
+	font-weight: bold;
+	font-family: Verdana, Arial, Sans-Serif;
+	font-size: 1.3em;
+}
+
+.widget-header
+{
+	font-family: Georgia, Serif;
+	font-size: 1.2em;
+	margin: 15px 0 10px 0;
+	padding: 0;
+	font-weight: bold;
+}
+
+.widget
+{
+	background-position:bottom;
+	background-repeat:no-repeat;
+	float: right;
+	left: -10px;
+	margin: 0px 0px 0px 0px;
+	margin-bottom:auto;
+	padding: 0px 0px 0px 0px;
+	text-align: left;
+	color: black;
+}
+
+.widget ul
+{
+	margin: 0;
+	padding: 0;
+}
