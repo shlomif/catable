@@ -1,0 +1,30 @@
+<form method="post" action="add-submit">
+<table class="add_post">
+<tr>
+<th>Field</th><th>Value</th>
+</tr>
+<tr>
+<td>Title</td>
+<td><input type="text" name="title" value="[% HTML.escape(post_title) %]"/></td>
+</tr>
+<tr>
+<td>Post Body</td>
+<td><textarea name="body" rows="10" cols="70">[% HTML.escape(post_body) %]</textarea></td>
+</tr>
+    <tr>
+        <td>Publish?</td>
+        <td><input type="checkbox"
+            name="can_be_published"
+            [% IF can_be_published %]checked="checked"[% END %] 
+        /></td>
+    </tr>
+
+<tr>
+<td>Buttons</td>
+<td>
+<input type="submit" name="submit" value="submit" />
+<input type="submit" name="preview" value="preview" />
+</td>
+</tr>
+</table>
+</form>
