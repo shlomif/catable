@@ -14,6 +14,7 @@ my $build = Test::Run::Builder->new(
     build_requires =>
     {
         "Test::Trap" => 0,
+        "Test::WWW::Mechanize::Catalyst" => 0,
     },
     requires => 
     {
