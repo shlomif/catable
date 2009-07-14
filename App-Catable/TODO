@@ -1,6 +1,3 @@
-* Implement a basic HTML validation and cross-site-scripting (XSS)
-prevention.
-
 * Implement a list of recent blog posts.
 
 * Style the "add new post" form better.
