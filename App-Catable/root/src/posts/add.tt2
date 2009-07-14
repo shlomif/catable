@@ -14,7 +14,7 @@
     </tr>
     <tr>
         <td>Publish?</td>
-        <td><input type="checkbox" name="can_be_published" checked="checked" />
+        <td><input type="checkbox" name="can_be_published" checked="checked" /></td>
     </tr>
     <tr>
         <td>Buttons</td>

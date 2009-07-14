@@ -26,6 +26,14 @@
 <td>Post Body</td>
 <td><textarea name="body" rows="10" cols="70">[% HTML.escape(post_body) %]</textarea></td>
 </tr>
+    <tr>
+        <td>Publish?</td>
+        <td><input type="checkbox"
+            name="can_be_published"
+            [% IF can_be_published %]checked="checked"[% END %] 
+        /></td>
+    </tr>
+
 <tr>
 <td>Buttons</td>
 <td>

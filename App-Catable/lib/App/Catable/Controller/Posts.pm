@@ -93,6 +93,7 @@ sub add_submit : Path('add-submit') {
         $c->stash->{template} = "posts/add-preview.tt2";
         $c->stash->{post_title} = $title;
         $c->stash->{post_body} = $body;
+        $c->stash->{can_be_published} = $can_be_published ? 1 : 0;
     }
     else
     {

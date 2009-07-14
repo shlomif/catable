@@ -92,7 +92,7 @@ sub init_schema {
         'View::Email' => { sender => { mailer => 'Test' } },
     };
     YAML::DumpFile('t/var/catable.yml',$config);
-
+    $ENV{CATALYST_CONFIG} = "t/var/catable.yml";
 
     return $schema;
 }
