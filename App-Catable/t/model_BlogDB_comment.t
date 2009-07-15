@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 30;
+use Test::More tests => 38;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -201,6 +201,9 @@ EOF
         $comment2_id = $comment2->id();
     }
 
+    # TEST:$c=0;
+    my $test_cats_post_function = 
+    sub
     {
         my $cats_post = $posts_rs->find( { id => $post_id } );
 
@@ -208,10 +211,10 @@ EOF
 
         my $comment1 = $post_comments_rs->next();
 
-        # TEST
+        # TEST:$c++;
         is ($comment1->id(), $comment_id, "Comment #1 ID");
 
-        # TEST
+        # TEST:$c++;
         is ($comment1->title(),
             "Vim Tip: Copying Some Non-Adjacent Lines to a Register",
             "Comment #1 title"
@@ -219,30 +222,33 @@ EOF
 
         my $comment2 = $post_comments_rs->next();
 
-        # TEST
+        # TEST:$c++;
         ok ($comment2, "Comment 2 is initialised.");
 
-        # TEST
+        # TEST:$c++;
         is ($comment2->id(), $comment2_id, "Comment #2 ID");
 
-        # TEST
+        # TEST:$c++;
         is ($comment2->title(), 
             "Building STAF on Mandriva Cooker (and other Linuxes)",
             "Comment #2 Title",
         );
 
-        # TEST
+        # TEST:$c++;
         is ($comment2->pubdate()->hour(), 9, "Comment #2 Hour");
 
-        # TEST
+        # TEST:$c++;
         is ($comment2->update_date->minute(), 45, "Comment #2 update minute");
 
-        # TEST
+        # TEST:$c++;
         ok ($comment2->can_be_published(), 
             "Comment #2 can_be_published is True."
         );
+    };
+    # TEST:$test_cats_post_count=$c
 
-    }
+    # TEST*$test_cats_post_count
+    $test_cats_post_function->();
 
     my $post2_id;
 
@@ -376,5 +382,8 @@ EOF
         # TEST
         ok (!defined($nouv_comments->next()), "No more records");
     }
+
+    # TEST*$test_cats_post_count
+    $test_cats_post_function->();
 }
 
