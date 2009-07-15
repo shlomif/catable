@@ -53,6 +53,22 @@ sub welcome : Local {
     return;
 }
 
+=head2 $self->signin_openid($c)
+
+Handles the OpenID sign-in. Copy and Pasted from:
+
+L<http://search.cpan.org/perldoc?Catalyst::Plugin::Authentication::Credential::OpenID>
+
+=cut
+
+sub signin_openid : Local {
+    my($self, $c) = @_;
+
+    if ($c->authenticate_openid) {
+        $c->res->redirect( $c->uri_for('/') );
+    }
+}
+
 =head2 end
 
 Attempt to render a view, if needed.

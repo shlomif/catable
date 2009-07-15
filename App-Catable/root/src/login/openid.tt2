@@ -1,0 +1,5 @@
+[% title = 'OpenID Login - Catable' -%]
+<form action="[% c.uri_for('/signin_openid') %]" method="GET">
+<input type="text" name="openid_url" class="openid" />
+<input type="submit" value="Sign in with OpenID" />
+</form>

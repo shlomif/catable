@@ -6,6 +6,9 @@ Here's what you can find here:
 
 <ul>
 <li>
+<a href="[% c.uri_for("/login/openid") %]">Login using OpenID</a>
+</li>
+<li>
 <a href="[% c.uri_for("/posts/add") %]">Add a post</a>
 </li>
 <li>

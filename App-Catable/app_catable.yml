@@ -1,5 +1,9 @@
 ---
+authentication:
+    openid:
+        use_session: 1
+        user_class: App::Catable::Model::BlogDB::User::OpenID
 name: App::Catable
 Model::BlogDB:
-  connect_info:
-    - dbi:SQLite:catable.db
+    connect_info:
+        - dbi:SQLite:catable.db
