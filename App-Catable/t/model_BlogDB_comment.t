@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 14;
+use Test::More tests => 17;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -150,6 +150,8 @@ EOF
         );
     }
 
+    my $comment2_id;
+
     {
         my $cats_post = $posts_rs->find( { id => $post_id } );
 
@@ -165,6 +167,88 @@ EOF
             "Vim Tip: Copying Some Non-Adjacent Lines to a Register",
             "Comment of comment result set is OK."
         );
+
+        my $comment2_date = DateTime->new(
+            year => 2009,
+            month => 7,
+            day => 12,
+            hour => 9,
+            minute => 45,
+            second => 9,
+        );
+
+        # Create a new comment
+        my $comment2 = $comments_rs->create(
+            {
+                parent => $cats_post,
+                title => "Building STAF on Mandriva Cooker (and other Linuxes)",
+                body => <<'EOF',
+<p>
+<a href="http://staf.sourceforge.net/index.php">STAF stands for "Software
+Testing Automation Framework"</a> and is a framework for IBM for software
+testing. I spent a large amount of the last two days trying to get it up and
+running on my Mandriva Cooker Linux system, in order to fullfill
+<a href="http://perl.org.il/pipermail/perl/2007-November/009250.html">this
+request for a Linux beta-tester</a>.
+</p>
+EOF
+                pubdate => $comment2_date,
+                update_date => $comment2_date,
+                can_be_published => 1,
+            }
+        );
+
+        $comment2_id = $comment2->id();
     }
+
+    {
+        my $cats_post = $posts_rs->find( { id => $post_id } );
+
+        my $post_comments_rs = $cats_post->comments;
+
+        my $comment1 = $post_comments_rs->next();
+
+        # TEST
+        is ($comment1->id(), $comment_id, "Comment #1 ID");
+
+        # TEST
+        is ($comment1->title(),
+            "Vim Tip: Copying Some Non-Adjacent Lines to a Register",
+            "Comment #1 title"
+        );
+
+        my $comment2 = $post_comments_rs->next();
+
+        {
+            local $TODO = 1;
+
+            # TEST
+            ok ($comment2, "Comment 2 is initialised.");
+        }
+
+=begin  BlockComment
+
+        is ($comment2->id(), $comment2_id, "Comment #2 ID");
+
+
+        is ($comment2->title(), 
+            "Building STAF on Mandriva Cooker (and other Linuxes)",
+            "Comment #2 Title",
+        );
+
+
+        is ($comment2->pubdate()->hour(), 9, "Comment #2 Hour");
+
+
+        ok ($comment2->can_be_published(), 
+            "Comment #2 can_be_published is True."
+        );
+
+=end    BlockComment
+
+=cut
+
+    }
+
 }
 
