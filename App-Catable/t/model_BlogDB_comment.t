@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 8;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -15,10 +15,10 @@ my $schema = AppCatableTestSchema->init_schema(no_populate => 0);
 {
     my $posts_rs = $schema->resultset('Post');
 
-    my $comment_rs = $schema->resultset('Comment');
+    my $comments_rs = $schema->resultset('Comment');
 
     # TEST
-    ok ($comment_rs, "There's a Comment result-set.");
+    ok ($comments_rs, "There's a Comment result-set.");
 
     my $date = DateTime->new(
         year => 2009,
@@ -77,7 +77,7 @@ EOF
             second => 5,
         );
 
-        my $new_comment = $comment_rs->create(
+        my $new_comment = $comments_rs->create(
             {
                 parent => $cats_post,
                 title => "Vim Tip: Copying Some Non-Adjacent Lines to a Register",
@@ -107,6 +107,28 @@ EOF
         ok ($new_comment, "Comment was initialised.");
 
         $comment_id = $new_comment->id();
+    }
+
+    {
+        my $comment = $comments_rs->find( { id => $comment_id } );
+
+        # TEST
+        ok ($comment, "Comment was found.");
+
+        # TEST
+        is ($comment->title(), 
+            "Vim Tip: Copying Some Non-Adjacent Lines to a Register",
+            "Comment title is OK."
+        );
+
+        # TEST
+        like ($comment->body(),
+            qr{I need to add full POD},
+            "Comment body() is OK."
+        );
+
+        # TEST
+        is ($comment->pubdate->hour(), 8, "comment->pubdate->hour() is OK.");
     }
 }
 
