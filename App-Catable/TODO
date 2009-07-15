@@ -2,7 +2,18 @@
 
 * Style the "add new post" form better.
 
-* Implement comments.
+* Comments:
+    - add nested comments.
+    - add reply to comments.
+
+* Add OpenID-based authentication.
+
+* Add custom authentication (with a login form).
+
+* Add support for WordPress-based themes/styles/skins.
+
+* Add preview to comments.
+
 
 * Implement several blogs in one application.
 

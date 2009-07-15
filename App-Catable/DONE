@@ -23,3 +23,5 @@ inc/ directory when run
 * Implement a basic HTML validation and cross-site-scripting (XSS)
 prevention.
 
+* Implement comments.
+
