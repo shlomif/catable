@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 12;
+use Test::More tests => 14;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -147,6 +147,23 @@ EOF
         like (
             $parent_post->body(), qr{\Qhttp://geminigeek.com/\E}, 
             "body is OK.",
+        );
+    }
+
+    {
+        my $cats_post = $posts_rs->find( { id => $post_id } );
+
+        my $post_comments_rs = $cats_post->comments;
+
+        my $comment1 = $post_comments_rs->next();
+
+        # TEST
+        is ($comment1->id(), $comment_id, "Comment of results set ID");
+
+        # TEST
+        is ($comment1->title(),
+            "Vim Tip: Copying Some Non-Adjacent Lines to a Register",
+            "Comment of comment result set is OK."
         );
     }
 }
