@@ -12,12 +12,40 @@
 [% scrubber.scrub(post.body()) %]
 </div>
 
+<div id="comments" class="comments">
+[% # TODO: Add the comment count. 
+%]
+<div class="comments-content">
+[% comments = post.comments_rs() %]
+[% WHILE( comment = comments.next() ) %]
+<div id="comment-[% comment.id() %]" class="comment">
+<div class="inner">
+<div class="comment-content">
+<h2 class="comment-title">[% HTML.escape(comment.title()) %]</h2>
+
+<p class="posted-date">
+<b>Posted at:</b>
+[% HTML.escape(comment.pubdate().strftime("%H:%M:%S %d-%m-%Y")) %]
+</p>
+
+<div class="body">
+[% scrubber.scrub(comment.body()) %]
+</div>
+</div>
+</div>
+</div>
+</div>
+[% END %]
+
+</div>
+</div>
 <div class="comments-open" id="comments-open">
 
 <h2 class="comements-open-header">Add New Comment</h2>
 
 <div class="comments-open-content">
-<form method="post" action="[% HTML.escape(c.uri_for('/posts/add-comment')) %]">
+<form id="add-comment-form" method="post" 
+action="[% HTML.escape(c.uri_for('/posts/add-comment')) %]">
 <input type="hidden" name="post_id" value="[% post.id() %]" />
 <b>Title:</b> <input type="text" name="title" value="" /><br />
 <b>Body:</b><br />
