@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 22;
+use Test::More tests => 30;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -244,5 +244,137 @@ EOF
 
     }
 
+    my $post2_id;
+
+    {
+        my $date = DateTime->new(
+            year => 2006,
+            month => 10,
+            day => 16,
+            hour => 5,
+            minute => 5,
+            second => 5,
+        );
+
+        my $update_date = $date->clone();
+
+        my $post2 = $posts_rs->create(
+            {
+                title => "Nouveau",
+                body => <<'EOF',
+<p>
+Having seen <a href="http://nouveau.freedesktop.org/wiki">Nouveau</a>,
+the open source 3-D drivers for Nvidia cards, mentioned in 
+<a href="http://lwn.net/">Linux Weekly News</a> and recalling 
+that I wanted to help work on them myself, I decided to use some of my
+free time to give it a try.
+</p>
+EOF
+                pubdate => $date,
+                update_date => $update_date,
+                can_be_published => 1,
+            }
+        );
+
+        # TEST
+        ok ($post2, "Post could be initialised.");
+
+        $post2_id = $post2->id();        
+    }
+
+    {
+        my $nouv_post = $posts_rs->find( { id => $post2_id } );
+
+        my $comment_date = DateTime->new(
+            year => 2009,
+            month => 7,
+            day => 10,
+            hour => 8,
+            minute => 30,
+            second => 5,
+        );
+
+        my $nouv_comment_1 = $comments_rs->create(
+            {
+                parent => $nouv_post,
+                title => "On the meaning of being Ernest",
+                body => <<'EOF',
+<p>
+Grab it's while it's <b>HOT</b>!!!
+</p>
+EOF
+                pubdate => $comment_date,
+                update_date => $comment_date,
+                can_be_published => 0,
+            },
+        );
+
+        # TEST
+        ok ($nouv_comment_1,  "Comment was initialised.");
+
+        $comment_date->add (days => 1);
+
+        my $nouv_comment_2 = $comments_rs->create(
+            {
+                parent => $nouv_post,
+                title => "Songs of Innocence",
+                body => <<'EOF',
+<p>
+Little lamb - God bless thee.
+</p>
+EOF
+                pubdate => $comment_date,
+                update_date => $comment_date,
+                can_be_published => 1,
+            },
+        );
+
+        # TEST
+        ok ($nouv_comment_2, "Comment was initialised.");
+
+
+        $comment_date->add (days => 2);
+
+        my $nouv_comment_3 = $comments_rs->create(
+            {
+                parent => $nouv_post,
+                title => "Songs of Experience",
+                body => <<'EOF',
+<p>
+I walk through the streets of <i>London</i> and <i>Londonderry</i>.
+</p>
+EOF
+                pubdate => $comment_date,
+                update_date => $comment_date,
+                can_be_published => 0,
+            },
+        );
+
+        # TEST
+        ok ($nouv_comment_3, "Comment was initialised.");
+    }
+
+    {
+        my $nouv_post = $posts_rs->find( { id => $post2_id } );
+
+        my $nouv_comments = $nouv_post->comments;
+
+        my $comm = $nouv_comments->next();
+
+        # TEST
+        is ($comm->title(), "On the meaning of being Ernest", "c1->title()");
+
+        $comm = $nouv_comments->next();
+        # TEST
+        is ($comm->title(), "Songs of Innocence", "c2->title()");
+
+        $comm = $nouv_comments->next();
+
+        # TEST
+        is ($comm->title(), "Songs of Experience", "c3->title()");
+
+        # TEST
+        ok (!defined($nouv_comments->next()), "No more records");
+    }
 }
 
