@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 8;
+use Test::More tests => 12;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -129,6 +129,25 @@ EOF
 
         # TEST
         is ($comment->pubdate->hour(), 8, "comment->pubdate->hour() is OK.");
+
+        my $parent_post = $comment->parent();
+
+        # TEST
+        ok ($parent_post, "Parent post for comment is valid");
+
+        # TEST
+        is ($parent_post->id(), $post_id, 
+            "Parent post has the right post ID",
+        );
+
+        # TEST
+        is ($parent_post->title(), "A Cute Cat", "parent post title is OK.");
+
+        # TEST
+        like (
+            $parent_post->body(), qr{\Qhttp://geminigeek.com/\E}, 
+            "body is OK.",
+        );
     }
 }
 
