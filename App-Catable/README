@@ -1,1 +1,39 @@
+Welcome to Catable - the CATAlyst BLog Engine (by Perl cats).
+
+Catable is a blog engine based on Catalyst, DBIx::Class and other technologies.
+It is free and open source software (FOSS) that is licensed under the MIT/X11
+Licence:
+
+* http://www.opensource.org/licenses/mit-license.php
+
+* http://en.wikipedia.org/wiki/MIT_License
+
+Catable was written by Shlomi Fish ( http://www.shlomifish.org/ ) 
+and Alastair Douglas ( http://search.cpan.org/~altreus/ ).
+
+---------------------
+
+Setting up:
+
+Run "perl script/deploy.pl" to set up the SQLite database used by Catable.
+
 Run script/app_catable_server.pl to test the application.
+
+----------------------
+
+Module::Buildy-stuff:
+
+Run the following to test the application:
+
+$ perl Build.PL
+
+$ ./Build
+
+$ ./Build test
+
+(or if you Test::Run installed - "./Build runtest" )
+
+You can also try running
+
+./Build disttest (or "./Build distruntest").
+
