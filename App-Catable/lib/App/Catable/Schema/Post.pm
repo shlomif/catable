@@ -102,7 +102,7 @@ __PACKAGE__->resultset_attributes( { order_by => [ 'pubdate' ] } );
 __PACKAGE__->add_unique_constraint( [ 'pubdate' ] );
 __PACKAGE__->has_many(
     comments => 'App::Catable::Schema::Comment',
-    'id',
+    'parent_id',
 );
 
 =head1 SEE ALSO

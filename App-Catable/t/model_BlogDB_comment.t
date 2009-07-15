@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 17;
+use Test::More tests => 22;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -219,34 +219,28 @@ EOF
 
         my $comment2 = $post_comments_rs->next();
 
-        {
-            local $TODO = 1;
+        # TEST
+        ok ($comment2, "Comment 2 is initialised.");
 
-            # TEST
-            ok ($comment2, "Comment 2 is initialised.");
-        }
-
-=begin  BlockComment
-
+        # TEST
         is ($comment2->id(), $comment2_id, "Comment #2 ID");
 
-
+        # TEST
         is ($comment2->title(), 
             "Building STAF on Mandriva Cooker (and other Linuxes)",
             "Comment #2 Title",
         );
 
-
+        # TEST
         is ($comment2->pubdate()->hour(), 9, "Comment #2 Hour");
 
+        # TEST
+        is ($comment2->update_date->minute(), 45, "Comment #2 update minute");
 
+        # TEST
         ok ($comment2->can_be_published(), 
             "Comment #2 can_be_published is True."
         );
-
-=end    BlockComment
-
-=cut
 
     }
 
