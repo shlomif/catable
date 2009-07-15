@@ -111,6 +111,8 @@ __PACKAGE__->belongs_to(
 
 L<App::Catable::Schema>, L<App::Catable>, L<DBIx::Class>
 
+L<App::Catable::Schema::Post>
+
 =head1 AUTHOR
 
 Shlomi Fish L<http://www.shlomifish.org/> .

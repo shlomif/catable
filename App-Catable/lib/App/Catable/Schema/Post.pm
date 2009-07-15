@@ -56,6 +56,10 @@ The date to publish this post, or the date the post was published
 
 A timestamp for when the post was last updated.
 
+=head2 comments
+
+The child comments of the post.
+
 =head1 METHODS
 
 =cut
@@ -104,6 +108,8 @@ __PACKAGE__->has_many(
 =head1 SEE ALSO
 
 L<App::Catable::Schema>, L<App::Catable>, L<DBIx::Class>
+
+L<App::Catable::Schema::Comment>
 
 =head1 AUTHOR
 
