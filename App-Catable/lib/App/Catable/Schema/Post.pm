@@ -105,6 +105,25 @@ __PACKAGE__->has_many(
     'parent_id',
 );
 
+=head2 $self->add_comment({ %comment_params })
+
+Adds an associated comment to the post.
+
+=cut
+
+sub add_comment
+{
+    my $self = shift;
+    my $args = shift;
+
+    return $self->result_source->schema->resultset('Comment')->create(
+        {
+            parent => $self,
+            %{$args},
+        },
+    );
+}
+
 =head1 SEE ALSO
 
 L<App::Catable::Schema>, L<App::Catable>, L<DBIx::Class>

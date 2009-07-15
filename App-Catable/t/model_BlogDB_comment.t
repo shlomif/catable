@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 38;
+use Test::More tests => 40;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -341,9 +341,8 @@ EOF
 
         $comment_date->add (days => 2);
 
-        my $nouv_comment_3 = $comments_rs->create(
+        my $nouv_comment_3 = $nouv_post->add_comment(
             {
-                parent => $nouv_post,
                 title => "Songs of Experience",
                 body => <<'EOF',
 <p>
@@ -378,6 +377,14 @@ EOF
 
         # TEST
         is ($comm->title(), "Songs of Experience", "c3->title()");
+
+        # TEST
+        like ($comm->body(), qr{<i>Londonderry</i>},
+            "c3->body()",
+        );
+
+        # TEST
+        is ($comm->pubdate()->day(), 13, "c3->day()");
 
         # TEST
         ok (!defined($nouv_comments->next()), "No more records");
