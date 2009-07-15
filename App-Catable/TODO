@@ -10,7 +10,6 @@
 
 * Implement a base table/class for post and comments.
 
-
 * Implement JavaScript/AJAX goodness:
     - AJAX previews.
     - LiveJournal-like DHTML replies.
