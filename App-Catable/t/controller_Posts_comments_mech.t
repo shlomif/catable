@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 8;
+use Test::More tests => 9;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -108,6 +108,11 @@ EOF
         $mech->content(),
         qr{GIMP - the GNU Image Manipulation Program},
         "Content matches the post."
+    );
+
+    # TEST
+    $mech->html_lint_ok(
+        "Checking the Post page with the comment for HTML validity."
     );
 }
 

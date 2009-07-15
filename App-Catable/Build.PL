@@ -13,6 +13,7 @@ my $build = Test::Run::Builder->new(
     module_name => "App::Catable",
     build_requires =>
     {
+        "HTML::Lint" => 0,
         "Test::Trap" => 0,
         "Test::WWW::Mechanize::Catalyst" => 0,
     },
