@@ -1,9 +1,23 @@
 ---
-authentication:
-    openid:
-        use_session: 1
-        user_class: App::Catable::Model::BlogDB::User::OpenID
 name: App::Catable
 Model::BlogDB:
     connect_info:
         - dbi:SQLite:catable.db
+Plugin::Authentication:
+    use_session: 1
+    default_realm: openid
+    realms:
+        openid:
+            credential:
+                class: OpenID
+                extensions:
+                    'http://openid.net/extensions/sreg/1.1': 1
+                extension_args:
+                    - 'http://openid.net/extensions/sreg/1.1'
+                    -
+                        required: 'email,timezone'
+                        optional: 'fullname,nickname,timezone'
+                ua_class: LWPx::ParanoidAgent
+            store:
+                class: Null
+

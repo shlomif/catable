@@ -64,8 +64,16 @@ L<http://search.cpan.org/perldoc?Catalyst::Plugin::Authentication::Credential::O
 sub signin_openid : Local {
     my($self, $c) = @_;
 
-    if ($c->authenticate_openid) {
+    if ($c->authenticate({}, "openid"))
+    {
+        $c->flash(message => "You signed in with OpenID!");
         $c->res->redirect( $c->uri_for('/') );
+    }
+    else
+    {
+        $c->flash(message => "Could not authenticate with OpenID");
+        $c->response->body( "Could not authenticate with OpenID" );
+        # Present OpenID form.
     }
 }
 

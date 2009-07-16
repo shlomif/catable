@@ -15,9 +15,9 @@ use Catalyst::Runtime '5.70';
 
 use Catalyst qw/
     -Debug
-    Authentication
-    Authentication::Credential::OpenID
     ConfigLoader
+    Authentication
+    Authorization::Roles
     Session
     Session::Store::FastMmap
     Session::State::Cookie
@@ -35,7 +35,9 @@ our $VERSION = '0.01';
 # with a external configuration file acting as an override for
 # local deployment.
 
-__PACKAGE__->config( name => 'App::Catable' );
+__PACKAGE__->config( 
+    name => 'App::Catable',
+);
 
 # Start the application
 __PACKAGE__->setup;
