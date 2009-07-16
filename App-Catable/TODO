@@ -35,3 +35,6 @@ link to it directly
 entries to request comments before posting them for real
 }}}
 
+* Add SEO-friendly URLs to posts based on the title instead of just the ID.
+like {{ /post/show/my-cat-purred-at-me-today/ }} .
+
