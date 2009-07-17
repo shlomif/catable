@@ -24,6 +24,18 @@ Based on Catalyst, DBIx::Class and other modern technologies.</h2>
 </div>
 </div>
 </div>
+<div id="user">
+<div id="user-inner">
+<p class="login">
+[% IF c.user_exists %]
+Logged in as [% c.user.display_name %] (<a href="[% c.uri_for('/logout') %]">Log out</a>)
+[% ELSE %]
+Not logged in.
+(<a href="[% c.uri_for('/login/openid') %]">Login using OpenID</a>)
+[% END %]
+</p>
+</div>
+</div>
 <div id="content">
 <div id="content-inner">
 [% content %]
