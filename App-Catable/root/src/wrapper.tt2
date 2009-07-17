@@ -1,3 +1,4 @@
+[%- USE HTML -%]
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE
     html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
@@ -28,7 +29,7 @@ Based on Catalyst, DBIx::Class and other modern technologies.</h2>
 <div id="user-inner">
 <p class="login">
 [% IF c.user_exists %]
-Logged in as [% c.user.display_name %] (<a href="[% c.uri_for('/logout') %]">Log out</a>)
+Logged in as <b>[% HTML.escape(c.user.display) %]</b> (<a href="[% c.uri_for('/logout') %]">Log out</a>)
 [% ELSE %]
 Not logged in.
 (<a href="[% c.uri_for('/login/openid') %]">Login using OpenID</a>)
