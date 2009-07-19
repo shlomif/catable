@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 27;
+use Test::More tests => 28;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -360,6 +360,19 @@ EOF
             $nouv_post,
             [qw(horses llamas nouveau nvidia x11)],
             "Assignment from mixed textual/objects",
+        );
+
+        $cat_post->add_tags(
+            {
+                tags => [$ferrets_tag, "absurdity",],
+            }
+        );
+
+        # TEST
+        are_tags_ok(
+            $cat_post,
+            [qw(absurdity cats ferrets)],
+            "Testing cats post now",
         );
     }
 }
