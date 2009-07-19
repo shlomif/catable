@@ -213,6 +213,24 @@ sub clear_tags
     return;
 }
 
+=head2 $post->assign_tags($args)
+
+Sets the tags of the post to those in $args , clearing existing tags.
+
+Calls $post->clear_tags() and then $post->add_tags($args);
+
+=cut
+
+sub assign_tags
+{
+    my $self = shift;
+    my $args = shift;
+
+    $self->clear_tags();
+    
+    return $self->add_tags($args);
+}
+
 =head1 SEE ALSO
 
 L<App::Catable::Schema>, L<App::Catable>, L<DBIx::Class>

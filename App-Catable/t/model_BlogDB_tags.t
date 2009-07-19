@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 28;
+use Test::More tests => 37;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -373,6 +373,70 @@ EOF
             $cat_post,
             [qw(absurdity cats ferrets)],
             "Testing cats post now",
+        );
+
+        $nouv_post->add_tags(
+            {
+                tags => [$ducks_tag],
+            }
+        );
+
+        $nouv_post->assign_tags(
+            {
+                tags => [qw(ferrets horses x11), $cats_tag],
+            }
+        );
+
+        # TEST
+        are_tags_ok(
+            $nouv_post,
+            [qw(cats ferrets horses x11)],
+            "Testing nouv post after assign_tags",
+        );
+
+        my $ferret_related_posts = $ferrets_tag->posts_rs();
+
+        # TEST
+        ok ($ferret_related_posts, "Ferret related posts is OK.");
+
+        {
+            my $post = $ferret_related_posts->next();
+
+            # TEST
+            ok ($post, "One ferret-related post.");
+
+            # TEST
+            is ($post->title(), "A Cute Cat",
+                "Post.Title is OK."
+            );
+
+            # TEST
+            like ($post->body(), qr{geminigeek\.com},
+                "Post.Body is OK."
+            );
+        }
+
+        {
+            my $post = $ferret_related_posts->next();
+
+            # TEST
+            ok ($post, "2nd ferret-related post.");
+
+            # TEST
+            is ($post->title(), "Nouveau",
+                "Post[1].Title is OK."
+            );
+
+            # TEST
+            like ($post->body(), 
+                qr{\Q<a href="http://nouveau.freedesktop.org/wiki">Nouveau</a>\E},
+                "Post[1].Body is OK."
+            );
+        }
+
+        # TEST
+        ok (!defined($ferret_related_posts->next()),
+            "No more ferret-related posts."
         );
     }
 }
