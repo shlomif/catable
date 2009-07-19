@@ -208,5 +208,66 @@ EOF
                 "No more CatsPost->tags - 2nd time",
             );
         }
+
+        my $dogs_tag = $tags_rs->find_or_create(
+            {
+                label => "dogs",
+            }
+        );
+
+        my $ferrets_tag = $tags_rs->find_or_create(
+            {
+                label => "ferrets",
+            }
+        );
+
+        my $france_tag = $tags_rs->find_or_create(
+            {
+                label => "france",
+            }
+        );
+
+        my $food_tag = $tags_rs->find_or_create(
+            {
+                label => "food",
+            }
+        );
+
+        my $horses_tag = $tags_rs->find_or_create(
+            {
+                label => "horses",
+            }
+        );
+
+        my $zebras_tag = $tags_rs->find_or_create(
+            {
+                label => "zebras",
+            }
+        );
+
+        my $foxes_tag = $tags_rs->find_or_create(
+            {
+                label => "foxes",
+            }
+        );
+
+        my $hawks_tag = $tags_rs->find_or_create(
+            {
+                label => "hawks",
+            }
+        );
+
+        my $ducks_tag = $tags_rs->find_or_create(
+            {
+                label => "ducks",
+            }
+        );
+
+        my $llamas_tag = $tags_rs->find_or_create(
+            {
+                label => "llamas",
+            }
+        );
+
     }
 }
