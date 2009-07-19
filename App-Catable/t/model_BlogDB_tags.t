@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 6;
+use Test::More tests => 7;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -83,5 +83,19 @@ EOF
 
         # TEST
         is ($cats_tag->label(), "cats", "cats tag has proper label.");
+
+        {
+            my $assoc_rs = $schema->resultset('PostTagAssoc');
+
+            my $assoc1 = $assoc_rs->find_or_create(
+                {
+                    tag => $cats_tag,
+                    post => $cat_post,
+                }
+            );
+
+            # TEST
+            ok ($assoc1, "Initialised an association");
+        }
     }
 }
