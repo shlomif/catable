@@ -37,6 +37,7 @@
 \#$
 \.#
 \.rej$
+\.swp$
 
 # Avoid OS-specific files/dirs
 #   Mac OSX metadata
@@ -50,3 +51,4 @@
 # Avoid the files under t/var:
 t\/var\/catable\.db
 t\/var\/catable\.yml
+
