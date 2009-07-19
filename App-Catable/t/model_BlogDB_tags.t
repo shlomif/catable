@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 17;
+use Test::More tests => 20;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -94,14 +94,14 @@ EOF
             ok ($assoc1, "Initialised an association");
         }
 
-        my $cat_post_tags_rs = $cat_post->tags_rs();
-
-        # TEST
-        ok ($cat_post_tags_rs, 
-            "Post->tags_rs() returned a proper result set."
-        );
-
         {
+            my $cat_post_tags_rs = $cat_post->tags_rs();
+
+            # TEST
+            ok ($cat_post_tags_rs, 
+                "Post->tags_rs() returned a proper result set."
+            );
+
             my $tag1 = $cat_post_tags_rs->next();
             # TEST
             is ($tag1->label(), "cats", 
@@ -186,6 +186,26 @@ EOF
             # TEST
             ok (!defined($nouv_post_tags_rs->next()), 
                 '$nouv_post_tags_rs returns 2 results.'
+            );
+        }
+
+        {
+            my $cat_post_tags_rs = $cat_post->tags_rs();
+
+            # TEST
+            ok ($cat_post_tags_rs, 
+                "CatPost->tags_rs() returned a proper result set 2nd time."
+            );
+
+            my $tag1 = $cat_post_tags_rs->next();
+            # TEST
+            is ($tag1->label(), "cats", 
+                "Got the right label for the first tag 2nd time"
+            );
+
+            # TEST
+            ok (!defined($cat_post_tags_rs->next()),
+                "No more CatsPost->tags - 2nd time",
             );
         }
     }
