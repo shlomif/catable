@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 7;
+use Test::More tests => 10;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -15,6 +15,7 @@ my $schema = AppCatableTestSchema->init_schema(no_populate => 0);
 {
     my $posts_rs = $schema->resultset('Post');
     my $tags_rs = $schema->resultset('Tag');
+    my $assoc_rs = $schema->resultset('PostTagAssoc');
 
     my $date = DateTime->new(
         year => 2009,
@@ -85,7 +86,6 @@ EOF
         is ($cats_tag->label(), "cats", "cats tag has proper label.");
 
         {
-            my $assoc_rs = $schema->resultset('PostTagAssoc');
 
             my $assoc1 = $assoc_rs->find_or_create(
                 {
@@ -96,6 +96,26 @@ EOF
 
             # TEST
             ok ($assoc1, "Initialised an association");
+        }
+
+        my $cat_post_tags_rs = $cat_post->tags_rs();
+
+        # TEST
+        ok ($cat_post_tags_rs, 
+            "Post->tags_rs() returned a proper result set."
+        );
+
+        {
+            my $tag1 = $cat_post_tags_rs->next();
+            # TEST
+            is ($tag1->label(), "cats", 
+                "Got the right label for the first tag"
+            );
+
+            # TEST
+            ok (!defined($cat_post_tags_rs->next()),
+                "No more tags",
+            );
         }
     }
 }

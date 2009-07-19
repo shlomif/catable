@@ -104,6 +104,10 @@ __PACKAGE__->has_many(
     comments => 'App::Catable::Schema::Comment',
     'parent_id',
 );
+__PACKAGE__->has_many(
+    tags_assoc => 'App::Catable::Schema::PostTagAssoc',
+    'post_id',
+);
 
 =head2 $self->add_comment({ %comment_params })
 
@@ -122,6 +126,20 @@ sub add_comment
             %{$args},
         },
     );
+}
+
+=head2 $self->tags_rs()
+
+Gets a result set of the tags associated with this post. See:
+L<App::Catable::Schema::Tag> .
+
+=cut
+
+sub tags_rs
+{
+    my $self = shift;
+
+    return $self->tags_assoc_rs()->related_resultset('tag');
 }
 
 =head1 SEE ALSO
