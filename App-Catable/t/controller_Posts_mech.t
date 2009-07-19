@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 11;
+use Test::More tests => 14;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -102,12 +102,39 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
         "Following the link to the /show URL homepage"
     );
 
+    my $post_uri = $mech->uri();
+
     # TEST
     ok ($mech->find_link(
             url => "http://www.shlomifish.org/",
             text_regex => qr{Lopmonyotron},
         ),
         "Link to the page."
+    );
+
+    # TEST
+    $mech->follow_link_ok(
+        {
+            url => "http://localhost/posts/tag/cats",
+            text => "cats",
+        },
+        "Following the link to the cats tag",
+    );
+
+    # TEST
+    $mech->follow_link_ok(
+        {
+            url => "$post_uri",
+            text_regex => qr{Link to Shlomif Homepage},
+        },
+        "Link exists back to the post.",
+    );
+
+    # TEST
+    is(
+        ($mech->uri() . ""),
+        "$post_uri",
+        "Same URL as before",
     );
 }
 

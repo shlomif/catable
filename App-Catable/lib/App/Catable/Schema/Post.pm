@@ -139,7 +139,7 @@ sub tags_rs
 {
     my $self = shift;
 
-    return $self->tags_assoc_rs()->search_related(
+    return $self->tags_assoc_rs()->search_related_rs(
         'tag',
         {},
         {

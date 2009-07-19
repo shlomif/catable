@@ -10,6 +10,20 @@
 </p>
 
 [% scrubber.scrub(post.body()) %]
+<div class="tags">
+<p>
+<b>Tags:</b>
+[% tags_rs = post.tags_rs %]
+[% first_tag = 1 %]
+[% WHILE( tag = tags_rs.next ) -%]
+[%- IF NOT first_tag %], [% END -%]
+<a rel="tag category" 
+href="[% HTML.escape(c.uri_for('/posts/tag', tag.label())) 
+%]">[% tag.label() %]</a>
+[%- first_tag = '' -%]
+[%- END %]
+</p>
+</div>
 </div>
 
 <div id="comments" class="comments">

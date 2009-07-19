@@ -1,0 +1,13 @@
+[%- # TODO : duplicate code between this and show.tt2.
+-%]
+[%- USE HTML -%]
+[% title = "Tag" _ tag.label() _ " - Catable"-%]
+
+[% posts_rs = tag.posts_rs() %]
+[% WHILE ( post = posts_rs.next() ) %]
+<div style="display:block">
+    <a href="[% HTML.escape(
+        c.uri_for(c.controller.action_for('show'), post.id)) %]">
+        [% HTML.escape(post.title) %]</a>
+</div>
+[% END %]

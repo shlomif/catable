@@ -78,7 +78,7 @@ sub posts_rs
 {
     my $self = shift;
 
-    return $self->posts_assoc_rs()->search_related(
+    return $self->posts_assoc_rs()->search_related_rs(
         'post',
         {},
         {

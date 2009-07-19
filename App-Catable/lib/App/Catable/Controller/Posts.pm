@@ -80,7 +80,7 @@ sub add_submit : Path('add-submit') {
 
     my $title = $req->param('title');
     my $body = $req->param('body');
-    my $tags  = $req->param('tags');
+    my $tags_string  = $req->param('tags');
     my $can_be_published = $req->param('can_be_published');
     my $is_preview = defined($req->param('preview'));
     my $is_submit = defined($req->param('submit'));
@@ -95,7 +95,7 @@ sub add_submit : Path('add-submit') {
         $c->stash->{template} = "posts/add-preview.tt2";
         $c->stash->{post_title} = $title;
         $c->stash->{post_body} = $body;
-        $c->stash->{post_tags} = $tags;
+        $c->stash->{post_tags} = $tags_string;
         $c->stash->{can_be_published} = $can_be_published ? 1 : 0;
     }
     else
@@ -112,6 +112,18 @@ sub add_submit : Path('add-submit') {
             }
         );
 
+        my @tags = 
+        (
+            grep { m{\A(?:[^[:punct:]\n\r\t]|\-)+\z}ms } 
+            split(/\s*,\s*/, $tags_string)
+        );
+
+        $new_post->assign_tags(
+            {
+                tags => \@tags,
+            }
+        );
+
         $c->stash->{new_post} = $new_post;
         
         $c->stash->{template} = 'posts/add-submit.tt2';
@@ -119,6 +131,32 @@ sub add_submit : Path('add-submit') {
 
     return;
 }
+
+=head2 tag
+
+Displays a posts listing of a tag . Accepts the tag query as a parameter
+
+http://localhost:3000/posts/tag/cute-cats
+
+=cut
+
+sub tag :Path(tag) :CaptureArgs(1)  {
+    my ($self, $c, $tags_query) = @_;
+
+    my $tag = $c->model("BlogDB::Tag")->find({label => $tags_query});
+
+    if (!$tag)
+    {
+        $c->res->code( 404 );
+        $c->res->body( "Tag '$tags_query' not found." );
+        $c->detach;
+    }
+
+    $c->stash (tag => $tag);
+
+    $c->stash->{template} = 'posts/tag.tt2';
+}
+
 
 =head2 show
 
