@@ -148,6 +148,12 @@ sub tags_rs
     );
 }
 
+=head2 $self->add_tags({ tags => [@tag_objects]})
+
+Associates the tags in @tag_objects with the post.
+
+=cut
+
 sub add_tags
 {
     my $self = shift;
