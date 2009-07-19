@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 25;
+use Test::More tests => 26;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -11,6 +11,30 @@ use AppCatableTestSchema;
 use DateTime;
 
 my $schema = AppCatableTestSchema->init_schema(no_populate => 0);
+
+sub are_tags_ok
+{
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $post = shift;
+    my $want_tags_list = shift;
+    my $msg = shift;
+
+    my $tags_rs = $post->tags_rs();
+
+    my @have;
+
+    while (defined(my $tag = $tags_rs->next()))
+    {
+        push @have, $tag->label();
+    }
+
+    is_deeply(
+        \@have,
+        $want_tags_list,
+        $msg,
+    );
+}
 
 {
     my $posts_rs = $schema->resultset('Post');
@@ -302,5 +326,25 @@ EOF
                 "No more CatsPost->tags - after NouvPost->tags_del()", 
             );
         }
+
+        $nouv_post->add_tags(
+            {
+                tags => [$horses_tag, $ferrets_tag, $llamas_tag,],
+            }
+        );
+
+        $nouv_post->add_tags(
+            {
+                tags => [$food_tag,],
+            }
+        );
+    
+        # TEST
+        are_tags_ok(
+            $nouv_post,
+            [qw(ferrets food horses llamas)],
+            "Nouv Tags are OK.",
+        );
+
     }
 }
