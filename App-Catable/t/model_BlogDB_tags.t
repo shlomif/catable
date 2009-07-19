@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 10;
+use Test::More tests => 13;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -17,24 +17,6 @@ my $schema = AppCatableTestSchema->init_schema(no_populate => 0);
     my $tags_rs = $schema->resultset('Tag');
     my $assoc_rs = $schema->resultset('PostTagAssoc');
 
-    my $date = DateTime->new(
-        year => 2009,
-        month => 6,
-        day => 30,
-        hour => 16,
-        minute => 5,
-        second => 0,
-    );
-
-    my $update_date = DateTime->new(
-        year => 2009,
-        month => 7,
-        day => 1,
-        hour => 10,
-        minute => 44,
-        second => 57,
-    );
-
     my $post_id;
 
     {
@@ -48,8 +30,22 @@ out this post</a> about a cute cat. Well, it's not the cutest cat ever
 (Altreus' cat is cuter), but it's still pretty cute.
 </p>
 EOF
-                pubdate => $date,
-                update_date => $update_date,
+                pubdate => DateTime->new(
+                    year => 2009,
+                    month => 6,
+                    day => 30,
+                    hour => 16,
+                    minute => 5,
+                    second => 0,
+                ),
+                update_date => DateTime->new(
+                    year => 2009,
+                    month => 7,
+                    day => 1,
+                    hour => 10,
+                    minute => 44,
+                    second => 57,
+                ),
                 can_be_published => 1,
             }
         );
@@ -117,5 +113,50 @@ EOF
                 "No more tags",
             );
         }
+
+        my $nouv_post = $posts_rs->create(
+            {
+                title => "Nouveau",
+                body => <<'EOF',
+<p>
+Having seen <a href="http://nouveau.freedesktop.org/wiki">Nouveau</a>,
+the open source 3-D drivers for Nvidia cards, mentioned in 
+<a href="http://lwn.net/">Linux Weekly News</a> and recalling 
+that I wanted to help work on them myself, I decided to use some of my
+free time to give it a try.
+</p>
+EOF
+                pubdate => DateTime->new(
+                    year => 2009,
+                    month => 7,
+                    day => 5,
+                    hour => 16,
+                    minute => 5,
+                    second => 0,
+                ),
+                update_date => DateTime->new(
+                    year => 2009,
+                    month => 7,
+                    day => 7,
+                    hour => 10,
+                    minute => 44,
+                    second => 57,
+                ),
+                can_be_published => 1,
+            }
+        );
+
+        # TEST
+        ok ($nouv_post, "Post could be initialised.");
+
+        my $nouv_post_tags_rs = $nouv_post->tags_rs();
+
+        # TEST
+        ok ($nouv_post_tags_rs, '$nouveau->tags_rs() is true.');
+
+        # TEST
+        ok (!defined($nouv_post_tags_rs->next()), 
+            '$nouv_post_tags_rs returns 0 results.'
+        );
     }
 }
