@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 20;
+use Test::More tests => 25;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -269,5 +269,38 @@ EOF
             }
         );
 
+        $nouv_post->clear_tags();
+
+        {
+            my $nouv_post_tags_rs = $nouv_post->tags_rs();
+
+            # TEST
+            ok ($nouv_post_tags_rs, '$nouveau->tags_rs() is true.');
+
+            # TEST
+            ok (!defined($nouv_post_tags_rs->next()),
+                "nouv posts now has no tags."
+            );
+        }
+
+        {
+            my $cat_post_tags_rs = $cat_post->tags_rs();
+
+            # TEST
+            ok ($cat_post_tags_rs, 
+                "CatPost->tags_rs() after NouvPost->tags_del()"
+            );
+
+            my $tag1 = $cat_post_tags_rs->next();
+            # TEST
+            is ($tag1->label(), "cats", 
+                "Got tag after NouvPost->tags_del()" 
+            );
+
+            # TEST
+            ok (!defined($cat_post_tags_rs->next()),
+                "No more CatsPost->tags - after NouvPost->tags_del()", 
+            );
+        }
     }
 }

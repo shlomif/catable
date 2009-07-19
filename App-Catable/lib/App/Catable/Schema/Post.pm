@@ -176,6 +176,21 @@ sub add_tags
     return;
 }
 
+=head2 $post->clear_tags()
+
+Clear all the tags associated with this post.
+
+=cut
+
+sub clear_tags
+{
+    my $self = shift;
+
+    $self->tags_assoc_rs()->delete();
+
+    return;
+}
+
 =head1 SEE ALSO
 
 L<App::Catable::Schema>, L<App::Catable>, L<DBIx::Class>
