@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 3;
+use Test::More tests => 6;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -58,13 +58,30 @@ EOF
 
         $post_id = $cat_post->id();
 
-        my $cat_tag = $tags_rs->find_or_create(
+        my $cats_tag = $tags_rs->find_or_create(
             {
                 label => "cats",
             }
         );
 
         # TEST
-        ok ($cat_tag, "Cat tag was initialiased.");
+        ok ($cats_tag, "Cat tag was initialiased.");
+
+        my $blogging_tag = $tags_rs->find_or_create(
+            {
+                label => "blogging",
+            }
+        );
+
+        # TEST
+        ok ($blogging_tag, "Cat tag was initialiased.");
+        
+        # TEST
+        ok ($cats_tag->id() != $blogging_tag->id(),
+            "The cats and blogging tags are different."
+        );
+
+        # TEST
+        is ($cats_tag->label(), "cats", "cats tag has proper label.");
     }
 }
