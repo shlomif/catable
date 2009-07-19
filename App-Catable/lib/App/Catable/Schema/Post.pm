@@ -148,9 +148,31 @@ sub tags_rs
     );
 }
 
-=head2 $self->add_tags({ tags => [@tag_objects]})
 
-Associates the tags in @tag_objects with the post.
+sub _get_tags_list
+{
+    my $self = shift;
+    my $list = shift;
+
+    my $tags_rs = $self->result_source->schema->resultset('Tag');
+    return 
+    [
+        map 
+        { 
+              (ref($_) eq "")
+            ? $tags_rs->find_or_create({label => $_})
+            : $_
+        }
+        @$list
+    ];
+}
+
+
+=head2 $self->add_tags({ tags => [@tags]})
+
+Associates the tags in @tag_objects with the post. Each $tag out of
+@tag_objects can either be a textual label (as a Perl scalar), or
+an L<App::Catable::Schema::Tag> object.
 
 =cut
 
@@ -159,7 +181,7 @@ sub add_tags
     my $self = shift;
     my $args = shift;
 
-    my $tags = $args->{'tags'};
+    my $tags = $self->_get_tags_list($args->{'tags'});
 
     my $assoc_rs = $self->result_source->schema->resultset('PostTagAssoc');
 

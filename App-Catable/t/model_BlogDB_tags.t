@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 26;
+use Test::More tests => 27;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -346,5 +346,19 @@ EOF
             "Nouv Tags are OK.",
         );
 
+        $nouv_post->clear_tags();
+
+        $nouv_post->add_tags(
+            {
+                tags => [qw(nouveau x11 nvidia), $llamas_tag, qw(horses),],
+            }
+        );
+
+        # TEST
+        are_tags_ok(
+            $nouv_post,
+            [qw(horses llamas nouveau nvidia x11)],
+            "Assignment from mixed textual/objects",
+        );
     }
 }
