@@ -8,6 +8,8 @@
 
 * Add OpenID-based authentication.
 
+* Add support for tagging blog posts with tags (a.k.a "labels" or "keywords").
+
 * Add custom authentication (with a login form).
 
 * Add support for WordPress-based themes/styles/skins.
