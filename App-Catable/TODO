@@ -11,6 +11,7 @@
 * Add custom authentication (with a login form).
 
 * Add support for WordPress-based themes/styles/skins.
+    - May not be feasable because WP themes contain XHTML and PHP code.
 
 * Add preview to comments.
 
