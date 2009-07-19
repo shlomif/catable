@@ -80,6 +80,7 @@ sub add_submit : Path('add-submit') {
 
     my $title = $req->param('title');
     my $body = $req->param('body');
+    my $tags  = $req->param('tags');
     my $can_be_published = $req->param('can_be_published');
     my $is_preview = defined($req->param('preview'));
     my $is_submit = defined($req->param('submit'));
@@ -94,6 +95,7 @@ sub add_submit : Path('add-submit') {
         $c->stash->{template} = "posts/add-preview.tt2";
         $c->stash->{post_title} = $title;
         $c->stash->{post_body} = $body;
+        $c->stash->{post_tags} = $tags;
         $c->stash->{can_be_published} = $can_be_published ? 1 : 0;
     }
     else
