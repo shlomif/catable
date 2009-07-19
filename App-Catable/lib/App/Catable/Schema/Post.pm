@@ -139,7 +139,35 @@ sub tags_rs
 {
     my $self = shift;
 
-    return $self->tags_assoc_rs()->related_resultset('tag');
+    return $self->tags_assoc_rs()->search_related(
+        'tag',
+        {},
+        {
+            order_by => [qw(label)],
+        },
+    );
+}
+
+sub add_tags
+{
+    my $self = shift;
+    my $args = shift;
+
+    my $tags = $args->{'tags'};
+
+    my $assoc_rs = $self->result_source->schema->resultset('PostTagAssoc');
+
+    foreach my $tag_obj (@$tags)
+    {
+        $assoc_rs->find_or_create(
+            {
+                post => $self,
+                tag => $tag_obj,
+            }
+        );
+    }
+
+    return;
 }
 
 =head1 SEE ALSO

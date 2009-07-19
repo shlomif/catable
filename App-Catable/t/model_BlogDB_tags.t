@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 13;
+use Test::More tests => 17;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -149,14 +149,44 @@ EOF
         # TEST
         ok ($nouv_post, "Post could be initialised.");
 
-        my $nouv_post_tags_rs = $nouv_post->tags_rs();
+        {
+            my $nouv_post_tags_rs = $nouv_post->tags_rs();
 
-        # TEST
-        ok ($nouv_post_tags_rs, '$nouveau->tags_rs() is true.');
+            # TEST
+            ok ($nouv_post_tags_rs, '$nouveau->tags_rs() is true.');
 
-        # TEST
-        ok (!defined($nouv_post_tags_rs->next()), 
-            '$nouv_post_tags_rs returns 0 results.'
+            # TEST
+            ok (!defined($nouv_post_tags_rs->next()), 
+                '$nouv_post_tags_rs returns 0 results.'
+            );
+        }
+
+        $nouv_post->add_tags(
+            {
+                tags => [$cats_tag, $blogging_tag],
+            }
         );
+
+        {
+            my $nouv_post_tags_rs = $nouv_post->tags_rs();
+
+            # TEST
+            ok ($nouv_post_tags_rs, '$nouveau->tags_rs() is true.');
+
+            my $tag1 = $nouv_post_tags_rs->next();
+
+            # TEST
+            is ($tag1->label(), "blogging", "First tag is blogging.");
+
+            my $tag2 = $nouv_post_tags_rs->next();
+
+            # TEST
+            is ($tag2->label(), "cats", "Second tag is blogging.");
+
+            # TEST
+            ok (!defined($nouv_post_tags_rs->next()), 
+                '$nouv_post_tags_rs returns 2 results.'
+            );
+        }
     }
 }
