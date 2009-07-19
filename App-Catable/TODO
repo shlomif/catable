@@ -7,6 +7,9 @@
     - add reply to comments.
 
 * Add OpenID-based authentication.
+    - Added partially.
+    - store the users inside the database.
+    - add cookies/persistence.
 
 * Add support for tagging blog posts with tags (a.k.a "labels" or "keywords").
     - done partially.
