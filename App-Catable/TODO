@@ -9,6 +9,9 @@
 * Add OpenID-based authentication.
 
 * Add support for tagging blog posts with tags (a.k.a "labels" or "keywords").
+    - done partially.
+    - Add support for more complex queries than just a single tag.
+    - Write more extensive tests.
 
 * Add custom authentication (with a login form).
 
