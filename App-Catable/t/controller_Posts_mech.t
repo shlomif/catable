@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 10;
+use Test::More tests => 11;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -73,10 +73,17 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
                 body => 
     qq{<p><a href="http://www.shlomifish.org/">Shlomif Lopmonyotron</a></p>},
                 title => "Link to Shlomif Homepage",
+                tags => "perl, catable, catalyst, cats",
             },
             button => "preview",
         },
         "Submitting the preview form",
+    );
+
+    # TEST
+    is ($mech->value("tags"),
+        "perl, catable, catalyst, cats",
+        "Keywords is OK on submitted form.",
     );
 
     # TEST
