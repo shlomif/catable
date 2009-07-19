@@ -7,7 +7,9 @@
 <head>
 <title>Catable[% IF title; " - $title" ; END %]</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/themes/mt/abstrakt3c/screen.css') %]" />
+<link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/themes/mt/cityscape-portland/screen.css') %]" />
+<link rel="alternate stylesheet" type="text/css" href="[% c.uri_for('/static/themes/mt/theme-powell_street/theme-powell_street.css') %]" />
+<link rel="alternate stylesheet" type="text/css" href="[% c.uri_for('/static/themes/mt/abstrakt3c/screen.css') %]" />
 <link rel="alternate stylesheet" type="text/css" href="[% c.uri_for('/static/themes/mt/bloggers-cafe/screen.css') %]" />
 <link rel="alternate stylesheet" type="text/css" href="[% c.uri_for('/static/themes/mt/green-love/screen.css') %]" />
 <link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/style.css') %]" />
