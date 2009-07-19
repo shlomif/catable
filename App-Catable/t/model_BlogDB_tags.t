@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 37;
+use Test::More tests => 44;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -437,6 +437,119 @@ EOF
         # TEST
         ok (!defined($ferret_related_posts->next()),
             "No more ferret-related posts."
+        );
+
+        my $ocaml_post = $posts_rs->create(
+            {
+                title => "Standard ML / O'Caml Tip : Two or More Functions that Call Each Other",
+                body => <<'EOF',
+
+<p>
+In case you wish to to create two functions that call each other (or
+Mutually recursive functions as the proper terminology is) in Standard
+ML (SML), or O'Caml you can use the <tt>and</tt> keyword. In SML:
+</p>
+
+<pre>
+fun func1 (n:int) :int = if n=0 then 1 else func2 (n-1) * 2
+and func2 (n:int): int = if n=0 then 0 else func1 (n-1) +1;
+</pre>
+
+<p>
+Or in O'Caml:
+</p>
+
+<pre>
+let rec func1 (n:int) :int = if n=0 then 1 else func2 (n-1) * 2
+and func2 (n:int): int = if n=0 then 0 else func1 (n-1) +1;;
+
+Printf.printf "func2(5) = %d\n" (func2 5);;
+</pre>
+
+<p>
+For more information refer <a href="http://caml.inria.fr/pub/old_caml_site/caml-list/1650.html">to 
+this O'Caml related resource</a> and to
+<a href="http://www.cs.cornell.edu/courses/cs312/2006sp/lectures/lec03.html">this
+Standard ML related resource</a>. I had problems finding this because I 
+searched for "call each other" instead of "mutually recursive".
+</p>
+
+<p>
+BTW, I was surprised to learn that Caml/O'Caml and SML are very incompatible. 
+I thought that generally O'Caml was a superset of SML, but as it turns out
+O'Caml cannot compile a lot of SML code. Apparently they both diverged from
+an early "ML" proto-language and went on their own ways.
+</p>
+EOF
+                pubdate => DateTime->new(
+                    year => 2009,
+                    month => 7,
+                    day => 10,
+                    hour => 12,
+                    minute => 1,
+                    second => 4,
+                ),
+                update_date => DateTime->new(
+                    year => 2009,
+                    month => 7,
+                    day => 10,
+                    hour => 12,
+                    minute => 1,
+                    second => 4,
+                ),
+                can_be_published => 1,
+            }
+        );
+
+        $ocaml_post->add_tags(
+            {
+                tags => [$horses_tag],
+            },
+        );
+
+        my $horses_related_posts = $horses_tag->posts_rs();
+
+
+        {
+            my $post = $horses_related_posts->next();
+
+            # TEST
+            ok ($post, "1st horses-related post.");
+
+            # TEST
+            is ($post->title(), "Nouveau",
+                "Horses.Post[0].Title is OK."
+            );
+
+            # TEST
+            like ($post->body(), 
+                qr{\Q<a href="http://nouveau.freedesktop.org/wiki">Nouveau</a>\E},
+                "Horses.Post[0].Body is OK."
+            );
+        }
+
+        {
+            my $post = $horses_related_posts->next();
+
+            # TEST
+            ok ($post, "2nd horses-related post.");
+
+            # TEST
+            is ($post->title(), 
+                "Standard ML / O'Caml Tip : Two or More Functions that Call Each Other",
+                "Horses.Post[1].Title is OK."
+            );
+
+            # TEST
+            like ($post->body(), 
+                qr{SML},
+                "Horses.Post[1].Body is OK."
+            );
+        }
+
+        # TEST
+        ok (!defined($horses_related_posts->next()),
+            "No more horses-related posts",
         );
     }
 }
