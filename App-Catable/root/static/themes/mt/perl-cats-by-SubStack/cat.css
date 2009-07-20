@@ -21,6 +21,10 @@ body {
     /* http://creativecommons.org/licenses/by/2.0/deed.en */
 }
 
+#header-name {
+    margin-bottom: 1em;
+}
+
 #header a {
     text-decoration: none;
     border-bottom-width: 2px;
