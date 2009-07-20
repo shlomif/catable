@@ -62,10 +62,11 @@ L<http://search.cpan.org/perldoc?Catalyst::Plugin::Authentication::Credential::O
 =cut
 
 sub signin_openid : Local {
-    my($self, $c) = @_;
+    my ($self, $c) = @_;
 
     if ($c->authenticate({}, "openid"))
     {
+        $c->persist_user();
         $c->flash(message => "You signed in with OpenID!");
         $c->res->redirect( $c->uri_for('/') );
     }
@@ -75,6 +76,24 @@ sub signin_openid : Local {
         $c->response->body( "Could not authenticate with OpenID" );
         # Present OpenID form.
     }
+}
+
+
+=head2 $self->logout($c)
+
+Logs out the currently logged-in user.
+
+http://localhost:3000/logout/
+
+=cut
+
+sub logout : Local {
+    my ($self, $c) = @_; 
+
+    $c->logout();
+    $c->response->body ("You have been logged out.");
+
+    return;
 }
 
 =head2 end
