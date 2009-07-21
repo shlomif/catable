@@ -11,6 +11,11 @@
     - store the users inside the database.
     - add cookies/persistence.
 
+* Add normal usernam/password authentication
+    - With an email hand-shake
+    - Allow to associate an OpenID URL with the account. (proposed by
+    SubStack)
+
 * Add support for tagging blog posts with tags (a.k.a "labels" or "keywords").
     - done partially.
     - Add support for more complex queries than just a single tag.
