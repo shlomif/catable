@@ -1,58 +1,86 @@
 body {
     margin-left: 20px;
     margin-right: 20px;
+    background-color: rgb(50,50,50);
 }
 
 #header-inner {
-    background-color: transparent;
+    background-image: url(red.png);
+    background-repeat: repeat-x;
+    background-position: top left;
+}
+
+#header-content {
     background-image: url(header.png);
     /* derived from http://www.flickr.com/photos/deerwooduk/682390157/ */
     /* http://creativecommons.org/licenses/by/2.0/deed.en */
     background-repeat: no-repeat;
     background-position: bottom right;
+    margin-bottom: -1em;
     
     height: 200px;
     padding-left: 10px;
-}
-
-#header {
-    background-image: url(tile.png);
-    /* derived from http://www.flickr.com/photos/8078381@N03/2683238976/ */
-    /* http://creativecommons.org/licenses/by/2.0/deed.en */
 }
 
 #header-name {
     margin-bottom: 1em;
 }
 
+#header {
+    background-image: url(tile.png);
+    /* derived from http://www.flickr.com/photos/8078381@N03/2683238976/ */
+    /* http://creativecommons.org/licenses/by/2.0/deed.en */
+    text-align: center;
+    
+    border-left-color: rgb(200,75,75);
+    border-left-style: solid;
+    border-left-width: 4px;
+}
+
 #header a {
     text-decoration: none;
     border-bottom-width: 2px;
     border-bottom-style: dotted;
-    border-bottom-color: rgb(150,50,50);
-    color: rgb(200,75,75);
+    border-bottom-color: white;
+    color: white;
+    text-shadow: 0px 0px 5px black;
+    margin-right: 250px;
 }
 
 #header-description {
-    margin-right: 300px;
+    margin-right: 275px;
     margin-left: 10px;
     margin-top: -17px;
     
     padding: 0.5em;
     
     font-size: 1em;
-    font-weight: normal;
+    font-weight: bold;
     height: 120px;
     overflow: hidden;
+    
+    text-align: left;
 }
 
 #user {
-    background-color: rgb(160,160,160);
+    background-color: rgb(200,75,75);
+    margin-bottom: -1em;
 }
+
+#user a:link {
+    color: rgb(220,220,255);
+}
+
+#user a:visited {
+    color: rgb(220,220,220);
+}
+
 
 .login {
     color: white;
     padding: 0.5em;
+    margin-left: 1em;
+    margin-right: 1em;
 }
 
 .openid {
@@ -92,9 +120,15 @@ body {
 }
 
 #content {
-    border-color: rgb(180,180,180);
-    border-style: solid;
-    border-width: 3px;
+    border-left-color: rgb(200,75,75);
+    border-left-style: solid;
+    border-left-width: 4px;
+    
+    border-right-color: rgb(200,75,75);
+    border-right-style: solid;
+    border-right-width: 4px;
+    
+    background-color: white;
 }
 
 #content-inner {
@@ -170,10 +204,22 @@ body {
 }
 
 #footer {
-    background-color: rgb(160,160,160);
+    margin-top: -1em;
+    background-color: rgb(200,75,75);
     color: white;
+}
+
+#footer a:link {
+    color: rgb(210,210,255);
+}
+
+#footer a:visited {
+    color: rgb(220,220,220);
 }
 
 .widget-content p {
     padding: 0.5em;
+    margin-right: 1em;
+    margin-left: 1em;
+    
 }
