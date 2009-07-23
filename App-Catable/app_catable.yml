@@ -8,6 +8,7 @@ Plugin::Authentication:
     default_realm: openid
     realms:
         openid:
+            auto_create_user: 1
             credential:
                 class: OpenID
                 extensions:
@@ -19,5 +20,8 @@ Plugin::Authentication:
                         optional: 'fullname,nickname,timezone'
                 ua_class: LWPx::ParanoidAgent
             store:
-                class: Null
-
+                class: DBIx::Class
+                user_class: BlogDB::Account
+                id_field: id
+                role_relation: roles
+                role_field: name
