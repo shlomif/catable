@@ -36,14 +36,10 @@ Note that it is Global and takes no Args and ends the chain.
 
 =cut
 
-use Data::Dumper;
-
 sub login : Global Args(0) FormConfig {
     my ($self, $c) = @_;
 
     my $form = $c->stash->{form};
-
-    $c->log->debug( Data::Dumper->new( [ $form->get_all_elements ] )->Maxdepth(2)->Dump );
 
     # If we do this here, we can return later without having to worry.
     # If login succeeds we redirect anyway.
@@ -54,7 +50,9 @@ sub login : Global Args(0) FormConfig {
 
         unless ($c->authenticate( { 
                     username => $login_params->{username},
-                    password => $login_params->{password}, } ) ) {
+                    password => $login_params->{password}, },
+                    "local", # realm
+        ) ) {
             $c->stash->{error} = "Username or password not recognised";
             return;
         }
