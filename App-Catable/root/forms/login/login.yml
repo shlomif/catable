@@ -1,0 +1,29 @@
+action: /login
+# indicator is the field that is used to test for form submission
+indicator: submit
+
+auto_id: %n
+attributes:
+    class: login-form
+
+# Start listing the form elements
+elements:
+    # The first element will be a text field for the username
+    - type: Text
+      name: user
+      label: Username
+      constraints:
+          - Required
+
+    # The password field
+    - type: Password
+      name: pass
+      label: Password
+      constraints:
+          - Required
+
+    # The Submit button
+    - type: Submit
+      name: submit
+      value: Login
+

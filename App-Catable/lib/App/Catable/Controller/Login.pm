@@ -2,7 +2,7 @@ package App::Catable::Controller::Login;
 
 use strict;
 use warnings;
-use base 'Catalyst::Controller';
+use base 'Catalyst::Controller::HTML::FormFu';
 
 =head1 NAME
 
@@ -21,29 +21,51 @@ Display the openid authentication form.
 =cut
 
 sub openid : Local {
-    # Retrieve the usual Perl OO '$self' for this object. $c is the Catalyst
-    # 'Context' that's used to 'glue together' the various components
-    # that make up the application
     my ($self, $c) = @_;
 
-    # Set the TT template to use.  You will almost always want to do this
-    # in your action methods (action methods respond to user input in
-    # your controllers).
     $c->stash->{template} = 'login/openid.tt2';
 
     return;
 }
 
-=head2 $self->index($c)
+=head2 login
 
-The http://localhost:3000/login/ URL.
+This is what happens if we just go to /login.
+
+Note that it is Global and takes no Args and ends the chain.
 
 =cut
 
-sub index : Private {
-    my ( $self, $c ) = @_;
+use Data::Dumper;
 
-    $c->response->body('Matched App::Catable::Controller::Login in Posts.');
+sub login : Global Args(0) FormConfig {
+    my ($self, $c) = @_;
+
+    my $form = $c->stash->{form};
+
+    $c->log->debug( Data::Dumper->new( [ $form->get_all_elements ] )->Maxdepth(2)->Dump );
+
+    # If we do this here, we can return later without having to worry.
+    # If login succeeds we redirect anyway.
+    $c->stash->{template} = 'login.tt2';
+
+    if ($form->submitted_and_valid) {
+        my $login_params = $form->params;
+
+        unless ($c->authenticate( { 
+                    username => $login_params->{username},
+                    password => $login_params->{password}, } ) ) {
+            $c->stash->{error} = "Username or password not recognised";
+            return;
+        }
+
+        my $next_url 
+            = delete $c->stash->{goto_after_login}
+           || $c->uri_for( '/' )
+           || do { $c->log->debug( "Didn't know where to go after /login successful" ); $c->res->status( 404 ) };
+
+        $c->detatch( $next_url );
+    }
 }
 
 =head1 AUTHOR
