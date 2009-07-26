@@ -58,7 +58,7 @@ sub login : Global Args(0) FormConfig {
         }
 
         my $next_url 
-            = delete $c->stash->{goto_after_login}
+            = delete $c->session->{goto_after_login}
            || $c->uri_for( '/' )
            || do { $c->log->debug( "Didn't know where to go after /login successful" ); $c->res->status( 404 ) };
 
