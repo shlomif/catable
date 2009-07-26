@@ -49,8 +49,8 @@ sub login : Global Args(0) FormConfig {
         my $login_params = $form->params;
 
         unless ($c->authenticate( { 
-                    username => $login_params->{username},
-                    password => $login_params->{password}, },
+                    username => $login_params->{user},
+                    password => $login_params->{pass}, },
                     "local", # realm
         ) ) {
             $c->stash->{error} = "Username or password not recognised";
@@ -62,13 +62,16 @@ sub login : Global Args(0) FormConfig {
            || $c->uri_for( '/' )
            || do { $c->log->debug( "Didn't know where to go after /login successful" ); $c->res->status( 404 ) };
 
-        $c->detatch( $next_url );
+        $c->log->debug( "Login successful - sending to $next_url" );
+        $c->res->redirect( $next_url );
     }
 }
 
 =head1 AUTHOR
 
 Shlomi Fish, L<http://www.shlomifish.org/>
+
+Alastair Douglas, L<http://www.grammarpolice.co.uk/>
 
 =head1 LICENSE
 
