@@ -31,34 +31,44 @@ creates accessor methods for each field.
 
 =head2 id
 
-Auto-incremented comment ID.
+Auto-incremented user ID.
 
-=head2 title
+=head2 url
 
-Each comment can have a title up to 400 chars long.
+This is the 'username' for OpenID authentication. If set, the user is an
+OpenID user, and the C<username> and C<password> fields will not be set.
 
-=head2 body
+=head2 username
 
-The body of the blog post is arbitrary text. It is parsed between
-DB and display based on selected plugins to deal with markup.
+This is the username for login using the local user system.
 
-=head2 can_be_published
+=head2 password
 
-This is a boolean field that suppresses the publishing of a
-comment, in order to allow bloggers to draft posts or to write
-private comments.
+This is the password for login using the local user system.
 
-=head2 pubdate
+=head2 homepage
 
-The date to publish this comment, or the date the post was published.
+=head2 real_name
 
-=head2 parent
+=head2 nickname
 
-The parent post or comment to which this comment belongs.
+=head2 age
 
-=head2 update_date
+=head2 gender
 
-A timestamp for when the post was last updated.
+These are all optional fields for the user to fill in if they wish.
+
+=head2 last_logon_ts
+
+A timestamp for when the user last successfully logged on.
+
+=head2 ctime
+
+A timestamp for when the account was created.
+
+=head2 mtime
+
+A timestamp for when the account was last updated.
 
 =head1 METHODS
 
@@ -78,12 +88,47 @@ __PACKAGE__->add_columns(
     url => {
         data_type         => 'varchar',
         size              => 1024,
-        is_nullable       => 0,
+        is_nullable       => 1,
     },
     username => {
         data_type         => 'varchar',
         size              => 50,
+        is_nullable       => 0,
+    },
+    password => {
+        data_type         => 'char',
+        size              => 40,
+        is_nullable       => 0,
+    },
+    homepage => {
+        data_type         => 'varchar',
+        size              => 1024,
         is_nullable       => 1,
+    },
+    real_name => {
+        data_type         => 'varchar',
+        size              => 100,
+        is_nullable       => 1,
+    },
+    nickname => {
+        data_type         => 'varchar',
+        size              => 100,
+        is_nullable       => 1,
+    },
+    age => {
+        data_type         => 'int',
+        size              => 3,
+        is_nullable       => 1,
+    },
+    gender => {
+        data_type         => 'char',
+        size              => 1,
+        is_nullable       => 1,
+    },
+    last_logon_ts => {
+        data_type => 'datetime',
+        is_nullable => 0,
+        set_on_create => 1,
     },
     ctime => {
         data_type => 'datetime',

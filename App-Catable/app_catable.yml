@@ -25,3 +25,15 @@ Plugin::Authentication:
                 id_field: id
                 role_relation: roles
                 role_field: name
+        local:  # realm
+            credential:
+                class:          Password
+                password_field: password
+                password_type:  hashed
+                password_hash_type: 'SHA-1'
+            store:
+                class:          DBIx::Class
+                user_class:     BlogDB::Account
+                id_field:       id
+                role_relation:  roles
+                role_field:     name
