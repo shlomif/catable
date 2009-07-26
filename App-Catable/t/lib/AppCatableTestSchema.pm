@@ -72,19 +72,19 @@ sub init_schema {
            connect_info => [ $dsn ],
        },
        authentication => {
-           default_realm => 'members',
+           default_realm => 'local',
            use_session => 1,
            realms => {
-                members => {
+                local => {
                     credential => {
                         class => 'Password',
-                        password_field => 'pass',
+                        password_field => 'password',
                         password_type => 'hashed',
                         password_hash_type => 'SHA-1'
                     },
                     store => {
                         class => 'DBIx::Class',
-                        user_class => 'DBIC::Person',
+                        user_class => 'BlogDB::Account',
                     }
                 }
            }
@@ -141,6 +141,13 @@ sub populate_schema {
 }
 
 sub create_test_data {
+    my ($self,$schema) = @_;
+
+    $schema->resultset('Account')->create( {
+        username    => 'user',
+        password    => '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', # 'password' SHA-1
+    } );
+
     return;
 }
 
