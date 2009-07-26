@@ -12,3 +12,9 @@
     padding-bottom: 0.2em;
     text-align: left;
 }
+
+span.error_message, span.error_constraint_required {
+    color: red;
+}
+
+
