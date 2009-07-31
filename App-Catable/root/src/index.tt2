@@ -12,6 +12,9 @@ Here's what you can find here:
 <a href="[% c.uri_for("/login") %]">Login using a Username+Password</a>
 </li>
 <li>
+<a href="[% c.uri_for("/register") %]">Register a new account</a>
+</li>
+<li>
 <a href="[% c.uri_for("/posts/add") %]">Add a post</a>
 </li>
 <li>
