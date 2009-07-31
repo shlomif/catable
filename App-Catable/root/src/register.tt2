@@ -1,0 +1,5 @@
+
+[% IF error %]
+  <div class="error">[% error %]</div>
+[% END %]
+[% form %]

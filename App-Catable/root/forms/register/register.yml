@@ -1,0 +1,33 @@
+--- #register.yml Registration form
+
+action: /register
+
+indicator: submit
+
+auto_id: %n
+attributes:
+    class: registration-form
+
+elements:
+    - type: Text
+      name: username
+      label: Username
+      constraints:
+          - Required
+
+    - type: Password
+      name: password
+      label: Password
+      constraints:
+          - Required
+
+    - type: Password
+      name: password_check
+      label: Password again
+      constraints:
+        - type: Equal
+          others: password
+
+    - type: Submit
+      name: submit
+      value: Register
