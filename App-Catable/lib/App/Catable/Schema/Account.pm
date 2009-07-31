@@ -13,7 +13,7 @@ App::Catable::Schema::Account - a schema class representing an account.
 
     my $account_rs = $schema->resultset('Account');
 
-    my $account = $posts_rs->find({
+    my $account = $account_rs->find({
         id => 2_400,
         });
 
