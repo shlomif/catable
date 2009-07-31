@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 7;
+use Test::More tests => 8;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -24,7 +24,14 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
     my $mech = Test::WWW::Mechanize::Catalyst->new;
 
     # TEST
-    $mech->get_ok("http://localhost/login");
+    $mech->get_ok("http://localhost/");
+
+    # TEST
+    $mech->follow_link_ok(
+        {
+            text_regex => qr{Login.*username}i,
+        }
+    );
 
     # TEST
     $mech->submit_form_ok(
