@@ -15,6 +15,8 @@ use Catalyst::Runtime '5.70';
 
 use Catalyst qw/
     -Debug
+    StackTrace
+
     ConfigLoader
     Authentication
     Authorization::Roles
