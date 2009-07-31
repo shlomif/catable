@@ -72,6 +72,9 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
     );
 
     # TEST
-    $mech->content_like( qr/Logged in as.*?user.*?Log out/ms, "Seem to be logged in" );
+    $mech->content_like(
+        qr/Logged in as.*?user.*?Log out/ms, 
+        "Seems to be logged in" 
+    );
 }
 
