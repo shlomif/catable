@@ -93,12 +93,12 @@ __PACKAGE__->add_columns(
     username => {
         data_type         => 'varchar',
         size              => 50,
-        is_nullable       => 0,
+        is_nullable       => 1,
     },
     password => {
         data_type         => 'char',
         size              => 40,
-        is_nullable       => 0,
+        is_nullable       => 1,
     },
     homepage => {
         data_type         => 'varchar',
@@ -146,6 +146,77 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key( qw( id ) );
 __PACKAGE__->add_unique_constraint ( [ 'url' ]);
 
+=head2 new
+
+=head4 Parameters
+
+Hashref containing C<username> and C<password>. You may also pass in a hashref under
+the C<options> key. That hashref is used as follows.
+
+The password will be hashed using the SHA-1 algorithm unless you pass in a type in 
+the C<password_type> hash key.
+
+For convenience, and to make it easier to borrow code, the hashing types supported
+are the same as those supported by the Catalyst Authentication plugin's Password
+credential type (as of Authentication v0.10011) - C<clear>, C<crypted>, 
+C<salted_hash>, C<hashed>.
+
+To support the C<salted_hash> and C<hashed> types you need to therefore pass
+in either C<password_salt_len> or C<password_pre_salt> and C<password_post_salt>
+as well.
+
+To support the C<crypted> type you will have to also provide a C<password_salt>. This
+is only used to create the password, and if you're using crypted then I assume you know
+how it all works anyway.
+
+Bright sparks will notice, then, that this means you can combine the 
+C<$c->config('Plugin::Authentication')->{$realm}->{credential}> config to the
+Authentication plugin with a C<password_salt> if you are using C<crypted>, and pass
+this whole hash as a reference under C<options>.
+
+=cut
+
+sub new {
+    my ($class, $args) = @_;
+
+    my $options = delete $args->{options} || {};
+
+    my $self = $class->next::method( $args );
+
+    $options->{password_type}      ||= 'hashed';
+    $options->{password_hash_type} ||= 'SHA-1';
+
+    my $password = $self->password;
+
+    if ($options->{'password_type'} eq 'crypted') {   
+        $password = crypt( $password, $options->{password_salt} );
+    } 
+    elsif ($options->{'password_type'} eq 'salted_hash') {
+        require Crypt::SaltedHash;
+        my $salt_len = $options->{'password_salt_len'} ? $options->{'password_salt_len'} : 0;
+
+        my $shash = Crypt::SaltedHash->new( salt_len => $salt_len );
+        $shash->add( $args->{password} );
+
+        $password = $shash->generate;
+    } 
+    elsif ($options->{'password_type'} eq 'hashed') {
+        my $d = Digest->new( $options->{'password_hash_type'} );
+        $d->add( $options->{'password_pre_salt'} || '' );
+        $d->add( $password );
+        $d->add( $options->{'password_post_salt'} || '' );
+
+        my $computed    = $d->clone()->digest;
+
+        # me running tests shows that this is the one that gives us a 40-char string
+        $password = unpack( "H*", $computed );
+    }
+
+    $self->password( $password );
+
+    return $self;
+}
+
 =head2 $self->display()
 
 The display name for the account - either the username or the OpenID URL. 
@@ -158,6 +229,7 @@ sub display
 
     return $self->username() || $self->url();
 }
+
 
 =head1 SEE ALSO
 
