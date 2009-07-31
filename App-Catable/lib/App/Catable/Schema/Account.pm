@@ -3,6 +3,8 @@ package App::Catable::Schema::Account;
 use strict;
 use warnings;
 
+use Digest;
+
 =head1 NAME
 
 App::Catable::Schema::Account - a schema class representing an account.
