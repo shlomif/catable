@@ -24,7 +24,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
     my $mech = Test::WWW::Mechanize::Catalyst->new;
 
     # TEST
-    $mech->get_ok("http://localhost/posts/add");
+    $mech->get_ok("http://localhost/blog/usersblog/posts/add");
 
     # TEST
     $mech->submit_form_ok(
@@ -48,7 +48,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
     );
 
     # TEST
-    $mech->get_ok("http://localhost/posts/list/");
+    $mech->get_ok("http://localhost/blog/usersblog/posts/list/");
 
     # TEST
     like(
@@ -63,7 +63,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
     my $mech = Test::WWW::Mechanize::Catalyst->new;
 
     # TEST
-    $mech->get_ok("http://localhost/posts/add");
+    $mech->get_ok("http://localhost/blog/usersblog/posts/add");
 
     # TEST
     $mech->submit_form_ok(
@@ -115,7 +115,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
     # TEST
     $mech->follow_link_ok(
         {
-            url => "http://localhost/posts/tag/cats",
+            url => "http://localhost/blog/usersblog/posts/tag/cats",
             text => "cats",
         },
         "Following the link to the cats tag",
