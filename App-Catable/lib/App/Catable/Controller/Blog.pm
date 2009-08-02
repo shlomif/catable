@@ -26,6 +26,8 @@ sub load_blog : Chained PathPart('blog') CaptureArgs(1) {
     $c->stash->{blog} = 
         $c->model('BlogDB')->resultset('Blog')->single({ url => $blog_name});
 
+    $c->log->debug( sprintf " load_blog found blog ID %d", $c->stash->{blog}->id );
+
     return;
 }
 
