@@ -19,30 +19,45 @@ Catalyst Controller.
 
 =head2 add
 
-Add a post.
+Add a post to *any* blog that the user is able to add a post to. 
+
+http://localhost:3000/posts/add
 
 =cut
 
 sub add : Local {
-    # Retrieve the usual Perl OO '$self' for this object. $c is the Catalyst
-    # 'Context' that's used to 'glue together' the various components
-    # that make up the application
-    my ($self, $c) = @_;
+    my ($self, $c, $form) = @_;
 
-    # Retrieve all of the book records as book model objects and store in the
-    # stash where they can be accessed by the TT template
-    # $c->stash->{books} = [$c->model('DB::Book')->all];
-    # But, for now, use this code until we create the model later
-    $c->stash->{books} = '';
+    # Idea: /posts/add would show a page wherein the user can add a post
+    # to any blog they own, i.e. show a generic add form with a list of
+    # available blogs as well.
+    # Then /blog/blog-name/posts/add would show just the add form for that
+    # blog.
 
     # Set the TT template to use.  You will almost always want to do this
     # in your action methods (action methods respond to user input in
     # your controllers).
     $c->stash->{template} = 'posts/add.tt2';
 
+    $c->detach('add_submit', [$form]) if ($form->submitted_and_valid);
     return;
 }
 
+=head2 add_to_blog
+
+The add action for adding a post to a specific blog, specified in the URL.
+
+http://localhost:3000/blog/$blog_name/posts/add
+
+=cut
+
+sub add_to_blog : Chained('/blog/load_blog') PathPart('posts/add') 
+                  Args(0) FormConfig {
+    my ($self, $c, $form) = @_;
+
+    $c->detach('add_submit', [$form]) if ($form->submitted_and_valid);
+    
+}
 =head2 list
 
 Displays a list of posts:
@@ -51,9 +66,10 @@ http://localhost:3000/posts/list
 
 =cut
 
-sub list : Path('list') {
+sub list : Chained('/blog/load_blog') PathPart('posts/list') Args(0) {
     my ($self, $c) = @_;
 
+    $c->log->debug( sprintf "Blog ID %d", $c->stash->{blog}->id );
     my @posts = $c->model('BlogDB')->resultset('Post')
         ->search( { can_be_published => 1,
                     pubdate => { "<=" => \"DATETIME('NOW')" },
@@ -69,65 +85,29 @@ sub list : Path('list') {
 
 =head2 add_submit
 
-This controller method handles the blog post submission.
+This controller method handles the blog post submission. It should
+be able to handle submission from either /posts/add or
+/blog/*/posts/add, but currently it only handles /blog/*/posts/add.
 
 =cut
 
-sub add_submit : Path('add-submit') {
+sub add_submit : Private {
     my ($self, $c) = @_;
 
-    my $req = $c->request;
+    my $form    = $c->req->args->[0];
+    my $params  = $form->params;
+    my $blog_id = $c->stash->{blog}->id;
 
-    my $title = $req->param('title');
-    my $body = $req->param('body');
-    my $tags_string  = $req->param('tags');
-    my $can_be_published = $req->param('can_be_published');
-    my $is_preview = defined($req->param('preview'));
-    my $is_submit = defined($req->param('submit'));
+    # TODO: iterate over blogs when coming from /posts/add
+    $c->stash->{new_post}
+    = $c->model('BlogDB')->resultset('Post')
+        ->create( {
+            %$params,
+            blog => $blog_id
+        } );
 
-    if (!($is_preview xor $is_submit))
-    {
-        $c->response->status(404);
-        $c->response->body("Cannot submit and preview at once.");
-    }
-    elsif ($is_preview)
-    {
-        $c->stash->{template} = "posts/add-preview.tt2";
-        $c->stash->{post_title} = $title;
-        $c->stash->{post_body} = $body;
-        $c->stash->{post_tags} = $tags_string;
-        $c->stash->{can_be_published} = $can_be_published ? 1 : 0;
-    }
-    else
-    {
-        my $now = DateTime->now();
-        # Add the post to the model.
-        my $new_post = $c->model('BlogDB::Post')->create(
-            {
-                title => $title,
-                body => $body,
-                can_be_published => $can_be_published ? 1 : 0,
-                pubdate => $now->clone(),
-                update_date => $now->clone(),
-            }
-        );
-
-        my @tags = 
-        (
-            grep { m{\A(?:[^[:punct:]\n\r\t]|\-)+\z}ms } 
-            split(/\s*,\s*/, $tags_string)
-        );
-
-        $new_post->assign_tags(
-            {
-                tags => \@tags,
-            }
-        );
-
-        $c->stash->{new_post} = $new_post;
-        
-        $c->stash->{template} = 'posts/add-submit.tt2';
-    }
+    
+    $c->stash->{template} = 'posts/add-submit.tt2';
 
     return;
 }
@@ -157,16 +137,18 @@ sub tag :Path(tag) :CaptureArgs(1)  {
     $c->stash->{template} = 'posts/tag.tt2';
 }
 
+=head2 get
 
-=head2 show
+A generic get function that loads a post. Has no path of its own, so
+cannot be landed on by URL. Chain from this when you're dealing with 
+a single post.
 
-Displays a post . Accepts the post number as an argument:
-
-http://localhost:3000/posts/show/1/
+http://localhost:3000/blog/blogname/post/1/...
 
 =cut
 
-sub show :Path(show) :CaptureArgs(1)  {
+
+sub get :Chained('../load_blog') PathPart('post') CaptureArgs(1) {
     my ($self, $c, $post_id) = @_;
 
     my $post = $c->model("BlogDB::Post")->find({id => $post_id });
@@ -178,6 +160,24 @@ sub show :Path(show) :CaptureArgs(1)  {
         $c->res->body( "Post '$post_id' not found." );
         $c->detach;
     }
+
+    $c->stash->{post} = $post;
+    return;
+}
+
+=head2 show
+
+Creates an endpoint for L<"get">. This sets up the default action to show
+the post.
+
+http://localhost:3000/blog/blogname/post/1/
+
+=cut
+
+sub show :Chained(get) PathPart('') Args(0)  {
+    my ($self, $c) = @_;
+
+    my $post = $c->stash->{post};
 
     # Taken from the HTML::Scrubber POD.
     my @default = (
@@ -251,7 +251,7 @@ http://localhost:3000/posts/add-comment
 
 =cut
 
-sub add_comment :Path(add-comment) {
+sub add_comment :Chained('post') Path('add-comment') {
     my ($self, $c) = @_;
 
     my $req = $c->request;
