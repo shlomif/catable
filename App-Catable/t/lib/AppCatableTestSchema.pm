@@ -148,7 +148,7 @@ sub create_test_data {
         password    => 'password', 
     } );
 
-    my $user_id = $schema->resultset('Account')->single( {username => 'user'} )->id
+    my $user_id = $schema->resultset('Account')->single( {username => 'user'} )->id;
     $schema->resultset('Blog')->create( {
         owner   => $user_id,
         title   => 'Blog',
