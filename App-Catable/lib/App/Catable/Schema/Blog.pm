@@ -123,6 +123,11 @@ __PACKAGE__->set_primary_key( qw( id ) );
 __PACKAGE__->add_unique_constraint ( [ 'url' ]);
 
 __PACKAGE__->has_one(qw( owner App::Catable::Schema::Account ));
+__PACKAGE__->has_many(
+    posts =>
+    "App::Catable::Schema::Post",
+    "blog"
+);
 
 =head1 SEE ALSO
 

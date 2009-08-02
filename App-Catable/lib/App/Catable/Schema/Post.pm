@@ -60,6 +60,10 @@ A timestamp for when the post was last updated.
 
 The child comments of the post.
 
+=head2 blog
+
+The blog on which this post has been posted.
+
 =head1 METHODS
 
 =cut
@@ -95,11 +99,16 @@ __PACKAGE__->add_columns(
         data_type => 'datetime',
         is_nullable => 0,
     },
+    blog    => {
+        data_type => 'bigint',
+        is_nullable => 0,
+    }
 );
 
 __PACKAGE__->set_primary_key( qw( id ) );
 __PACKAGE__->resultset_attributes( { order_by => [ 'pubdate' ] } );
 __PACKAGE__->add_unique_constraint( [ 'pubdate' ] );
+__PACKAGE__->has_one( qw( blog App::Catable::Schema::Blog ) );
 __PACKAGE__->has_many(
     comments => 'App::Catable::Schema::Comment',
     'parent_id',
