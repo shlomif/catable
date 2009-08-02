@@ -2,7 +2,7 @@ package App::Catable::Controller::Posts;
 
 use strict;
 use warnings;
-use base 'Catalyst::Controller';
+use base 'Catalyst::Controller::HTML::FormFu';
 
 use DateTime;
 use HTML::Scrubber;
@@ -52,8 +52,21 @@ http://localhost:3000/blog/$blog_name/posts/add
 =cut
 
 sub add_to_blog : Chained('/blog/load_blog') PathPart('posts/add') 
-                  Args(0) FormConfig {
-    my ($self, $c, $form) = @_;
+                  Args(0) FormConfig('posts/add') {
+    my ($self, $c) = @_;
+    
+    my $form = $c->stash->{form};
+    
+    $c->log->debug( sprintf " add_to_blog user [%d] blog owner [%d]",
+                    $c->user->id, $c->stash->{blog}->owner )
+        if( $c->user_exists);
+
+
+    unless ($c->user_exists && $c->user->id == $c->stash->{blog}->owner->id) {
+        $c->res->status(502);
+        $c->res->body("Unauthorized - this is not your blog.");
+    }
+    $c->stash->{template} = "posts/add.tt2";
 
     $c->detach('add_submit', [$form]) if ($form->submitted_and_valid);
     
