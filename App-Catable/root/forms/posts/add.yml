@@ -1,0 +1,37 @@
+action: 
+# indicator is the field that is used to test for form submission
+indicator: submit
+
+auto_id: %n
+attributes:
+    class: add-post-form
+
+# Start listing the form elements
+elements:
+    # The first element will be a text field for the username
+    - type: Text
+      name: post_title
+      label: Post Title
+      constraints:
+          - Required
+
+    # The password field
+    - type: Textarea
+      name: post_body
+      label: Post Body
+      constraints:
+          - Required
+
+    - type: Text
+      name: tags
+      label: Tags
+
+    - type: Checkbox
+      name: can_be_published
+      label: Publish?
+
+    # The Submit button
+    - type: Submit
+      name: submit
+      value: Add Post
+
