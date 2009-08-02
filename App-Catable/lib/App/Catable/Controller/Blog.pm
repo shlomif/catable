@@ -20,11 +20,13 @@ Gets the blog name from the URL and stashes the Row object.
 
 =cut
 
-sub get_blog : Local Path('') CaptureArgs(1) {
+sub load_blog : Chained PathPart('blog') CaptureArgs(1) {
     my ($self, $c, $blog_name) = @_;
    
     $c->stash->{blog} = 
-        $c->model('BlogDB')->resultset('Blog')->single({ name => $blog_name});
+        $c->model('BlogDB')->resultset('Blog')->single({ url => $blog_name});
+
+    return;
 }
 
 1;
