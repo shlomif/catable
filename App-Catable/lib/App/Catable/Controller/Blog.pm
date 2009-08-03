@@ -14,7 +14,7 @@ Catalyst Controller.
 
 =head1 METHODS
 
-=head2 get_blog
+=head2 load_blog
 
 Gets the blog name from the URL and stashes the Row object.
 
@@ -34,4 +34,16 @@ sub load_blog : Chained PathPart('blog') CaptureArgs(1) {
 1;
 
 __END__
+
+=head1 AUTHOR
+
+Alastair Douglas L<www.grammarpolice.co.uk>
+
+=head1 LICENSE
+
+This library is distributed under the MIT/X11 License: 
+
+L<http://www.opensource.org/licenses/mit-license.php>
+
+=cut
 

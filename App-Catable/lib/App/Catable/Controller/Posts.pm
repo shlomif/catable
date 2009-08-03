@@ -71,6 +71,7 @@ sub add_to_blog : Chained('/blog/load_blog') PathPart('posts/add')
     $c->detach('add_submit', [$form]) if ($form->submitted_and_valid);
     
 }
+
 =head2 list
 
 Displays a list of posts:
