@@ -47,6 +47,7 @@ sub are_tags_ok
     {
         my $cat_post = $posts_rs->create(
             {
+                blog => 1,
                 title => "A Cute Cat",
                 body => <<'EOF',
 <p>
@@ -141,6 +142,7 @@ EOF
 
         my $nouv_post = $posts_rs->create(
             {
+                blog => 1,
                 title => "Nouveau",
                 body => <<'EOF',
 <p>
@@ -441,6 +443,7 @@ EOF
 
         my $ocaml_post = $posts_rs->create(
             {
+                blog => 1,
                 title => "Standard ML / O'Caml Tip : Two or More Functions that Call Each Other",
                 body => <<'EOF',
 
