@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 14;
+use Test::More tests => 16;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -23,7 +23,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 {
     my $mech = Test::WWW::Mechanize::Catalyst->new;
 
-    # TEST
+    # TEST - test setup should have made the blog (and the user)
     $mech->get_ok("http://localhost/blog/usersblog/posts/add");
 
     # TEST
@@ -55,6 +55,15 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
         $mech->content, 
         qr/Grey and White Cat/, 
         "Contains the submitted body",
+    );
+    # TEST
+    $mech->get_ok("http://localhost/posts/list/");
+
+    # TEST
+    like(
+        $mech->content, 
+        qr/Grey and White Cat/, 
+        "Full list contains new post",
     );
 }
 
