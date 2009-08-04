@@ -1,6 +1,5 @@
 action: 
-# indicator is the field that is used to test for form submission
-indicator: submit
+indicator:
 
 auto_id: %n
 attributes:
@@ -30,8 +29,10 @@ elements:
       name: can_be_published
       label: Publish?
 
-    # The Submit button
     - type: Submit
       name: submit
       value: Add Post
 
+    - type: Submit
+      name: preview
+      value: Preview
