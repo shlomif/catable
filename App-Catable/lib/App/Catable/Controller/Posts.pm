@@ -71,21 +71,45 @@ sub add_to_blog : Chained('/blog/load_blog') PathPart('posts/add')
     $c->detach('add_submit', [$form]) if ($form->submitted_and_valid);
     
 }
+
 =head2 list
 
-Displays a list of posts:
+Lists all posts on all blogs
 
 http://localhost:3000/posts/list
 
 =cut
 
-sub list : Chained('/blog/load_blog') PathPart('posts/list') Args(0) {
+sub list : Local {
     my ($self, $c) = @_;
-
-    $c->log->debug( sprintf "Blog ID %d", $c->stash->{blog}->id );
     my @posts = $c->model('BlogDB')->resultset('Post')
         ->search( { can_be_published => 1,
                     pubdate => { "<=" => \"DATETIME('NOW')" },
+                  } );
+
+    $c->log->debug( sprintf "Found %d posts", scalar @posts );
+
+    $c->stash->{posts} = \@posts;
+    $c->stash->{template} = 'posts/list.tt2';
+
+    return;
+}
+
+=head2 list_blog
+
+Displays a list of posts on the current blog:
+
+http://localhost:3000/blog/*/posts/list
+
+=cut
+
+sub list_blog : Chained('/blog/load_blog') PathPart('posts/list') Args(0) {
+    my ($self, $c) = @_;
+
+    my @posts = $c->model('BlogDB')->resultset('Post')
+        ->search( { can_be_published => 1,
+                    pubdate          => { "<=" => \"DATETIME('NOW')" },
+                    blog             => $c->stash->{blog}->id,
                   } );
 
     $c->log->debug( sprintf "Found %d posts", scalar @posts );
@@ -161,10 +185,10 @@ http://localhost:3000/blog/blogname/post/1/...
 =cut
 
 
-sub get :Chained('../load_blog') PathPart('post') CaptureArgs(1) {
+sub get :Chained('/blog/load_blog') PathPart('posts') CaptureArgs(1) {
     my ($self, $c, $post_id) = @_;
 
-    my $post = $c->model("BlogDB::Post")->find({id => $post_id });
+    my $post = $c->model("BlogDB::Post")->find({ id => $post_id });
 
     if (!$post)
     {
