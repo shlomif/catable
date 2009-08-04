@@ -23,6 +23,21 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 {
     my $mech = Test::WWW::Mechanize::Catalyst->new;
 
+    $mech->get("http://localhost/blog/usersblog/posts/add");
+
+    #TEST
+    is( $mech->status, 402, "Cannot add post when not logged in" );
+
+    login( $mech, "altreus", "password" );
+
+    $mech->get("http://localhost/blog/usersblog/posts/add");
+
+    #TEST
+    is( $mech->status, 402, "This is not my blog!" );
+
+    logout( $mech );
+    login( $mech, "user", "password" );
+
     # TEST
     $mech->get_ok("http://localhost/blog/usersblog/posts/add");
 
@@ -61,6 +76,8 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 {
     sleep(1);
     my $mech = Test::WWW::Mechanize::Catalyst->new;
+
+    login( $mech, "user", "password" );
 
     # TEST
     $mech->get_ok("http://localhost/blog/usersblog/posts/add");
@@ -138,3 +155,25 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
     );
 }
 
+sub login {
+    my $mech     = shift;
+    my $username = shift;
+    my $password = shift;
+
+    $mech->get( "http://localhost/login" );
+    
+    $mech->submit_form(
+        fields =>
+        {
+            user => $username,
+            pass => $password,
+        },
+        button => "submit",
+    );
+}
+
+sub logout {
+    my $mech = shift;
+
+    $mech->get( "http://localhost/logout" );
+}
