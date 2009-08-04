@@ -1,5 +1,6 @@
 action: 
-indicator:
+# Indicator will be a subref in actions that use this yaml
+indicator: 
 
 auto_id: %n
 attributes:
@@ -36,3 +37,4 @@ elements:
     - type: Submit
       name: preview
       value: Preview
+
