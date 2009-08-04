@@ -62,8 +62,9 @@ sub register : Global Args(0) FormConfig {
 
         $c->authenticate( {
             username => $params->{username},
-            password => $params->{password}
-        });
+            password => $params->{password}, },
+            'local', # realm
+        );
         my $next_url 
             = delete $c->session->{goto_after_register}
            || $c->uri_for( '/' )
