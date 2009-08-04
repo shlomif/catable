@@ -61,9 +61,8 @@ sub add_to_blog : Chained('/blog/load_blog') PathPart('posts/add')
                     $c->user->id, $c->stash->{blog}->owner )
         if( $c->user_exists);
 
-
     unless ($c->user_exists && $c->user->id == $c->stash->{blog}->owner->id) {
-        $c->res->status(502);
+        $c->res->status(402);
         $c->res->body("Unauthorized - this is not your blog.");
     }
     $c->stash->{template} = "posts/add.tt2";
