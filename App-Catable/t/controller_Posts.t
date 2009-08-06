@@ -14,28 +14,38 @@ BEGIN { use_ok 'App::Catable::Controller::Posts' }
 ok( request('/posts')->is_success, 'Request should succeed' );
 
 # TEST
-ok( request('/posts/add')->is_success, 'add request should succeed' );
+ok( request('/blog/usersblog/posts')->is_success, 'Request should succeed' );
 
 # TEST
-ok( !request('/posts/add-submit')->is_success, 
-    'vanilla add-submit request should fail' 
-);
+ok( !request('/posts/fakeblog/posts')->is_success, 'Fake blog does not exist' );
 
-{
-    my $response = request(
-        POST(
-        "/posts/add-submit",
-        [
-            preview => 1,
-            title => "Here, Kitty, Kitty, Kitty",
-            body => "<p>The Kit has landed on its feet.</p>",
-        ]
-    )
+TODO: {
+    local $TODO = "Not yet implemented /posts/add behaviour";
+
+    # TEST
+    ok( request('/posts/add')->is_success, 'add request should succeed' );
+
+    # TEST
+    ok( !request('/posts/add-submit')->is_success, 
+        'vanilla add-submit request should fail' 
     );
 
-    # TEST  
-    ok(
-        $response->is_success(),
-        "request with preview, title and body should succeed."
-    );
-}  
+    {
+        my $response = request(
+            POST(
+            "/posts/add-submit",
+            [
+                preview => 1,
+                title => "Here, Kitty, Kitty, Kitty",
+                body => "<p>The Kit has landed on its feet.</p>",
+            ]
+        )
+        );
+
+        # TEST  
+        ok(
+            $response->is_success(),
+            "request with preview, title and body should succeed."
+        );
+    }
+}
