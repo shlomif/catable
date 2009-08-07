@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 9;
+use Test::More tests => 10;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -31,7 +31,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
         { 
             fields =>
             {
-                body => <<'EOF',
+                post_body => <<'EOF',
 <p>
 I've been chatting on Instant Messaging today, and accidently typed "lough"
 instead of "laugh". I noticed the spell checker did not highlight it when
@@ -53,11 +53,17 @@ I normally don't recall new words that I encounter, but I think I'll remember
 this one. Of course, it seems too obscure to be useful.
 </p>
 EOF
-                title => "Word of the Day: Lough",
+                post_title => "Word of the Day: Lough",
             },
             button => "preview",
         },
         "Submitting the preview form",
+    );
+
+    # TEST
+    $mech->content_like(
+        qr{<textarea[^>]*>.*?I normally don't recall new.*?</textarea>}ms,
+        "Preview worked.",
     );
 
     # TEST

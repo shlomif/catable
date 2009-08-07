@@ -1,2 +1,16 @@
+[%- USE HTML -%]
 [% title = 'Add new post' -%]
+<h2 id="preview">Post Preview</h2>
+
+<div class="post">
+<h3>[% HTML.escape(post_title) %]</h3>
+
+[% # TODO : verify that the HTML does not contain any malicious code
+   # and is well-formed.
+%]
+[% post_body %]
+</div>
+
+<h2>Submission Form</h2>
+
 [% form %]

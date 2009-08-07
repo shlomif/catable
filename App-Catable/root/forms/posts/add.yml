@@ -32,6 +32,11 @@ elements:
 
     # The Submit button
     - type: Submit
+      name: preview
+      value: Preview
+
+    # The Submit button
+    - type: Submit
       name: submit
       value: Add Post
 

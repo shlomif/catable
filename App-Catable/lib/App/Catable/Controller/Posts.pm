@@ -31,6 +31,10 @@ sub add : Local FormConfig
 
     my $form = $c->stash->{form};
 
+    # Commenting out because it's not needed.
+    # $form->process($c->req->params);
+    $form->process($c->req);
+
     # Idea: /posts/add would show a page wherein the user can add a post
     # to any blog they own, i.e. show a generic add form with a list of
     # available blogs as well.
