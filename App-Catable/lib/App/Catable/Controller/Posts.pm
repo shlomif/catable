@@ -127,6 +127,22 @@ sub list : Chained('/blog/load_blog') PathPart('posts/list') Args(0) {
 
 =cut
 
+sub list : Path('list')
+{
+    my ($self, $c) = @_;
+
+    my @posts = $c->model('BlogDB')->resultset('Post')
+        ->search( { can_be_published => 1,
+                    pubdate => { "<=" => \"DATETIME('NOW')" },
+                  } );
+
+    $c->log->debug( sprintf "Found %d posts", scalar @posts );
+
+    $c->stash->{posts} = \@posts;
+    $c->stash->{template} = 'posts/list.tt2';
+
+    return;
+}
 
 =head2 add_submit
 
@@ -225,10 +241,30 @@ http://localhost:3000/blog/blogname/post/1/
 
 =cut
 
-sub show :Chained(get) PathPart('') Args(0)  {
+=head2 $self->get2()
+
+Handles the '/posts' URL.
+
+=cut
+
+sub get2 :Chained('/') :PathPart('posts') :CaptureArgs(0) {
     my ($self, $c) = @_;
 
-    my $post = $c->stash->{post};
+    return;
+}
+
+# sub show :Chained(get) PathPart('') Args(0)  {
+sub show : Chained('get2') PathPart('show') Args(1)  {
+    my ($self, $c, $post_id) = @_;
+    my $post = $c->model("BlogDB::Post")->find({id => $post_id });
+
+    if (!$post)
+    {
+        $c->res->code( 404 );
+        # TODO : Possible XSS attack here?
+        $c->res->body( "Post '$post_id' not found." );
+        $c->detach;
+    }
 
     # Taken from the HTML::Scrubber POD.
     my @default = (

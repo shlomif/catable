@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 10;
+use Test::More tests => 11;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -64,6 +64,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
             {
                 post_body => "<p>Kit Kit Catty Skooter</p>",
                 post_title => "Grey and White Cat",
+                can_be_published => 1,
             },
             button => "preview",
         },
@@ -83,6 +84,12 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
             button => "submit",
         },
         "Submitting the submit form",    
+    );
+
+    # TEST
+    $mech->content_like(
+        qr{<h1>New Blog Entry Posted Successfully</h1>}ms,
+        "Post was submitted successfully"
     );
 
     # TEST
