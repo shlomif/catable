@@ -31,6 +31,14 @@ sub add : Local FormConfig
 
     my $form = $c->stash->{form};
 
+    $form->get_field({name => "post_blog"})
+        ->options(
+            [
+                map { +{ label => $_->title(), value => $_->title(), } }
+                ($c->model("BlogDB::Blog")->search({owner => $c->user->id()}))
+            ],
+        );
+
     # Commenting out because it's not needed.
     # $form->process($c->req->params);
     $form->process($c->req);
@@ -46,8 +54,13 @@ sub add : Local FormConfig
     # your controllers).
     $c->stash->{template} = 'posts/add.tt2';
 
-    if ($form->submitted_and_valid)
+    if ($form->submitted_and_valid && $c->req->params->{submit})
     {
+        
+        $c->stash->{blog} =
+            $c->model("BlogDB::Blog")
+              ->find({title => $c->req->params->{'post_blog'}})
+              ;
         $c->detach('add_submit', [$form]);
     }
 
@@ -91,6 +104,8 @@ http://localhost:3000/posts/list
 
 =cut
 
+=begin Removed
+
 sub list : Chained('/blog/load_blog') PathPart('posts/list') Args(0) {
     my ($self, $c) = @_;
 
@@ -108,6 +123,11 @@ sub list : Chained('/blog/load_blog') PathPart('posts/list') Args(0) {
     return;
 }
 
+=end Removed
+
+=cut
+
+
 =head2 add_submit
 
 This controller method handles the blog post submission. It should
@@ -123,11 +143,17 @@ sub add_submit : Private {
     my $params  = $form->params;
     my $blog_id = $c->stash->{blog}->id;
 
+    my $now = DateTime->now();
+
     # TODO: iterate over blogs when coming from /posts/add
     $c->stash->{new_post}
     = $c->model('BlogDB')->resultset('Post')
         ->create( {
-            %$params,
+            title => $params->{post_title},
+            body => $params->{post_body},
+            can_be_published => ($params->{can_be_published} ? 1 : 0),
+            pubdate => $now,
+            update_date => $now,
             blog => $blog_id
         } );
 

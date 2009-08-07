@@ -1,6 +1,6 @@
-action: 
+action: /posts/add
 # indicator is the field that is used to test for form submission
-indicator: submit
+# indicator: submit
 
 auto_id: %n
 attributes:
@@ -8,6 +8,12 @@ attributes:
 
 # Start listing the form elements
 elements:
+    - type: Select
+      name: post_blog
+      label: Blog
+      constraints:
+          - Required
+
     # The first element will be a text field for the username
     - type: Text
       name: post_title
