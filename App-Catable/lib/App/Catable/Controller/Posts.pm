@@ -25,8 +25,11 @@ http://localhost:3000/posts/add
 
 =cut
 
-sub add : Local {
-    my ($self, $c, $form) = @_;
+sub add : Local FormConfig
+{
+    my ($self, $c) = @_;
+
+    my $form = $c->stash->{form};
 
     # Idea: /posts/add would show a page wherein the user can add a post
     # to any blog they own, i.e. show a generic add form with a list of
@@ -39,7 +42,11 @@ sub add : Local {
     # your controllers).
     $c->stash->{template} = 'posts/add.tt2';
 
-    $c->detach('add_submit', [$form]) if ($form->submitted_and_valid);
+    if ($form->submitted_and_valid)
+    {
+        $c->detach('add_submit', [$form]);
+    }
+
     return;
 }
 

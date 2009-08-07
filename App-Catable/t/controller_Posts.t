@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 6;
+use Test::More tests => 5;
 
 use HTTP::Request::Common;
 
@@ -11,20 +11,15 @@ BEGIN { use_ok 'Catalyst::Test', 'App::Catable' }
 BEGIN { use_ok 'App::Catable::Controller::Posts' }
 
 # TEST
-ok( request('/posts')->is_success, 'Request should succeed' );
+ok( request('/posts')->is_success, 'Request to /posts should succeed' );
 
 # TEST
 ok( request('/posts/add')->is_success, 'add request should succeed' );
 
-# TEST
-ok( !request('/posts/add-submit')->is_success, 
-    'vanilla add-submit request should fail' 
-);
-
 {
     my $response = request(
         POST(
-        "/posts/add-submit",
+        "/posts/add",
         [
             preview => 1,
             title => "Here, Kitty, Kitty, Kitty",
