@@ -37,7 +37,7 @@ __END__
 
 =head1 AUTHOR
 
-Alastair Douglas L<www.grammarpolice.co.uk>
+Alastair Douglas L<http://www.grammarpolice.co.uk/>
 
 =head1 LICENSE
 
