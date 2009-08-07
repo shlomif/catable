@@ -1,0 +1,29 @@
+action: 
+# indicator is the field that is used to test for form submission
+indicator: create
+
+auto_id: %n
+attributes:
+    class: create-new-blog
+
+# Start listing the form elements
+elements:
+    # The URL portion identifying the blog.
+    - type: Text
+      name: url
+      label: Short ID (in URL)
+      constraints:
+          - Required
+
+    # The title of the blog.
+    - type: Text
+      name: title
+      label: Blog Title/Name
+      constraints:
+          - Required
+
+    # The Submit button
+    - type: Submit
+      name: create
+      value: Create
+

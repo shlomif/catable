@@ -14,11 +14,13 @@ Catalyst Controller.
 
 =head1 METHODS
 
-=head2 get_blog
+=head2 load_blog
 
 Gets the blog name from the URL and stashes the Row object.
 
 =cut
+
+=begin Removed
 
 sub load_blog : Chained PathPart('blog') CaptureArgs(1) {
     my ($self, $c, $blog_name) = @_;
@@ -31,7 +33,61 @@ sub load_blog : Chained PathPart('blog') CaptureArgs(1) {
     return;
 }
 
+=end Removed
+
+=cut
+
+=head2 $self->create($c)
+
+Creates a new blog. Accepts no arguments and ends the chain.
+
+=cut
+
+sub create : Local Args(0) FormConfig
+{
+    my ($self, $c) = @_;
+
+    my $form = $c->stash->{form};
+
+    $c->stash->{template} = "blog/create.tt2";
+    $c->stash->{'submitted'} = 0;
+
+    if ($form->submitted_and_valid)
+    {
+        my $params = $form->params;
+
+        $c->model('BlogDB')->resultset('Blog')
+            ->create(
+                {
+                    (map 
+                        { $_ => $params->{$_} }
+                        (qw(url title))
+                    ),
+                    theme => "catable",
+                    owner => $c->user->id(),
+                }
+            );
+
+        $c->stash->{'submitted'} = 1;
+        $c->stash->{'url'} = $params->{'url'};
+    }
+
+    return;
+}
+
 1;
 
 __END__
+
+=head1 AUTHOR
+
+Alastair Douglas L<http://www.grammarpolice.co.uk/>
+
+=head1 LICENSE
+
+This library is distributed under the MIT/X11 License: 
+
+L<http://www.opensource.org/licenses/mit-license.php>
+
+=cut
 

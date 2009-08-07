@@ -1,3 +1,5 @@
+# a blank action submits to the page it's on - but will probably set it 
+# explicitly in the action for that page.
 action: 
 # Indicator will be a subref in actions that use this yaml
 indicator: 
@@ -8,6 +10,12 @@ attributes:
 
 # Start listing the form elements
 elements:
+    - type: Select
+      name: post_blog
+      label: Blog
+      constraints:
+          - Required
+
     # The first element will be a text field for the username
     - type: Text
       name: post_title
@@ -30,6 +38,11 @@ elements:
       name: can_be_published
       label: Publish?
 
+    - type: Submit
+      name: preview
+      value: Preview
+
+    # The Submit button
     - type: Submit
       name: submit
       value: Add Post

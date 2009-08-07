@@ -25,8 +25,23 @@ http://localhost:3000/posts/add
 
 =cut
 
-sub add : Local {
-    my ($self, $c, $form) = @_;
+sub add : Local FormConfig
+{
+    my ($self, $c) = @_;
+
+    my $form = $c->stash->{form};
+
+    $form->get_field({name => "post_blog"})
+        ->options(
+            [
+                map { +{ label => $_->title(), value => $_->title(), } }
+                ($c->model("BlogDB::Blog")->search({owner => $c->user->id()}))
+            ],
+        );
+
+    # Commenting out because it's not needed.
+    # $form->process($c->req->params);
+    $form->process($c->req);
 
     # Idea: /posts/add would show a page wherein the user can add a post
     # to any blog they own, i.e. show a generic add form with a list of
@@ -39,7 +54,16 @@ sub add : Local {
     # your controllers).
     $c->stash->{template} = 'posts/add.tt2';
 
-    $c->detach('add_submit', [$form]) if ($form->submitted_and_valid);
+    if ($form->submitted_and_valid && $c->req->params->{submit})
+    {
+        
+        $c->stash->{blog} =
+            $c->model("BlogDB::Blog")
+              ->find({title => $c->req->params->{'post_blog'}})
+              ;
+        $c->detach('add_submit', [$form]);
+    }
+
     return;
 }
 
@@ -70,6 +94,7 @@ sub add_to_blog : Chained('/blog/load_blog') PathPart('posts/add')
     $c->detach('add_submit', [$form]) if ($form->submitted_and_valid);
     
 }
+
 =head2 list
 
 Displays a list of posts:
@@ -78,10 +103,33 @@ http://localhost:3000/posts/list
 
 =cut
 
+=begin Removed
+
 sub list : Chained('/blog/load_blog') PathPart('posts/list') Args(0) {
     my ($self, $c) = @_;
 
     $c->log->debug( sprintf "Blog ID %d", $c->stash->{blog}->id );
+    my @posts = $c->model('BlogDB')->resultset('Post')
+        ->search( { can_be_published => 1,
+                    pubdate => { "<=" => \"DATETIME('NOW')" },
+                  } );
+
+    $c->log->debug( sprintf "Found %d posts", scalar @posts );
+
+    $c->stash->{posts} = \@posts;
+    $c->stash->{template} = 'posts/list.tt2';
+
+    return;
+}
+
+=end Removed
+
+=cut
+
+sub list : Path('list')
+{
+    my ($self, $c) = @_;
+
     my @posts = $c->model('BlogDB')->resultset('Post')
         ->search( { can_be_published => 1,
                     pubdate => { "<=" => \"DATETIME('NOW')" },
@@ -110,11 +158,17 @@ sub add_submit : Private {
     my $params  = $form->params;
     my $blog_id = $c->stash->{blog}->id;
 
+    my $now = DateTime->now();
+
     # TODO: iterate over blogs when coming from /posts/add
     $c->stash->{new_post}
     = $c->model('BlogDB')->resultset('Post')
         ->create( {
-            %$params,
+            title => $params->{post_title},
+            body => $params->{post_body},
+            can_be_published => ($params->{can_be_published} ? 1 : 0),
+            pubdate => $now,
+            update_date => $now,
             blog => $blog_id
         } );
 
@@ -186,10 +240,30 @@ http://localhost:3000/blog/blogname/post/1/
 
 =cut
 
-sub show :Chained(get) PathPart('') Args(0)  {
+=head2 $self->get2()
+
+Handles the '/posts' URL.
+
+=cut
+
+sub get2 :Chained('/') :PathPart('posts') :CaptureArgs(0) {
     my ($self, $c) = @_;
 
-    my $post = $c->stash->{post};
+    return;
+}
+
+# sub show :Chained(get) PathPart('') Args(0)  {
+sub show : Chained('get2') PathPart('show') Args(1)  {
+    my ($self, $c, $post_id) = @_;
+    my $post = $c->model("BlogDB::Post")->find({id => $post_id });
+
+    if (!$post)
+    {
+        $c->res->code( 404 );
+        # TODO : Possible XSS attack here?
+        $c->res->body( "Post '$post_id' not found." );
+        $c->detach;
+    }
 
     # Taken from the HTML::Scrubber POD.
     my @default = (

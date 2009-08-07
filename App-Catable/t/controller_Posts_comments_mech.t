@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 9;
+use Test::More tests => 14;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -24,6 +24,36 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
     my $mech = Test::WWW::Mechanize::Catalyst->new;
 
     # TEST
+    $mech->get_ok("http://localhost/");
+
+    # TEST
+    $mech->follow_link_ok(
+        {
+            text_regex => qr{login.*?username}i,
+        },
+        "Followed the link to the registration",
+    );
+
+    # TEST
+    $mech->submit_form_ok(
+        {
+            fields =>
+            {
+                user => "user",
+                pass => "password",
+            },
+            button => "submit",
+        },
+        "Submitting the login form",
+    );
+
+    # TEST
+    $mech->content_like(
+        qr/Logged in as.*?user.*?Log out/ms, 
+        "Seems to be logged in" 
+    );    
+
+    # TEST
     $mech->get_ok("http://localhost/posts/add");
 
     # TEST
@@ -31,7 +61,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
         { 
             fields =>
             {
-                body => <<'EOF',
+                post_body => <<'EOF',
 <p>
 I've been chatting on Instant Messaging today, and accidently typed "lough"
 instead of "laugh". I noticed the spell checker did not highlight it when
@@ -49,15 +79,22 @@ languages</a>.
 </p>
 
 <p>
-I normally don't recall new words that I encounter, but I think I'll remember
+I normally do not recall new words that I encounter, but I think I'll remember
 this one. Of course, it seems too obscure to be useful.
 </p>
 EOF
-                title => "Word of the Day: Lough",
+                post_title => "Word of the Day: Lough",
+                can_be_published => 1,
             },
             button => "preview",
         },
         "Submitting the preview form",
+    );
+
+    # TEST
+    $mech->content_like(
+        qr{<textarea[^>]*>.*?I normally do not recall new.*?</textarea>}ms,
+        "Preview worked.",
     );
 
     # TEST
@@ -73,7 +110,8 @@ EOF
         {
             text => "the New Post",
             url_regex => qr{/posts/show},
-        }
+        },
+        "Followed the link to the new post",
     );
 
     my $post_uri = $mech->uri();
