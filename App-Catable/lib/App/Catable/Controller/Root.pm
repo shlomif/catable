@@ -114,6 +114,9 @@ sub blog : Local CaptureArgs(1) {
 
 The action for a single post: /post/*
 
+Note that the actions for these are defined in Controller::Posts to save
+fragmenting the code into lots of small files.
+
 =cut
 
 sub post : Local CaptureArgs(1) {

@@ -126,14 +126,31 @@ sub list : Chained('/blog/load_blog') PathPart('posts/list') Args(0) {
 
 =cut
 
-sub list : Path('list')
+=head2 list
+
+Handles the URL C</posts/list>. In some cases this may be the result
+of forwarding (e.g. from C</blog/*>).
+
+If there is a blog in the stash then it will be used to filter the list.
+Otherwise it will just list all posts from all blogs.
+
+=cut
+
+sub list : Local
 {
     my ($self, $c) = @_;
 
+    my %search_params;
+
+    @search_params{qw( can_be_published pubdate )}
+        = ( 1,  { "<=" => \"DATETIME('NOW')" } );
+
+    # Add the blog filter if we have a blog.
+    $search_params{blog} = $c->stash->{blog}->id
+        if exists $c->stash->{blog};
+    
     my @posts = $c->model('BlogDB')->resultset('Post')
-        ->search( { can_be_published => 1,
-                    pubdate => { "<=" => \"DATETIME('NOW')" },
-                  } );
+        ->search( \%search_params );
 
     $c->log->debug( sprintf "Found %d posts", scalar @posts );
 
