@@ -37,19 +37,20 @@ sub load_blog : Chained PathPart('blog') CaptureArgs(1) {
 
 =cut
 
-=head2 $self->create($c)
+=head2 $self->create_blog($c)
 
-Creates a new blog. Accepts no arguments and ends the chain.
+Creates a new blog. Handles the '/create-blog' URL - accepts no arguments and 
+ends the chain.
 
 =cut
 
-sub create : Local Args(0) FormConfig
+sub create_blog : Path('/create-blog') Args(0) FormConfig
 {
     my ($self, $c) = @_;
 
     my $form = $c->stash->{form};
 
-    $c->stash->{template} = "blog/create.tt2";
+    $c->stash->{template} = "create-blog.tt2";
     $c->stash->{'submitted'} = 0;
 
     if ($form->submitted_and_valid)
