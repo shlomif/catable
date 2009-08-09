@@ -96,6 +96,34 @@ sub logout : Local {
     return;
 }
 
+=head2 blog
+
+The action for /blog/*
+
+=cut
+
+sub blog : Local CaptureArgs(1) {
+    my ($self, $c, $blog_name) = @_; 
+
+    $c->stash->{blog} 
+        = $c->forward( $c->action_for( '/blog/load_blog/' . $blog_name ));
+    return;
+}
+
+=head2 post
+
+The action for a single post: /post/*
+
+=cut
+
+sub post : Local CaptureArgs(1) {
+    my ($self, $c, $post_id) = @_; 
+
+    $c->stash->{post} 
+        = $c->forward( $c->action_for( '/post/load_post/' . $post_id ));
+    return;
+}
+
 =head2 end
 
 Attempt to render a view, if needed.

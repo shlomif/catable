@@ -16,26 +16,27 @@ Catalyst Controller.
 
 =head2 load_blog
 
-Gets the blog name from the URL and stashes the Row object.
+Private action /blog/load_blog/*
+
+Takes the blog name and returns the Row object for that blog.
+
+    my $blog = $c->forward( $c->action_for( '/blog/load_blog/' . $blog_name) );
+
+See also C<blog> in C<App::Catable::Controller::Root>.
 
 =cut
 
-=begin Removed
-
-sub load_blog : Chained PathPart('blog') CaptureArgs(1) {
+sub load_blog : Private Args(1){
     my ($self, $c, $blog_name) = @_;
    
-    $c->stash->{blog} = 
+    my $blog = 
         $c->model('BlogDB')->resultset('Blog')->single({ url => $blog_name});
 
-    $c->log->debug( sprintf " load_blog found blog ID %d", $c->stash->{blog}->id );
+    $c->log->debug( sprintf " load_blog found blog ID %d", 
+                              $c->stash->{blog}->id );
 
-    return;
+    return $blog;
 }
-
-=end Removed
-
-=cut
 
 =head2 $self->create($c)
 
