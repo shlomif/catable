@@ -203,67 +203,45 @@ sub tag :Path(tag) :CaptureArgs(1)  {
     $c->stash->{template} = 'posts/tag.tt2';
 }
 
-=head2 get
-
-A generic get function that loads a post. Has no path of its own, so
-cannot be landed on by URL. Chain from this when you're dealing with 
-a single post.
-
-http://localhost:3000/blog/blogname/post/1/...
-
-=cut
-
-
-sub get :Chained('../load_blog') PathPart('post') CaptureArgs(1) {
-    my ($self, $c, $post_id) = @_;
-
-    my $post = $c->model("BlogDB::Post")->find({id => $post_id });
-
-    if (!$post)
-    {
-        $c->res->code( 404 );
-        # TODO : Possible XSS attack here?
-        $c->res->body( "Post '$post_id' not found." );
-        $c->detach;
-    }
-
-    $c->stash->{post} = $post;
-    return;
-}
-
 =head2 show
 
-Creates an endpoint for L<"get">. This sets up the default action to show
-the post.
+Handles the URL C</posts/show/*>
 
-http://localhost:3000/blog/blogname/post/1/
-
-=cut
-
-=head2 $self->get2()
-
-Handles the '/posts' URL.
+This function forwards to the URL C</blog/*/posts/show/*> by getting
+the blog this post belongs to from the post itself. This is to make
+it so that the final template picks the correct CSS template for the
+blog this post belongs to.
 
 =cut
 
-sub get2 :Chained('/') :PathPart('posts') :CaptureArgs(0) {
-    my ($self, $c) = @_;
+sub show : Args(1)  {
+    my ($self, $c, $post_id) = @_;
 
-    return;
+    my $post = $c->forward( $c->action_for('/posts/get/' . $post_id) );
+
+    # FIXME: This probably introduces an unnecessary db lookup, as /blog/*
+    # will lookup the blog by name, when we already have the blog. Perhaps
+    # implement a Private URL for showing a post, and forward to that from
+    # both here, and from the handler for /blog/*/posts/show/*
+    $c->detach( $c->action_for( sprintf '/blog/%s/posts/show/%d',
+                                $post->blog->name,
+                                $post->id ) );
 }
 
-# sub show :Chained(get) PathPart('') Args(0)  {
-sub show : Chained('get2') PathPart('show') Args(1)  {
-    my ($self, $c, $post_id) = @_;
-    my $post = $c->model("BlogDB::Post")->find({id => $post_id });
+=head2 show_by_blog
 
-    if (!$post)
-    {
-        $c->res->code( 404 );
-        # TODO : Possible XSS attack here?
-        $c->res->body( "Post '$post_id' not found." );
-        $c->detach;
-    }
+Chains from the '/blog/load_blog' function. This handles the URL 
+'/blog/*/post/show/*'.
+
+This is for the direct URL, or for a forwarded request from '/posts/show/*'
+
+=cut
+
+sub show_by_blog :Chained('/blog/load_blog') PathPart('posts/show') CaptureArgs(1) {
+    my ($self, $c, $post_id) = @_;
+
+    my $post = $c->stash->{post}
+            || $c->forward( $c->action_for('/posts/get/' . $post_id) );
 
     # Taken from the HTML::Scrubber POD.
     my @default = (
@@ -304,7 +282,7 @@ sub show : Chained('get2') PathPart('show') Args(1)  {
     my @rules = (
         script => 0,
         img => {
-            src => qr{^(?!http://)}i, # only relative image links allowed
+            src => qr{^(?!https?://)}i, # only relative image links allowed
             alt => 1,                 # alt attribute allowed
             '*' => 0,                 # deny all other attributes
         },
@@ -325,9 +303,33 @@ sub show : Chained('get2') PathPart('show') Args(1)  {
 
     $c->stash (post => $post);
     $c->stash (scrubber => $scrubber);
-
-    $c->stash->{template} = 'posts/show.tt2';
+    return;
 }
+
+=head2 load_post
+
+Creates a private URL '/post/load_post/*'. Returns the post object by ID.
+
+  my $post = $c->forward( $c->action_for( '/post/load_post/' . $post_id ));
+
+=cut
+
+sub load_post : Private Args(1) {
+    my ($self, $c, $post_id) = @_;
+
+    my $post = $c->model("BlogDB::Post")->find({id => $post_id });
+
+    if (!$post)
+    {
+        $c->res->code( 404 );
+        # TODO : Possible XSS attack here?
+        $c->res->body( "Post '$post_id' not found." );
+        $c->detach;
+    }
+
+    return $post;
+}
+
 
 =head2 add_comment
 
