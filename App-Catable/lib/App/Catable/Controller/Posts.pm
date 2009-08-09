@@ -31,68 +31,36 @@ sub add : Local FormConfig
 
     my $form = $c->stash->{form};
 
-    $form->get_field({name => "post_blog"})
-        ->options(
-            [
-                map { +{ label => $_->title(), value => $_->title(), } }
-                ($c->model("BlogDB::Blog")->search({owner => $c->user->id()}))
-            ],
-        );
+    if( not exists $c->stash->{blog} ) {
+        # Add all blogs this user owns to the list.
+        $form->get_field({name => "post_blog"})
+            ->options(
+                [
+                    map { +{ label => $_->title(), value => $_->title(), } }
+                    ($c->model("BlogDB::Blog")->search({owner => $c->user->id()}))
+                ],
+            );
 
-    # Commenting out because it's not needed.
-    # $form->process($c->req->params);
-    $form->process($c->req);
+        $form->process($c->req);
+    }
 
-    # Idea: /posts/add would show a page wherein the user can add a post
-    # to any blog they own, i.e. show a generic add form with a list of
-    # available blogs as well.
-    # Then /blog/blog-name/posts/add would show just the add form for that
-    # blog.
-
-    # Set the TT template to use.  You will almost always want to do this
-    # in your action methods (action methods respond to user input in
-    # your controllers).
     $c->stash->{template} = 'posts/add.tt2';
 
     if ($form->submitted_and_valid && $c->req->params->{submit})
     {
-        
-        $c->stash->{blog} =
-            $c->model("BlogDB::Blog")
-              ->find({title => $c->req->params->{'post_blog'}})
-              ;
+        my $params = $form->params;
+
+        if( exists $params->{post_blog} ) {
+        {
+            $c->stash->{blog} =
+                $c->model("BlogDB::Blog")
+                  ->find({title => $c->req->params->{'post_blog'}})
+                  ;
+        }
         $c->detach('add_submit', [$form]);
     }
 
     return;
-}
-
-=head2 add_to_blog
-
-The add action for adding a post to a specific blog, specified in the URL.
-
-http://localhost:3000/blog/$blog_name/posts/add
-
-=cut
-
-sub add_to_blog : Chained('/blog/load_blog') PathPart('posts/add') 
-                  Args(0) FormConfig('posts/add') {
-    my ($self, $c) = @_;
-    
-    my $form = $c->stash->{form};
-    
-    $c->log->debug( sprintf " add_to_blog user [%d] blog owner [%d]",
-                    $c->user->id, $c->stash->{blog}->owner )
-        if( $c->user_exists);
-
-    unless ($c->user_exists && $c->user->id == $c->stash->{blog}->owner->id) {
-        $c->res->status(402);
-        $c->res->body("Unauthorized - this is not your blog.");
-    }
-    $c->stash->{template} = "posts/add.tt2";
-
-    $c->detach('add_submit', [$form]) if ($form->submitted_and_valid);
-    
 }
 
 =head2 list

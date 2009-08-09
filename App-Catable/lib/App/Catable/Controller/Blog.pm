@@ -92,6 +92,24 @@ sub list_posts : Chained('/blog') Args(0) {
     $c->detach( $c->action_for( '/posts/list' ) );
 }
 
+=head2 add_blog
+
+Handles C</blog/*/posts/add>.
+
+The add action for adding a post to a specific blog, specified in the URL.
+
+Merely forwards control to the C<add> action in the Posts controller.
+
+=cut
+
+sub add_post : Chained('/blog') PathPart('posts/add') 
+                  Args(0) {
+    my ($self, $c) = @_;
+    
+    $c->detatch( $c->action_for( '/posts/add' ));
+}
+
+
 1;
 
 __END__
