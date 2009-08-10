@@ -92,7 +92,7 @@ sub list_posts : Chained('/blog') Args(0) {
     $c->detach( $c->action_for( '/posts/list' ) );
 }
 
-=head2 add_blog
+=head2 add_post
 
 Handles C</blog/*/posts/add>.
 
@@ -109,6 +109,20 @@ sub add_post : Chained('/blog') PathPart('posts/add')
     $c->detatch( $c->action_for( '/posts/add' ));
 }
 
+=head2 tag
+
+Handles C</blog/*/posts/tag/*>
+
+Forwards control to C</posts/tag/*> (see L<App::Catable::Controller::Posts>),
+which is designed to act with or without a blog filtering it.
+
+=cut
+
+sub tag : Chained('/blog') PathPart('posts/tag') CaptureArgs(1) {
+    my ($self, $c, $tag) = @_;
+
+    $c->detach( $c->action_for( '/posts/tag/' . $tag ) );
+}
 
 1;
 
