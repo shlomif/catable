@@ -33,10 +33,11 @@ sub add : Local FormConfig
 
     if( not exists $c->stash->{blog} ) {
         # Add all blogs this user owns to the list.
+        # TODO: Perhaps this could be checkboxes instead?
         $form->get_field({name => "post_blog"})
             ->options(
                 [
-                    map { +{ label => $_->title(), value => $_->title(), } }
+                    map { +{ label => $_->title(), value => $_->url(), } }
                     ($c->model("BlogDB::Blog")->search({owner => $c->user->id()}))
                 ],
             );
@@ -110,8 +111,8 @@ sub list : Local
 
     my %search_params;
 
-    @search_params{qw( can_be_published pubdate )}
-        = ( 1,  { "<=" => \"DATETIME('NOW')" } );
+    $search_params{can_be_published} = 1;
+    $search_params{pubdate} = { "<=" => \"DATETIME('NOW')" };
 
     # Add the blog filter if we have a blog.
     $search_params{blog} = $c->stash->{blog}->id
@@ -165,27 +166,39 @@ sub add_submit : Private {
 
 =head2 tag
 
-Displays a posts listing of a tag . Accepts the tag query as a parameter
+Handles the URL C</posts/tag/*>. Displays all posts with the selected
+tag.
 
-http://localhost:3000/posts/tag/cute-cats
+May be the result of forwarding, e.g. from C</blog/*/posts/tag/*>. In
+the case that there is a blog in the stash, it will be used to narrow
+the scope of the search.
 
 =cut
 
-sub tag :Path(tag) :CaptureArgs(1)  {
+#TODO: Accept multiple tags? AND or OR them together?
+#FIXME: Is it CaptureArgs for a reason? do we intend chaining?
+sub tag :Local :CaptureArgs(1)  {
     my ($self, $c, $tags_query) = @_;
 
-    my $tag = $c->model("BlogDB::Tag")->find({label => $tags_query});
+    my $posts_rs = $c->model("BlogDB::Tag")
+                     ->find({label => $tags_query})
+                     ->posts;
 
-    if (!$tag)
+    if( exists $c->stash->{blog} ) {
+        $posts_rs = $posts_rs->find({ blog_id => $c->stash->{blog}->id });
+    }
+
+    # TODO: find out how to check there were results.
+    if (!$posts_rs)
     {
         $c->res->code( 404 );
         $c->res->body( "Tag '$tags_query' not found." );
         $c->detach;
     }
 
-    $c->stash (tag => $tag);
+    $c->stash( posts => [ $posts_rs->all ]);
 
-    $c->stash->{template} = 'posts/tag.tt2';
+    $c->stash->{template} = 'posts/list.tt2';
 }
 
 =head2 show
@@ -324,7 +337,7 @@ http://localhost:3000/posts/add-comment
 
 =cut
 
-sub add_comment :Chained('post') Path('add-comment') {
+sub add_comment :Chained('load_post') Path('add-comment') {
     my ($self, $c) = @_;
 
     my $req = $c->request;
