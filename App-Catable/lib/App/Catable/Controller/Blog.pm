@@ -79,7 +79,7 @@ sub create : Local Args(0) FormConfig
 =head2 list_posts
 
 Handles the URL C</blog/*>. Chains from C<sub blog> in 
-Controller::Root and ends that chain right there.
+Controller::Root to load the actual blog and ends the chain.
 
 Lists all posts in this blog. Forwards to Controller::Posts to do the
 actual hard work.
