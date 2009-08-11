@@ -117,6 +117,10 @@ __PACKAGE__->has_many(
     tags_assoc => 'App::Catable::Schema::PostTagAssoc',
     'post_id',
 );
+__PACKAGE__->many_to_many(
+    tags   => 'tags_assoc', 
+    'tag'
+);
 
 =head2 $self->add_comment({ %comment_params })
 

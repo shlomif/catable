@@ -67,6 +67,10 @@ __PACKAGE__->has_many(
     posts_assoc => 'App::Catable::Schema::PostTagAssoc',
     'tag_id',
 );
+__PACKAGE__->many_to_many(
+    posts   => 'posts_assoc', 
+    'post'
+);
 
 =head2 $self->posts_rs()
 
