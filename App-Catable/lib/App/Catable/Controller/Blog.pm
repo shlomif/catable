@@ -49,6 +49,10 @@ sub create_blog : Path('/create-blog') Args(0) FormConfig
 {
     my ($self, $c) = @_;
 
+    if( not $c->user_exists ) {
+        $c->res->status( 400 );
+        $c->res->body( 'You must log in to create a blog' );
+    }
     my $form = $c->stash->{form};
 
     $c->stash->{template} = "create-blog.tt2";
