@@ -141,27 +141,6 @@ sub add_comment
     );
 }
 
-=head2 $self->tags_rs()
-
-Gets a result set of the tags associated with this post. See:
-L<App::Catable::Schema::Tag> .
-
-=cut
-
-sub tags_rs
-{
-    my $self = shift;
-
-    return $self->tags_assoc_rs()->search_related_rs(
-        'tag',
-        {},
-        {
-            order_by => [qw(label)],
-        },
-    );
-}
-
-
 sub _get_tags_list
 {
     my $self = shift;

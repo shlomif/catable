@@ -72,25 +72,6 @@ __PACKAGE__->many_to_many(
     'post'
 );
 
-=head2 $self->posts_rs()
-
-Returns a result set for the posts that are tagged with this tag.
-
-=cut
-
-sub posts_rs
-{
-    my $self = shift;
-
-    return $self->posts_assoc_rs()->search_related_rs(
-        'post',
-        {},
-        {
-            order_by => [qw(pubdate)],
-        },
-    );
-}
-
 =head1 SEE ALSO
 
 L<App::Catable::Schema>, L<App::Catable>, L<DBIx::Class>
