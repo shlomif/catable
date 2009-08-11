@@ -52,7 +52,6 @@ sub add : Local FormConfig
         my $params = $form->params;
 
         if( exists $params->{post_blog} ) {
-        {
             $c->stash->{blog} =
                 $c->model("BlogDB::Blog")
                   ->find({title => $c->req->params->{'post_blog'}})
