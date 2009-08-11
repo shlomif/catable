@@ -15,7 +15,7 @@ Here's what you can find here:
 <a href="[% c.uri_for("/register") %]">Register a new account</a>
 </li>
 <li>
-<a href="[% c.uri_for("/blog/create") %]">Create a new blog</a>
+<a href="[% c.uri_for("/create-blog/") %]">Create a new blog</a>
 </li>
 <li>
 <a href="[% c.uri_for("/posts/add") %]">Add a post</a>
