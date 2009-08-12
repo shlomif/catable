@@ -117,7 +117,7 @@ sub add_post : Chained('/blog') PathPart('posts/add')
                   Args(0) {
     my ($self, $c) = @_;
     
-    $c->detatch( $c->action_for( '/posts/add' ));
+    $c->detach( '/posts/add' );
 }
 
 =head2 tag
@@ -132,7 +132,7 @@ which is designed to act with or without a blog filtering it.
 sub tag : Chained('/blog') PathPart('posts/tag') CaptureArgs(1) {
     my ($self, $c, $tag) = @_;
 
-    $c->detach( $c->action_for( '/posts/tag/' . $tag ) );
+    $c->detach( '/posts/tag/', [$tag] );
 }
 
 1;
