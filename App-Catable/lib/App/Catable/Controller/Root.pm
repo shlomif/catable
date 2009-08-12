@@ -108,7 +108,7 @@ sub blog : Chained('/') CaptureArgs(1) {
     $c->log->debug( ' === Root::blog' );
 
     $c->stash->{blog} 
-        = $c->forward( '/blog/load_blog', [$blog_name] );
+        = $c->forward( '/blogs/load_blog', [$blog_name] );
     return;
 }
 
