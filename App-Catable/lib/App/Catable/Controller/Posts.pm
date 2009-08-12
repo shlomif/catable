@@ -311,7 +311,7 @@ Creates a private URL '/posts/load_post/*'. Returns the post object by ID.
 
 =cut
 
-sub load_post : Private Args(1) {
+sub load_post : Private {
     my ($self, $c, $post_id) = @_;
 
     my $post = $c->model("BlogDB::Post")->find({id => $post_id });
