@@ -1,4 +1,4 @@
-package App::Catable::Controller::Blog;
+package App::Catable::Controller::Blogs;
 
 use strict;
 use warnings;
@@ -28,6 +28,8 @@ See also C<blog> in C<App::Catable::Controller::Root>.
 
 sub load_blog : Private Args(1){
     my ($self, $c, $blog_name) = @_;
+
+    $c->log->debug( ' == Blog::load_blog' );
    
     my $blog = 
         $c->model('BlogDB')->resultset('Blog')->single({ url => $blog_name});
@@ -91,10 +93,10 @@ actual hard work.
 
 =cut
 
-sub list_posts : Chained('/blog') Args(0) {
+sub list_posts : Chained('/blog') PathPart('') Args(0) {
     my ($self, $c) = @_;
 
-    $c->detach( $c->action_for( '/posts/list' ) );
+    $c->detach( '/posts/list' );
 }
 
 =head2 add_post
