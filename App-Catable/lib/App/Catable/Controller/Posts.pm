@@ -53,7 +53,7 @@ sub add : Local FormConfig
 
     $c->stash->{template} = 'posts/add.tt2';
 
-    if ($form->submitted_and_valid && $c->req->params->{submit})
+    if ($form->submitted_and_valid)
     {
         my $params = $form->params;
 

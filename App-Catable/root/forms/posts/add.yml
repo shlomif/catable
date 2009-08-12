@@ -1,8 +1,7 @@
 # a blank action submits to the page it's on - but will probably set it 
 # explicitly in the action for that page.
 action: 
-# Indicator will be a subref in actions that use this yaml
-indicator: 
+indicator: submit
 
 auto_id: %n
 attributes:
