@@ -102,11 +102,13 @@ The action for /blog/*
 
 =cut
 
-sub blog : Local CaptureArgs(1) {
+sub blog : Chained('/') CaptureArgs(1) {
     my ($self, $c, $blog_name) = @_; 
 
+    $c->log->debug( ' === Root::blog' );
+
     $c->stash->{blog} 
-        = $c->forward( $c->action_for( '/blog/load_blog/' . $blog_name ));
+        = $c->forward( '/blog/load_blog', [$blog_name] );
     return;
 }
 
@@ -119,11 +121,11 @@ fragmenting the code into lots of small files.
 
 =cut
 
-sub post : Local CaptureArgs(1) {
+sub post : Chained('/') CaptureArgs(1) {
     my ($self, $c, $post_id) = @_; 
 
     $c->stash->{post} 
-        = $c->forward( $c->action_for( '/post/load_post/' . $post_id ));
+        = $c->forward( '/posts/load_post/', [$post_id] );
     return;
 }
 
