@@ -31,7 +31,13 @@ sub add : Local FormConfig
 
     my $form = $c->stash->{form};
 
-    if( not exists $c->stash->{blog} ) {
+    if( exists $c->stash->{blog} ) {
+        # Don't show the Blog field at all if we are working on a blog
+        $form->remove_element(
+            $form->get_field( { name => 'post_blog' } )
+        );
+    }
+    else {
         # Add all blogs this user owns to the list.
         # TODO: Perhaps this could be checkboxes instead?
         $form->get_field({name => "post_blog"})
@@ -41,9 +47,9 @@ sub add : Local FormConfig
                     ($c->model("BlogDB::Blog")->search({owner => $c->user->id()}))
                 ],
             );
-
-        $form->process($c->req);
     }
+
+    $form->process($c->req);
 
     $c->stash->{template} = 'posts/add.tt2';
 
