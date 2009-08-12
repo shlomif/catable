@@ -38,10 +38,6 @@ elements:
       name: can_be_published
       label: Publish?
 
-    - type: Submit
-      name: preview
-      value: Preview
-
     # The Submit button
     - type: Submit
       name: submit
