@@ -305,9 +305,9 @@ sub show_by_blog :Chained('/blog/load_blog') PathPart('posts/show') CaptureArgs(
 
 =head2 load_post
 
-Creates a private URL '/post/load_post/*'. Returns the post object by ID.
+Creates a private URL '/posts/load_post/*'. Returns the post object by ID.
 
-  my $post = $c->forward( $c->action_for( '/post/load_post/' . $post_id ));
+  my $post = $c->forward( '/post/load_post/', [$post_id] );
 
 =cut
 
@@ -336,7 +336,8 @@ http://localhost:3000/posts/add-comment
 
 =cut
 
-sub add_comment :Chained('load_post') Path('add-comment') {
+sub add_comment :Chained('/post') Path('add-comment')
+    Args(0){
     my ($self, $c) = @_;
 
     my $req = $c->request;
