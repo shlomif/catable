@@ -31,6 +31,12 @@ sub add : Local FormConfig
 
     my $form = $c->stash->{form};
 
+    if( not $c->user_exists ) {
+        $c->res->status(400);
+        $c->res->body('Must log in');
+        $c->detach;
+    }
+
     if( exists $c->stash->{blog} ) {
         # Don't show the Blog field at all if we are working on a blog
         $form->remove_element(
@@ -68,37 +74,6 @@ sub add : Local FormConfig
 
     return;
 }
-
-=head2 list
-
-Displays a list of posts:
-
-http://localhost:3000/posts/list
-
-=cut
-
-=begin Removed
-
-sub list : Chained('/blog/load_blog') PathPart('posts/list') Args(0) {
-    my ($self, $c) = @_;
-
-    $c->log->debug( sprintf "Blog ID %d", $c->stash->{blog}->id );
-    my @posts = $c->model('BlogDB')->resultset('Post')
-        ->search( { can_be_published => 1,
-                    pubdate => { "<=" => \"DATETIME('NOW')" },
-                  } );
-
-    $c->log->debug( sprintf "Found %d posts", scalar @posts );
-
-    $c->stash->{posts} = \@posts;
-    $c->stash->{template} = 'posts/list.tt2';
-
-    return;
-}
-
-=end Removed
-
-=cut
 
 =head2 list
 
@@ -210,25 +185,26 @@ sub tag :Local :CaptureArgs(1)  {
 
 Handles the URL C</posts/show/*>
 
-This function forwards to the URL C</blog/*/posts/show/*> by getting
+This function redirects to the URL C</blog/*/posts/show/*> by getting
 the blog this post belongs to from the post itself. This is to make
 it so that the final template picks the correct CSS template for the
 blog this post belongs to.
 
+It uses an HTTP redirect on purpose.
+
 =cut
 
-sub show : Args(1)  {
+sub show :Local Args(1)  {
     my ($self, $c, $post_id) = @_;
 
-    my $post = $c->forward( $c->action_for('/posts/get/' . $post_id) );
+    $c->log->debug( " == /posts/show/" . $post_id );
+    my $post = $c->forward( '/posts/load_post/', [$post_id] );
 
-    # FIXME: This probably introduces an unnecessary db lookup, as /blog/*
-    # will lookup the blog by name, when we already have the blog. Perhaps
-    # implement a Private URL for showing a post, and forward to that from
-    # both here, and from the handler for /blog/*/posts/show/*
-    $c->detach( $c->action_for( sprintf '/blog/%s/posts/show/%d',
-                                $post->blog->name,
-                                $post->id ) );
+    # FIXME: I'm sure there is a better way...
+    $c->res->redirect( sprintf '/blog/%s/posts/show/%d',
+                             $post->blog->url,
+                             $post->id );
+    $c->detach();
 }
 
 =head2 show_by_blog
@@ -240,11 +216,11 @@ This is for the direct URL, or for a forwarded request from '/posts/show/*'
 
 =cut
 
-sub show_by_blog :Chained('/blog/load_blog') PathPart('posts/show') CaptureArgs(1) {
+sub show_by_blog :Chained('/blog') PathPart('posts/show') Args(1) {
     my ($self, $c, $post_id) = @_;
 
     my $post = $c->stash->{post}
-            || $c->forward( $c->action_for('/posts/get/' . $post_id) );
+            || $c->forward( '/posts/load_post/', [$post_id] );
 
     # Taken from the HTML::Scrubber POD.
     my @default = (
