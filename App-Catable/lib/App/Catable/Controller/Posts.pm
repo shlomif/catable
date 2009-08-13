@@ -54,8 +54,9 @@ sub add : Local FormConfig
                 ],
             );
     }
+    $form->action( $c->uri_for( "/" ) . $c->req->path );
 
-    $form->process($c->req);
+    $form->process($c->req->params);
 
     $c->stash->{template} = 'posts/add.tt2';
 
@@ -216,7 +217,8 @@ This is for the direct URL, or for a forwarded request from '/posts/show/*'
 
 =cut
 
-sub show_by_blog :Chained('/blog') PathPart('posts/show') Args(1) {
+sub show_by_blog :Chained('/blog') PathPart('posts/show') 
+                  Args(1) FormConfig('posts/comment') {
     my ($self, $c, $post_id) = @_;
 
     my $post = $c->stash->{post}
@@ -280,6 +282,7 @@ sub show_by_blog :Chained('/blog') PathPart('posts/show') Args(1) {
         default => \@default,
     );
 
+    $c->stash->{template} = 'posts/show.tt2';
     $c->stash (post => $post);
     $c->stash (scrubber => $scrubber);
     return;
@@ -319,7 +322,7 @@ http://localhost:3000/posts/add-comment
 =cut
 
 sub add_comment :Chained('/post') Path('add-comment')
-    Args(0){
+    Args(0) FormConfig('posts/add') {
     my ($self, $c) = @_;
 
     my $req = $c->request;

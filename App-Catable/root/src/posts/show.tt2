@@ -57,15 +57,7 @@ href="[% HTML.escape(c.uri_for('/posts/tag', tag.label()))
 <h2 class="comements-open-header">Add New Comment</h2>
 
 <div class="comments-open-content">
-<form id="add-comment-form" method="post" 
-action="[% HTML.escape(c.uri_for('/posts/add-comment')) %]">
-<input type="hidden" name="post_id" value="[% post.id() %]" />
-<b>Title:</b> <input type="text" name="title" value="" /><br />
-<b>Body:</b><br />
-<textarea name="body"></textarea><br />
-<input type="submit" name="submit" value="submit" />
-<input type="submit" name="preview" value="preview" />
-</form>
+[%form%]
 </div>
 
 </div>
