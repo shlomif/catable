@@ -21,11 +21,11 @@ sub are_tags_ok
     my $want_tags_list = shift;
     my $msg = shift;
 
-    my $tags_rs = $post->tags_rs();
+    my $tags_by_label_rs = $post->tags_by_label_rs();
 
     my @have;
 
-    while (defined(my $tag = $tags_rs->next()))
+    while (defined(my $tag = $tags_by_label_rs->next()))
     {
         push @have, $tag->label();
     }
@@ -39,7 +39,7 @@ sub are_tags_ok
 
 {
     my $posts_rs = $schema->resultset('Post');
-    my $tags_rs = $schema->resultset('Tag');
+    my $tags_by_label_rs = $schema->resultset('Tag');
     my $assoc_rs = $schema->resultset('PostTagAssoc');
 
     my $post_id;
@@ -81,7 +81,7 @@ EOF
 
         $post_id = $cat_post->id();
 
-        my $cats_tag = $tags_rs->find_or_create(
+        my $cats_tag = $tags_by_label_rs->find_or_create(
             {
                 label => "cats",
             }
@@ -90,7 +90,7 @@ EOF
         # TEST
         ok ($cats_tag, "Cat tag was initialiased.");
 
-        my $blogging_tag = $tags_rs->find_or_create(
+        my $blogging_tag = $tags_by_label_rs->find_or_create(
             {
                 label => "blogging",
             }
@@ -121,11 +121,11 @@ EOF
         }
 
         {
-            my $cat_post_tags_rs = $cat_post->tags_rs();
+            my $cat_post_tags_rs = $cat_post->tags_by_label_rs();
 
             # TEST
             ok ($cat_post_tags_rs, 
-                "Post->tags_rs() returned a proper result set."
+                "Post->tags_by_label_rs() returned a proper result set."
             );
 
             my $tag1 = $cat_post_tags_rs->next();
@@ -177,10 +177,10 @@ EOF
         ok ($nouv_post, "Post could be initialised.");
 
         {
-            my $nouv_post_tags_rs = $nouv_post->tags_rs();
+            my $nouv_post_tags_rs = $nouv_post->tags_by_label_rs();
 
             # TEST
-            ok ($nouv_post_tags_rs, '$nouveau->tags_rs() is true.');
+            ok ($nouv_post_tags_rs, '$nouveau->tags_by_label_rs() is true.');
 
             # TEST
             ok (!defined($nouv_post_tags_rs->next()), 
@@ -195,10 +195,10 @@ EOF
         );
 
         {
-            my $nouv_post_tags_rs = $nouv_post->tags_rs();
+            my $nouv_post_tags_rs = $nouv_post->tags_by_label_rs();
 
             # TEST
-            ok ($nouv_post_tags_rs, '$nouveau->tags_rs() is true.');
+            ok ($nouv_post_tags_rs, '$nouveau->tags_by_label_rs() is true.');
 
             my $tag1 = $nouv_post_tags_rs->next();
 
@@ -217,11 +217,11 @@ EOF
         }
 
         {
-            my $cat_post_tags_rs = $cat_post->tags_rs();
+            my $cat_post_tags_rs = $cat_post->tags_by_label_rs();
 
             # TEST
             ok ($cat_post_tags_rs, 
-                "CatPost->tags_rs() returned a proper result set 2nd time."
+                "CatPost->tags_by_label_rs() returned a proper result set 2nd time."
             );
 
             my $tag1 = $cat_post_tags_rs->next();
@@ -236,61 +236,61 @@ EOF
             );
         }
 
-        my $dogs_tag = $tags_rs->find_or_create(
+        my $dogs_tag = $tags_by_label_rs->find_or_create(
             {
                 label => "dogs",
             }
         );
 
-        my $ferrets_tag = $tags_rs->find_or_create(
+        my $ferrets_tag = $tags_by_label_rs->find_or_create(
             {
                 label => "ferrets",
             }
         );
 
-        my $france_tag = $tags_rs->find_or_create(
+        my $france_tag = $tags_by_label_rs->find_or_create(
             {
                 label => "france",
             }
         );
 
-        my $food_tag = $tags_rs->find_or_create(
+        my $food_tag = $tags_by_label_rs->find_or_create(
             {
                 label => "food",
             }
         );
 
-        my $horses_tag = $tags_rs->find_or_create(
+        my $horses_tag = $tags_by_label_rs->find_or_create(
             {
                 label => "horses",
             }
         );
 
-        my $zebras_tag = $tags_rs->find_or_create(
+        my $zebras_tag = $tags_by_label_rs->find_or_create(
             {
                 label => "zebras",
             }
         );
 
-        my $foxes_tag = $tags_rs->find_or_create(
+        my $foxes_tag = $tags_by_label_rs->find_or_create(
             {
                 label => "foxes",
             }
         );
 
-        my $hawks_tag = $tags_rs->find_or_create(
+        my $hawks_tag = $tags_by_label_rs->find_or_create(
             {
                 label => "hawks",
             }
         );
 
-        my $ducks_tag = $tags_rs->find_or_create(
+        my $ducks_tag = $tags_by_label_rs->find_or_create(
             {
                 label => "ducks",
             }
         );
 
-        my $llamas_tag = $tags_rs->find_or_create(
+        my $llamas_tag = $tags_by_label_rs->find_or_create(
             {
                 label => "llamas",
             }
@@ -299,10 +299,10 @@ EOF
         $nouv_post->clear_tags();
 
         {
-            my $nouv_post_tags_rs = $nouv_post->tags_rs();
+            my $nouv_post_tags_rs = $nouv_post->tags_by_label_rs();
 
             # TEST
-            ok ($nouv_post_tags_rs, '$nouveau->tags_rs() is true.');
+            ok ($nouv_post_tags_rs, '$nouveau->tags_by_label_rs() is true.');
 
             # TEST
             ok (!defined($nouv_post_tags_rs->next()),
@@ -311,11 +311,11 @@ EOF
         }
 
         {
-            my $cat_post_tags_rs = $cat_post->tags_rs();
+            my $cat_post_tags_rs = $cat_post->tags_by_label_rs();
 
             # TEST
             ok ($cat_post_tags_rs, 
-                "CatPost->tags_rs() after NouvPost->tags_del()"
+                "CatPost->tags_by_label_rs() after NouvPost->tags_del()"
             );
 
             my $tag1 = $cat_post_tags_rs->next();

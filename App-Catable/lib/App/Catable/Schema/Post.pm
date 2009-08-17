@@ -141,6 +141,20 @@ sub add_comment
     );
 }
 
+=head2 $self->tags_by_label_rs()
+
+Gets a result set of the tags associated with this post ordered according
+to the label. See: L<App::Catable::Schema::Tag> .
+
+=cut
+
+sub tags_by_label_rs
+{ 
+    my $self = shift;
+
+    return $self->tags_rs->search_rs({}, { order_by => 'tag.label' });
+}
+
 sub _get_tags_list
 {
     my $self = shift;
