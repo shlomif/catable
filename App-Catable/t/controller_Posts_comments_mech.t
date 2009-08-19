@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 14;
+use Test::More tests => 15;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -85,6 +85,7 @@ this one. Of course, it seems too obscure to be useful.
 EOF
                 post_title => "Word of the Day: Lough",
                 can_be_published => 1,
+                post_blog    => 'usersblog',
             },
             button => "preview",
         },
@@ -113,6 +114,9 @@ EOF
         },
         "Followed the link to the new post",
     );
+
+    # TEST
+    $mech->content_like( qr/Word of the day: Lough/ );
 
     my $post_uri = $mech->uri();
 
