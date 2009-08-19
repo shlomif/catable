@@ -54,9 +54,10 @@ sub add : Local FormConfig
                 ],
             );
     }
+
     $form->action( $c->uri_for( "/" ) . $c->req->path );
 
-    $form->process($c->req->params);
+    $form->process( $c->req );
 
     $c->stash->{template} = 'posts/add.tt2';
 
@@ -72,6 +73,11 @@ sub add : Local FormConfig
         }
         $c->detach('add_submit', [$form]);
     }
+    elsif (not $form->has_errors) {
+        # Valid but not submitted = force-repopulate.
+        $form->default_values( $c->req->params );
+    }
+    # Not valid should auto-repopulate.
 
     return;
 }
@@ -201,7 +207,6 @@ sub show :Local Args(1)  {
     $c->log->debug( " == /posts/show/" . $post_id );
     my $post = $c->forward( '/posts/load_post/', [$post_id] );
 
-    # FIXME: I'm sure there is a better way...
     $c->res->redirect( sprintf '/blog/%s/posts/show/%d',
                              $post->blog->url,
                              $post->id );
@@ -223,6 +228,23 @@ sub show_by_blog :Chained('/blog') PathPart('posts/show')
 
     my $post = $c->stash->{post}
             || $c->forward( '/posts/load_post/', [$post_id] );
+
+    my $form = $c->stash->{form};
+    if ($form->submitted_and_valid) {
+        $c->forward('add_comment');
+    }
+    elsif (not $form->has_errors) {
+        $form->default_values( $c->req->params );
+    }
+
+    $c->stash->{template} = 'posts/show.tt2';
+    $c->stash (post => $post);
+    $c->stash (scrubber => $c->forward('default_scrubber') );
+    return;
+}
+
+sub default_scrubber : Private {
+    my ($self, $c) = @_;
 
     # Taken from the HTML::Scrubber POD.
     my @default = (
@@ -282,10 +304,7 @@ sub show_by_blog :Chained('/blog') PathPart('posts/show')
         default => \@default,
     );
 
-    $c->stash->{template} = 'posts/show.tt2';
-    $c->stash (post => $post);
-    $c->stash (scrubber => $scrubber);
-    return;
+    return $scrubber;
 }
 
 =head2 load_post
@@ -321,8 +340,7 @@ http://localhost:3000/posts/add-comment
 
 =cut
 
-sub add_comment :Chained('/post') Path('add-comment')
-    Args(0) FormConfig('posts/add') {
+sub add_comment : Private { 
     my ($self, $c) = @_;
 
     my $req = $c->request;
@@ -334,14 +352,6 @@ sub add_comment :Chained('/post') Path('add-comment')
     my $can_be_published = 1;
 
     my $post = $c->model("BlogDB::Post")->find({id => $post_id });
-
-    if (!$post)
-    {
-        $c->res->code( 404 );
-        # TODO : Possible XSS attack here?
-        $c->res->body( "Post '$post_id' not found." );
-        $c->detach;
-    }
 
     my $now = DateTime->now();
 
