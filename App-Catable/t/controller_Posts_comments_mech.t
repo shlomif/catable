@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 15;
+use Test::More tests => 17;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -146,13 +146,29 @@ EOF
     );
 
     # TEST
+    $mech->submit_form_ok(
+        { 
+            button => "submit",
+            form_id => "add-comment-form"
+        },
+        "Submitting the comment form",
+    );
+
+    # TEST
+    like(
+        $mech->content(),
+        qr{GIMP - the GNU Image Manipulation Program},
+        "Contains the new post."
+    );
+
+    # TEST
     $mech->get_ok($post_uri, "Browsing again");
 
     # TEST
     like(
         $mech->content(),
         qr{GIMP - the GNU Image Manipulation Program},
-        "Content matches the post."
+        "Still contains the new post."
     );
 
     # TEST
