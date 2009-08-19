@@ -32,7 +32,7 @@ sub add : Local FormConfig
     my $form = $c->stash->{form};
 
     if( not $c->user_exists ) {
-        $c->res->status(400);
+        $c->res->status(401);
         $c->res->body('Must log in');
         $c->detach;
     }
@@ -66,9 +66,12 @@ sub add : Local FormConfig
         my $params = $form->params;
 
         if( exists $params->{post_blog} ) {
+            # TODO - Might be a privilege escalation here in case
+            # someone fudges with the post_blog parameter under an
+            # unprivileged user.
             $c->stash->{blog} =
                 $c->model("BlogDB::Blog")
-                  ->find({title => $c->req->params->{'post_blog'}})
+                  ->find({url => $c->req->params->{'post_blog'}})
                   ;
         }
         $c->detach('add_submit', [$form]);

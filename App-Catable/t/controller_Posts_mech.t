@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 11;
+use Test::More tests => 9;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -25,15 +25,15 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 
     $mech->get("http://localhost/blog/usersblog/posts/add");
 
-    #TEST
-    is( $mech->status, 402, "Cannot add post when not logged in" );
+    # TEST
+    is( $mech->status, 401, "Cannot add post when not logged in" );
 
     login( $mech, "altreus", "password" );
 
     $mech->get("http://localhost/blog/usersblog/posts/add");
 
-    #TEST
-    is( $mech->status, 402, "This is not my blog!" );
+    # TEST
+    is( $mech->status, 401, "This is not my blog!" );
 
     logout( $mech );
     login( $mech, "user", "password" );
@@ -46,6 +46,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
         { 
             fields =>
             {
+                post_blog => "usersblog",
                 post_body => "<p>Kit Kit Catty Skooter</p>",
                 post_title => "Grey and White Cat",
                 can_be_published => 1,
