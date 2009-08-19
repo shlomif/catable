@@ -75,3 +75,4 @@ href="[% HTML.escape(c.uri_for('/posts/tag', tag.label()))
 </div>
 
 </div>
+</div>
