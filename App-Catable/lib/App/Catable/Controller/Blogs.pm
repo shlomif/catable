@@ -6,7 +6,7 @@ use base 'Catalyst::Controller::HTML::FormFu';
 
 =head1 NAME
 
-App::Catable::Controller::Blog - For multiple blogs
+App::Catable::Controller::Blogs - For multiple blogs
 
 =head1 DESCRIPTION
 

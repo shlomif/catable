@@ -243,6 +243,12 @@ sub show_by_blog :Chained('/blog') PathPart('posts/show')
     return;
 }
 
+=head2 $self->default_scrubber($c)
+
+Returns the default L<HTML::Scrubber> for blog posts.
+
+=cut
+
 sub default_scrubber : Private {
     my ($self, $c) = @_;
 
