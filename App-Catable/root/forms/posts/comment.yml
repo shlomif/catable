@@ -2,6 +2,7 @@
 # explicitly in the action for that page.
 action: 
 indicator: submit
+id: add-comment-form
 
 auto_id: %n
 attributes:
@@ -16,6 +17,12 @@ elements:
     - type: Password
       name: password
       label: Password
+
+    - type: Text
+      name: subject
+      label: Subject
+      constraints:
+          - Required
 
     - type: Textarea
       name: post_body
