@@ -229,8 +229,10 @@ sub show_by_blog :Chained('/blog') PathPart('posts/show')
                   Args(1) FormConfig('posts/comment') {
     my ($self, $c, $post_id) = @_;
 
+    # Make sure the post is stashed while we set our 'my' var.
     my $post = $c->stash->{post}
-            || $c->forward( '/posts/load_post/', [$post_id] );
+           ||= $c->forward( '/posts/load_post/', [$post_id] )
+           || die "Could not load post $post_id";
 
     my $form = $c->stash->{form};
     if ($form->submitted_and_valid) {
@@ -360,7 +362,7 @@ sub add_comment : Private {
 
     my $can_be_published = 1;
 
-    my $post = $c->model("BlogDB::Post")->find({id => $post_id });
+    my $post = $c->stash->{post};
 
     my $now = DateTime->now();
 
