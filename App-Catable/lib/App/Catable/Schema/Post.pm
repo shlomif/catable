@@ -133,7 +133,7 @@ sub add_comment
     my $self = shift;
     my $args = shift;
 
-    return $self->result_source->schema->resultset('Comment')->create(
+    return $self->create_related( 'comments',
         {
             parent => $self,
             %{$args},
