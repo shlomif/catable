@@ -19,13 +19,13 @@ elements:
       label: Password
 
     - type: Text
-      name: subject
-      label: Subject
+      name: title
+      label: Title
       constraints:
           - Required
 
     - type: Textarea
-      name: post_body
+      name: body
       label: Comment
       rows: 10
       constraints:
