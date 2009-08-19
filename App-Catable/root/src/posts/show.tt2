@@ -54,7 +54,21 @@ href="[% HTML.escape(c.uri_for('/posts/tag', tag.label()))
 </div>
 <div class="comments-open" id="comments-open">
 
-<h2 class="comements-open-header">Add New Comment</h2>
+<h2 class="comments-open-header">Add New Comment</h2>
+
+<div class="comments-content">
+
+<div id="comment-preview" class="comment">
+<div class="inner">
+<div class="comment-content">
+<h2 class="comment-title">[% HTML.escape( c.req.params.title ) %]</h2>
+
+<div class="body">
+[% scrubber.scrub( c.req.params.body ) %]
+</div>
+</div>
+</div>
+</div>
 
 <div class="comments-open-content">
 [%form%]

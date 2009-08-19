@@ -116,7 +116,9 @@ EOF
     );
 
     # TEST
-    $mech->content_like( qr/Word of the day: Lough/ );
+    like( $mech->content, 
+          qr/Word of the Day: Lough/, 
+          "Contains the submitted post" );
 
     my $post_uri = $mech->uri();
 
@@ -138,9 +140,9 @@ EOF
 
     # TEST
     like(
-        $mech->content, 
-        qr{The comment was posted}, 
-        "Contains the submitted body",
+        $mech->content(),
+        qr{GIMP - the GNU Image Manipulation Program},
+        "Contains the preview title."
     );
 
     # TEST
