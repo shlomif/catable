@@ -39,6 +39,7 @@ my $schema = AppCatableTestSchema->init_schema(no_populate => 0);
     {
         my $new_post = $posts_rs->create(
             {
+                blog => 1,
                 title => "A Cute Cat",
                 body => <<'EOF',
 <p>

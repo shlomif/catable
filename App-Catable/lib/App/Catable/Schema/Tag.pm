@@ -67,25 +67,10 @@ __PACKAGE__->has_many(
     posts_assoc => 'App::Catable::Schema::PostTagAssoc',
     'tag_id',
 );
-
-=head2 $self->posts_rs()
-
-Returns a result set for the posts that are tagged with this tag.
-
-=cut
-
-sub posts_rs
-{
-    my $self = shift;
-
-    return $self->posts_assoc_rs()->search_related_rs(
-        'post',
-        {},
-        {
-            order_by => [qw(pubdate)],
-        },
-    );
-}
+__PACKAGE__->many_to_many(
+    posts   => 'posts_assoc', 
+    'post'
+);
 
 =head1 SEE ALSO
 

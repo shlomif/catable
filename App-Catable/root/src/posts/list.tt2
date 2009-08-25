@@ -3,7 +3,7 @@
 
 [% FOREACH post IN posts %]
 <div style="display:block">
-    <a href="[% c.uri_for(c.controller.action_for('show'), post.id) %]">
+    <a href="[% c.uri_for('/posts/show', post.id) %]">
         [% post.title %]</a>
 </div>
 [% END %]

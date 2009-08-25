@@ -60,6 +60,10 @@ A timestamp for when the post was last updated.
 
 The child comments of the post.
 
+=head2 blog
+
+The blog on which this post has been posted.
+
 =head1 METHODS
 
 =cut
@@ -95,11 +99,16 @@ __PACKAGE__->add_columns(
         data_type => 'datetime',
         is_nullable => 0,
     },
+    blog    => {
+        data_type => 'bigint',
+        is_nullable => 0,
+    }
 );
 
 __PACKAGE__->set_primary_key( qw( id ) );
 __PACKAGE__->resultset_attributes( { order_by => [ 'pubdate' ] } );
 __PACKAGE__->add_unique_constraint( [ 'pubdate' ] );
+__PACKAGE__->has_one( qw( blog App::Catable::Schema::Blog ) );
 __PACKAGE__->has_many(
     comments => 'App::Catable::Schema::Comment',
     'parent_id',
@@ -107,6 +116,10 @@ __PACKAGE__->has_many(
 __PACKAGE__->has_many(
     tags_assoc => 'App::Catable::Schema::PostTagAssoc',
     'post_id',
+);
+__PACKAGE__->many_to_many(
+    tags   => 'tags_assoc', 
+    'tag'
 );
 
 =head2 $self->add_comment({ %comment_params })
@@ -120,7 +133,7 @@ sub add_comment
     my $self = shift;
     my $args = shift;
 
-    return $self->result_source->schema->resultset('Comment')->create(
+    return $self->create_related( 'comments',
         {
             parent => $self,
             %{$args},
@@ -128,26 +141,19 @@ sub add_comment
     );
 }
 
-=head2 $self->tags_rs()
+=head2 $self->tags_by_label_rs()
 
-Gets a result set of the tags associated with this post. See:
-L<App::Catable::Schema::Tag> .
+Gets a result set of the tags associated with this post ordered according
+to the label. See: L<App::Catable::Schema::Tag> .
 
 =cut
 
-sub tags_rs
-{
+sub tags_by_label_rs
+{ 
     my $self = shift;
 
-    return $self->tags_assoc_rs()->search_related_rs(
-        'tag',
-        {},
-        {
-            order_by => [qw(label)],
-        },
-    );
+    return $self->tags_rs->search_rs({}, { order_by => 'tag.label' });
 }
-
 
 sub _get_tags_list
 {

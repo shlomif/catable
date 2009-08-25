@@ -1,0 +1,42 @@
+# a blank action submits to the page it's on - but will probably set it 
+# explicitly in the action for that page.
+action: 
+indicator: submit
+id: add-comment-form
+
+auto_id: %n
+attributes:
+    class: add-comment-form
+
+# Start listing the form elements
+elements:
+    - type: Text
+      name: username
+      label: Your name
+          
+    - type: Password
+      name: password
+      label: Password
+
+    - type: Text
+      name: title
+      label: Title
+      constraints:
+          - Required
+
+    - type: Textarea
+      name: body
+      label: Comment
+      rows: 10
+      constraints:
+          - Required
+
+    # The Submit button
+    - type: Submit
+      name: submit
+      value: Add Comment
+
+    - type: Submit
+      name: preview
+      value: Preview
+

@@ -2,7 +2,7 @@ package App::Catable::Controller::Posts;
 
 use strict;
 use warnings;
-use base 'Catalyst::Controller';
+use base 'Catalyst::Controller::HTML::FormFu';
 
 use DateTime;
 use HTML::Scrubber;
@@ -19,45 +19,97 @@ Catalyst Controller.
 
 =head2 add
 
-Add a post.
+Add a post to *any* blog that the user is able to add a post to. 
+
+http://localhost:3000/posts/add
 
 =cut
 
-sub add : Local {
-    # Retrieve the usual Perl OO '$self' for this object. $c is the Catalyst
-    # 'Context' that's used to 'glue together' the various components
-    # that make up the application
+sub add : Local FormConfig
+{
     my ($self, $c) = @_;
 
-    # Retrieve all of the book records as book model objects and store in the
-    # stash where they can be accessed by the TT template
-    # $c->stash->{books} = [$c->model('DB::Book')->all];
-    # But, for now, use this code until we create the model later
-    $c->stash->{books} = '';
+    my $form = $c->stash->{form};
 
-    # Set the TT template to use.  You will almost always want to do this
-    # in your action methods (action methods respond to user input in
-    # your controllers).
+    if( not $c->user_exists ) {
+        $c->res->status(401);
+        $c->res->body('Must log in');
+        $c->detach;
+    }
+
+    if( exists $c->stash->{blog} ) {
+        # Don't show the Blog field at all if we are working on a blog
+        $form->remove_element(
+            $form->get_field( { name => 'post_blog' } )
+        );
+    }
+    else {
+        # Add all blogs this user owns to the list.
+        # TODO: Perhaps this could be checkboxes instead?
+        $form->get_field({name => "post_blog"})
+            ->options(
+                [
+                    map { +{ label => $_->title(), value => $_->url(), } }
+                    ($c->model("BlogDB::Blog")->search({owner => $c->user->id()}))
+                ],
+            );
+    }
+
+    $form->action( $c->uri_for( "/" ) . $c->req->path );
+
+    $form->process( $c->req );
+
     $c->stash->{template} = 'posts/add.tt2';
+
+    if ($form->submitted_and_valid)
+    {
+        my $params = $form->params;
+
+        if( exists $params->{post_blog} ) {
+            # TODO - Might be a privilege escalation here in case
+            # someone fudges with the post_blog parameter under an
+            # unprivileged user.
+            $c->stash->{blog} =
+                $c->model("BlogDB::Blog")
+                  ->find({url => $c->req->params->{'post_blog'}})
+                  ;
+        }
+        $c->detach('add_submit', [$form]);
+    }
+    elsif (not $form->has_errors) {
+        # Valid but not submitted = force-repopulate.
+        $form->default_values( $c->req->params );
+    }
+    # Not valid should auto-repopulate.
 
     return;
 }
 
 =head2 list
 
-Displays a list of posts:
+Handles the URL C</posts/list>. In some cases this may be the result
+of forwarding (e.g. from C</blog/*>).
 
-http://localhost:3000/posts/list
+If there is a blog in the stash then it will be used to filter the list.
+Otherwise it will just list all posts from all blogs.
 
 =cut
 
-sub list : Path('list') {
+sub list : Local
+{
     my ($self, $c) = @_;
 
+    my %search_params;
+
+    $search_params{can_be_published} = 1;
+    $search_params{pubdate} = { "<=" => \"DATETIME('NOW')" };
+
+    # Add the blog filter if we have a blog.
+    $search_params{blog} = $c->stash->{blog}->id
+        if exists $c->stash->{blog};
+    
     my @posts = $c->model('BlogDB')->resultset('Post')
-        ->search( { can_be_published => 1,
-                    pubdate => { "<=" => \"DATETIME('NOW')" },
-                  } );
+        ->search( \%search_params );
 
     $c->log->debug( sprintf "Found %d posts", scalar @posts );
 
@@ -69,115 +121,141 @@ sub list : Path('list') {
 
 =head2 add_submit
 
-This controller method handles the blog post submission.
+This controller method handles the blog post submission. It should
+be able to handle submission from either /posts/add or
+/blog/*/posts/add, but currently it only handles /blog/*/posts/add.
 
 =cut
 
-sub add_submit : Path('add-submit') {
+sub add_submit : Private {
     my ($self, $c) = @_;
 
-    my $req = $c->request;
+    my $form    = $c->req->args->[0];
+    my $params  = $form->params;
+    my $blog_id = $c->stash->{blog}->id;
 
-    my $title = $req->param('title');
-    my $body = $req->param('body');
-    my $tags_string  = $req->param('tags');
-    my $can_be_published = $req->param('can_be_published');
-    my $is_preview = defined($req->param('preview'));
-    my $is_submit = defined($req->param('submit'));
+    my $now = DateTime->now();
 
-    if (!($is_preview xor $is_submit))
-    {
-        $c->response->status(404);
-        $c->response->body("Cannot submit and preview at once.");
-    }
-    elsif ($is_preview)
-    {
-        $c->stash->{template} = "posts/add-preview.tt2";
-        $c->stash->{post_title} = $title;
-        $c->stash->{post_body} = $body;
-        $c->stash->{post_tags} = $tags_string;
-        $c->stash->{can_be_published} = $can_be_published ? 1 : 0;
-    }
-    else
-    {
-        my $now = DateTime->now();
-        # Add the post to the model.
-        my $new_post = $c->model('BlogDB::Post')->create(
-            {
-                title => $title,
-                body => $body,
-                can_be_published => $can_be_published ? 1 : 0,
-                pubdate => $now->clone(),
-                update_date => $now->clone(),
-            }
-        );
+    # TODO: iterate over blogs when coming from /posts/add
+    $c->stash->{new_post}
+    = $c->model('BlogDB')->resultset('Post')
+        ->create( {
+            title => $params->{post_title},
+            body => $params->{post_body},
+            can_be_published => ($params->{can_be_published} ? 1 : 0),
+            pubdate => $now,
+            update_date => $now,
+            blog => $blog_id
+        } );
 
-        my @tags = 
-        (
-            grep { m{\A(?:[^[:punct:]\n\r\t]|\-)+\z}ms } 
-            split(/\s*,\s*/, $tags_string)
-        );
-
-        $new_post->assign_tags(
-            {
-                tags => \@tags,
-            }
-        );
-
-        $c->stash->{new_post} = $new_post;
-        
-        $c->stash->{template} = 'posts/add-submit.tt2';
-    }
+    
+    $c->stash->{template} = 'posts/add-submit.tt2';
 
     return;
 }
 
 =head2 tag
 
-Displays a posts listing of a tag . Accepts the tag query as a parameter
+Handles the URL C</posts/tag/*>. Displays all posts with the selected
+tag.
 
-http://localhost:3000/posts/tag/cute-cats
+May be the result of forwarding, e.g. from C</blog/*/posts/tag/*>. In
+the case that there is a blog in the stash, it will be used to narrow
+the scope of the search.
 
 =cut
 
-sub tag :Path(tag) :CaptureArgs(1)  {
+#TODO: Accept multiple tags? AND or OR them together?
+#FIXME: Is it CaptureArgs for a reason? do we intend chaining?
+sub tag :Local :CaptureArgs(1)  {
     my ($self, $c, $tags_query) = @_;
 
-    my $tag = $c->model("BlogDB::Tag")->find({label => $tags_query});
+    my $posts_rs = $c->model("BlogDB::Tag")
+                     ->find({label => $tags_query})
+                     ->posts;
 
-    if (!$tag)
+    if( exists $c->stash->{blog} ) {
+        $posts_rs = $posts_rs->find({ blog_id => $c->stash->{blog}->id });
+    }
+
+    # TODO: find out how to check there were results.
+    if (!$posts_rs)
     {
         $c->res->code( 404 );
         $c->res->body( "Tag '$tags_query' not found." );
         $c->detach;
     }
 
-    $c->stash (tag => $tag);
+    $c->stash( posts => [ $posts_rs->all ]);
 
-    $c->stash->{template} = 'posts/tag.tt2';
+    $c->stash->{template} = 'posts/list.tt2';
 }
-
 
 =head2 show
 
-Displays a post . Accepts the post number as an argument:
+Handles the URL C</posts/show/*>
 
-http://localhost:3000/posts/show/1/
+This function redirects to the URL C</blog/*/posts/show/*> by getting
+the blog this post belongs to from the post itself. This is to make
+it so that the final template picks the correct CSS template for the
+blog this post belongs to.
+
+It uses an HTTP redirect on purpose.
 
 =cut
 
-sub show :Path(show) :CaptureArgs(1)  {
+sub show :Local Args(1)  {
     my ($self, $c, $post_id) = @_;
 
-    my $post = $c->model("BlogDB::Post")->find({id => $post_id });
+    $c->log->debug( " == /posts/show/" . $post_id );
+    my $post = $c->forward( '/posts/load_post/', [$post_id] );
 
-    if (!$post)
-    {
-        $c->res->code( 404 );
-        # TODO : Possible XSS attack here?
-        $c->res->body( "Post '$post_id' not found." );
-        $c->detach;
+    $c->res->redirect( sprintf '/blog/%s/posts/show/%d',
+                             $post->blog->url,
+                             $post->id );
+    $c->detach();
+}
+
+=head2 show_by_blog
+
+Chains from the '/blog/load_blog' function. This handles the URL 
+'/blog/*/post/show/*'.
+
+This is for the direct URL, or for a forwarded request from '/posts/show/*'
+
+=cut
+
+sub show_by_blog :Chained('/blog') PathPart('posts/show') 
+                  Args(1) FormConfig('posts/comment') {
+    my ($self, $c, $post_id) = @_;
+
+    # Make sure the post is stashed while we set our 'my' var.
+    my $post = $c->stash->{post}
+           ||= $c->forward( '/posts/load_post/', [$post_id] )
+           || die "Could not load post $post_id";
+
+    my $form = $c->stash->{form};
+    if ($form->submitted_and_valid) {
+        $c->forward('add_comment');
     }
+    elsif (not $form->has_errors) {
+        $form->default_values( $c->req->params );
+    }
+
+    $c->stash->{template} = 'posts/show.tt2';
+    $c->stash (post => $post);
+    $c->stash (scrubber => $c->forward('default_scrubber') );
+    return;
+}
+
+=head2 $self->default_scrubber($c)
+
+Returns the default L<HTML::Scrubber> for blog posts.
+
+=cut
+
+sub default_scrubber : Private {
+    my ($self, $c) = @_;
 
     # Taken from the HTML::Scrubber POD.
     my @default = (
@@ -218,7 +296,7 @@ sub show :Path(show) :CaptureArgs(1)  {
     my @rules = (
         script => 0,
         img => {
-            src => qr{^(?!http://)}i, # only relative image links allowed
+            src => qr{^(?!https?://)}i, # only relative image links allowed
             alt => 1,                 # alt attribute allowed
             '*' => 0,                 # deny all other attributes
         },
@@ -237,30 +315,19 @@ sub show :Path(show) :CaptureArgs(1)  {
         default => \@default,
     );
 
-    $c->stash (post => $post);
-    $c->stash (scrubber => $scrubber);
-
-    $c->stash->{template} = 'posts/show.tt2';
+    return $scrubber;
 }
 
-=head2 add_comment
+=head2 load_post
 
-Adds a comment to a post. Accepts a form using post.
+Creates a private URL '/posts/load_post/*'. Returns the post object by ID.
 
-http://localhost:3000/posts/add-comment
+  my $post = $c->forward( '/post/load_post/', [$post_id] );
 
 =cut
 
-sub add_comment :Path(add-comment) {
-    my ($self, $c) = @_;
-
-    my $req = $c->request;
-
-    my $title = $req->param('title');
-    my $body = $req->param('body');
-    my $post_id = $req->param('post_id');
-
-    my $can_be_published = 1;
+sub load_post : Private {
+    my ($self, $c, $post_id) = @_;
 
     my $post = $c->model("BlogDB::Post")->find({id => $post_id });
 
@@ -271,6 +338,31 @@ sub add_comment :Path(add-comment) {
         $c->res->body( "Post '$post_id' not found." );
         $c->detach;
     }
+
+    return $post;
+}
+
+
+=head2 add_comment
+
+Adds a comment to a post. Accepts a form using post.
+
+http://localhost:3000/posts/add-comment
+
+=cut
+
+sub add_comment : Private { 
+    my ($self, $c) = @_;
+
+    my $req = $c->request;
+
+    my $title = $req->param('title');
+    my $body = $req->param('body');
+    my $post_id = $req->param('post_id');
+
+    my $can_be_published = 1;
+
+    my $post = $c->stash->{post};
 
     my $now = DateTime->now();
 

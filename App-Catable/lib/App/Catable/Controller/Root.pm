@@ -96,6 +96,39 @@ sub logout : Local {
     return;
 }
 
+=head2 blog
+
+The action for /blog/*
+
+=cut
+
+sub blog : Chained('/') CaptureArgs(1) {
+    my ($self, $c, $blog_name) = @_; 
+
+    $c->log->debug( ' === Root::blog' );
+
+    $c->stash->{blog} 
+        = $c->forward( '/blogs/load_blog', [$blog_name] );
+    return;
+}
+
+=head2 post
+
+The action for a single post: /post/*
+
+Note that the actions for these are defined in Controller::Posts to save
+fragmenting the code into lots of small files.
+
+=cut
+
+sub post : Chained('/') CaptureArgs(1) {
+    my ($self, $c, $post_id) = @_; 
+
+    $c->stash->{post} 
+        = $c->forward( '/posts/load_post/', [$post_id] );
+    return;
+}
+
 =head2 end
 
 Attempt to render a view, if needed.

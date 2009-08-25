@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 14;
+use Test::More tests => 9;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -23,6 +23,21 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 {
     my $mech = Test::WWW::Mechanize::Catalyst->new;
 
+    $mech->get("http://localhost/blog/usersblog/posts/add");
+
+    # TEST
+    is( $mech->status, 401, "Cannot add post when not logged in" );
+
+    login( $mech, "altreus", "password" );
+
+    $mech->get("http://localhost/blog/usersblog/posts/add");
+
+    # TEST
+    is( $mech->status, 401, "This is not my blog!" );
+
+    logout( $mech );
+    login( $mech, "user", "password" );
+
     # TEST
     $mech->get_ok("http://localhost/posts/add");
 
@@ -31,12 +46,21 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
         { 
             fields =>
             {
-                body => "<p>Kit Kit Catty Skooter</p>",
-                title => "Grey and White Cat",
+                post_blog => "usersblog",
+                post_body => "<p>Kit Kit Catty Skooter</p>",
+                post_title => "Grey and White Cat",
+                can_be_published => 1,
             },
             button => "preview",
         },
         "Submitting the preview form",
+    );
+
+
+    # TEST
+    $mech->content_like(
+        qr{<textarea[^>]*>.*?&lt;p&gt;Kit Kit Catty.*?</textarea>}ms,
+        "Preview worked.",
     );
 
     # TEST
@@ -45,6 +69,12 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
             button => "submit",
         },
         "Submitting the submit form",    
+    );
+
+    # TEST
+    $mech->content_like(
+        qr{<h1>New Blog Entry Posted Successfully</h1>}ms,
+        "Post was submitted successfully"
     );
 
     # TEST
@@ -58,83 +88,25 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
     );
 }
 
-{
-    sleep(1);
-    my $mech = Test::WWW::Mechanize::Catalyst->new;
+sub login {
+    my $mech     = shift;
+    my $username = shift;
+    my $password = shift;
 
-    # TEST
-    $mech->get_ok("http://localhost/posts/add");
-
-    # TEST
-    $mech->submit_form_ok(
-        { 
-            fields =>
-            {
-                body => 
-    qq{<p><a href="http://www.shlomifish.org/">Shlomif Lopmonyotron</a></p>},
-                title => "Link to Shlomif Homepage",
-                tags => "perl, catable, catalyst, cats",
-            },
-            button => "preview",
-        },
-        "Submitting the preview form",
-    );
-
-    # TEST
-    is ($mech->value("tags"),
-        "perl, catable, catalyst, cats",
-        "Keywords is OK on submitted form.",
-    );
-
-    # TEST
-    $mech->submit_form_ok(
+    $mech->get( "http://localhost/login" );
+    
+    $mech->submit_form(
+        fields =>
         {
-            button => "submit",
+            user => $username,
+            pass => $password,
         },
-        "Submitting the submit form",    
-    );
-
-    # TEST
-    $mech->follow_link_ok(
-        {
-            text_regex => qr{New Post},
-        },
-        "Following the link to the /show URL homepage"
-    );
-
-    my $post_uri = $mech->uri();
-
-    # TEST
-    ok ($mech->find_link(
-            url => "http://www.shlomifish.org/",
-            text_regex => qr{Lopmonyotron},
-        ),
-        "Link to the page."
-    );
-
-    # TEST
-    $mech->follow_link_ok(
-        {
-            url => "http://localhost/posts/tag/cats",
-            text => "cats",
-        },
-        "Following the link to the cats tag",
-    );
-
-    # TEST
-    $mech->follow_link_ok(
-        {
-            url => "$post_uri",
-            text_regex => qr{Link to Shlomif Homepage},
-        },
-        "Link exists back to the post.",
-    );
-
-    # TEST
-    is(
-        ($mech->uri() . ""),
-        "$post_uri",
-        "Same URL as before",
+        button => "submit",
     );
 }
 
+sub logout {
+    my $mech = shift;
+
+    $mech->get( "http://localhost/logout" );
+}

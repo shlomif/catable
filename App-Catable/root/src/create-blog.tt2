@@ -1,0 +1,17 @@
+[% IF NOT submitted %]
+[% form %]
+[% ELSE %]
+<p>
+New blog created successfully.
+</p>
+
+<ul>
+<li>
+<a href="[% c.uri_for('/') %]">Return to the front page.</a>
+</li>
+<li>
+<a href="[% c.uri_for('/blog', url) %]">Go see the blog</a>
+</li>
+</ul>
+
+[% END %]
