@@ -29,17 +29,12 @@ See also C<blog> in C<App::Catable::Controller::Root>.
 sub load_blog : Private{
     my ($self, $c, $blog_name) = @_;
 
-    $c->log->debug( ' == Blog::load_blog' );
-   
     my $blog = 
         $c->model('BlogDB')
         ->resultset('Blog')
         ->single({ url => $blog_name});
 
     $c->stash->{blog} = $blog or return;
-
-    $c->log->debug( sprintf " load_blog found blog ID %d", 
-                              $c->stash->{blog}->id );
 
     return $blog;
 }
