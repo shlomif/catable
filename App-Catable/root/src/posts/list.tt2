@@ -1,5 +1,4 @@
 [%- USE HTML -%]
-[% title = "All posts - Catable" -%]
 
 [% IF blog %]
 <ul class="menu">

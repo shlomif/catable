@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 10;
+use Test::More tests => 11;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -88,6 +88,13 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
             text_regex => qr{Go see the blog}i,
         },
         "Can see the new blog",
+    );
+
+    # TEST
+    like(
+        $mech->title(),
+        qr{\QShlomi Fish's Tech Blog - All posts\E},
+        "Blog posts' title contains the blog URL.",
     );
 
     # TEST

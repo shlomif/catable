@@ -95,8 +95,10 @@ actual hard work.
 sub list_posts : Chained('/blog') PathPart('') Args(0) {
     my ($self, $c) = @_;
 
+    my $blog = $c->stash->{blog};
+
     # TOOD: Add after test.
-    # $c->stash->{title} = "Posts for blog ";
+    $c->stash->{title} = sprintf("%s - All posts", $blog->title());
 
     $c->detach( '/posts/list' );
 }
