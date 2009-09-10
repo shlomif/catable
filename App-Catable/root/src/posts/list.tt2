@@ -1,6 +1,14 @@
 [%- USE HTML -%]
 [% title = "All posts - Catable" -%]
 
+[% IF blog %]
+<ul class="menu">
+<li>
+<a href="[% c.uri_for("/blog", blog.url, "posts", "add") %]">Add new post</a>
+</li>
+</ul>
+[% END %]
+
 [% FOREACH post IN posts %]
 <div style="display:block">
     <a href="[% c.uri_for('/posts/show', post.id) %]">

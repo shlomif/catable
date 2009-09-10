@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 8;
+use Test::More tests => 10;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -81,4 +81,22 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
     $mech->content_like(
         qr{New blog created successfully}i,
     );
+    
+    # TEST
+    $mech->follow_link_ok(
+        {
+            text_regex => qr{Go see the blog}i,
+        },
+        "Can see the new blog",
+    );
+
+    # TEST
+    $mech->follow_link_ok(
+        {
+            text_regex => qr{Add new post}i,
+        },
+        "Follow the add new post link",
+    );
+
+    # TODO : test that the add new post works.
 }

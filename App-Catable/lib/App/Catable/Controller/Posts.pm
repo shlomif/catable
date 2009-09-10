@@ -115,6 +115,7 @@ sub list : Local
 
     $c->stash->{posts} = \@posts;
     $c->stash->{template} = 'posts/list.tt2';
+    $c->stash->{title} ||= "All posts - Catable";
 
     return;
 }
