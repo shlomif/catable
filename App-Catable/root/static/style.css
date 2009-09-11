@@ -19,10 +19,12 @@ span.error_message, span.error_constraint_required {
 
 .add-post-form {
     display: table;
+    margin-left: 1em;
 }
 
 .add-post-form .label {
     display: table-row;
+    margin-bottom: 1em;
 }
 
 .add-post-form label, .add-post-form textarea, 
@@ -30,4 +32,6 @@ span.error_message, span.error_constraint_required {
 {
     vertical-align: top;
     display: table-cell;
+    margin-bottom:1em;
+    margin-right:1em;
 }
