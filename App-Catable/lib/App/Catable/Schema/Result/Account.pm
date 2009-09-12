@@ -1,4 +1,4 @@
-package App::Catable::Schema::Account;
+package App::Catable::Schema::Result::Account;
 
 use strict;
 use warnings;

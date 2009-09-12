@@ -1,23 +1,28 @@
-package App::Catable::Schema::Post;
+package App::Catable::Schema::Result::Entry;
 
 use strict;
 use warnings;
 
 =head1 NAME
 
-App::Catable::Schema::Post - a schema class representing a blog post.
+App::Catable::Schema::Entry - a schema class representing a blog post
+or comment.
 
 =head1 SYNOPSIS
       
     my $schema = App::Catable->model("BlogDB");
 
-    my $posts_rs = $schema->resultset('Post');
+    my $posts_rs = $schema->resultset('Entry');
 
     my $post = $posts_rs->find({
         id => 2_400,
         });
 
     print $post->title();
+
+    my $comments = $post->comments;
+
+    print $_->body for $comments->all;
 
 =head1 DESCRIPTION
 
@@ -64,6 +69,11 @@ The child comments of the post.
 
 The blog on which this post has been posted.
 
+=head2 parent
+
+The parent Entry. If null or zero, this is a post and the "parent"
+is the blog. Otherwise, it is a comment.
+
 =head1 METHODS
 
 =cut
@@ -71,7 +81,7 @@ The blog on which this post has been posted.
 use base qw( DBIx::Class );
 
 __PACKAGE__->load_components( qw( InflateColumn::DateTime Core ) );
-__PACKAGE__->table( 'post' );
+__PACKAGE__->table( 'entry' );
 __PACKAGE__->add_columns(
     id => {
         data_type         => 'bigint',
@@ -102,7 +112,11 @@ __PACKAGE__->add_columns(
     blog    => {
         data_type => 'bigint',
         is_nullable => 0,
-    }
+    },
+    parent_id  => {
+        data_type => 'bigint',
+        is_nullable => 1,
+    },
 );
 
 __PACKAGE__->set_primary_key( qw( id ) );
@@ -121,6 +135,27 @@ __PACKAGE__->many_to_many(
     tags   => 'tags_assoc', 
     'tag'
 );
+__PACKAGE__->might_have(
+    comments    => 'App::Catable::Schema::Entry',
+    { 'foreign.parent_id' => 'self.id' },
+);
+__PACKAGE__->belongs_to(
+    parent  => 'App::Catable::Schema::Entry',
+    'parent_id'
+);
+
+=head2 $self->is_post
+
+Helper method that simply returns a true value if this object has no
+parent.
+
+=cut
+
+sub is_post {
+    my $self = shift;
+
+    return $self->parent_id ? 0 : 1;
+}
 
 =head2 $self->add_comment({ %comment_params })
 
@@ -240,8 +275,6 @@ sub assign_tags
 =head1 SEE ALSO
 
 L<App::Catable::Schema>, L<App::Catable>, L<DBIx::Class>
-
-L<App::Catable::Schema::Comment>
 
 =head1 AUTHOR
 

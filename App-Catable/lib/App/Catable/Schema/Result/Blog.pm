@@ -1,4 +1,4 @@
-package App::Catable::Schema::Blog;
+package App::Catable::Schema::Result::Blog;
 
 use strict;
 use warnings;

@@ -1,4 +1,4 @@
-package App::Catable::Schema::Tag;
+package App::Catable::Schema::Result::Tag;
 
 use strict;
 use warnings;

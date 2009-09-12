@@ -1,4 +1,4 @@
-package App::Catable::Schema::PostTagAssoc;
+package App::Catable::Schema::Result::PostTagAssoc;
 
 use strict;
 use warnings;
