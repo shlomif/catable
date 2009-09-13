@@ -35,3 +35,8 @@ span.error_message, span.error_constraint_required {
     margin-bottom:1em;
     margin-right:1em;
 }
+
+#content-inner
+{
+    padding-left: 1em;
+}
