@@ -25,7 +25,7 @@ Plugin::Authentication:
                 id_field: id
                 role_relation: roles
                 role_field: name
-        local:  # realm
+        local:
             credential:
                 class:          Password
                 password_field: password
