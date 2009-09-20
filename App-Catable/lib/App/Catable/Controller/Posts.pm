@@ -214,8 +214,10 @@ sub show :Local Args(1)  {
     $c->log->debug( " == /posts/show/" . $post_id );
     my $post = $c->forward( '/posts/load_post/', [$post_id] );
 
+    # A post can be on many blogs now. However, most will be on just one,
+    # so it should be OK to just take the first blog for styling.
     $c->res->redirect( sprintf '/blog/%s/posts/show/%d',
-                             $post->blog->url,
+                             $post->blogs->first->url,
                              $post->id );
     $c->detach();
 }
