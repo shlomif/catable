@@ -1,4 +1,4 @@
-package App::Catable::ResultSet::Entry;
+package App::Catable::Schema::ResultSet::Entry;
 
 use strict;
 use warnings;
@@ -36,9 +36,9 @@ Returns all rows in the result set that are posts, i.e. have no parent.
 sub posts {
     my $self = shift;
     return $self->search( [
-        { parent => undef },
-        { parent => 0 }
-    );
+        { parent_id => undef },
+        { parent_id => 0 }
+    ] );
 }
 
 =head2 by_blogs
@@ -53,7 +53,7 @@ sub by_blogs {
     my $self = shift;
     my @blogs = @_;
 
-    return $self->search( {
+    return $self->related_resultset('blog_entries')->search( {
         blog_id => {
             '-in' => [ map {_blog_id( $_ ) } @blogs ],
         },

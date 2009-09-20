@@ -39,7 +39,7 @@ sub by_users {
     my @users = shift;
 
     return $self->search( {
-        owner => {
+        owner_id => {
             '-in' => [ map { _user_id( $_ ) } @users ],
         },
     } );
