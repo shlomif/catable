@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 40;
+use Test::More tests => 39;
 
 # TEST
 BEGIN { use_ok 'App::Catable::Model::BlogDB' }
@@ -14,12 +14,7 @@ use DateTime;
 my $schema = AppCatableTestSchema->init_schema(no_populate => 0);
 
 {
-    my $posts_rs = $schema->resultset('Post');
-
-    my $comments_rs = $schema->resultset('Comment');
-
-    # TEST
-    ok ($comments_rs, "There's a Comment result-set.");
+    my $posts_rs = $schema->resultset('Entry');
 
     my $date = DateTime->new(
         year => 2009,
@@ -44,7 +39,6 @@ my $schema = AppCatableTestSchema->init_schema(no_populate => 0);
     {
         my $new_post = $posts_rs->create(
             {
-                blog => 1,
                 title => "A Cute Cat",
                 body => <<'EOF',
 <p>
@@ -79,7 +73,7 @@ EOF
             second => 5,
         );
 
-        my $new_comment = $comments_rs->create(
+        my $new_comment = $posts_rs->create(
             {
                 parent => $cats_post,
                 title => "Vim Tip: Copying Some Non-Adjacent Lines to a Register",
@@ -112,7 +106,7 @@ EOF
     }
 
     {
-        my $comment = $comments_rs->find( { id => $comment_id } );
+        my $comment = $posts_rs->find( { id => $comment_id } );
 
         # TEST
         ok ($comment, "Comment was found.");
@@ -180,7 +174,7 @@ EOF
         );
 
         # Create a new comment
-        my $comment2 = $comments_rs->create(
+        my $comment2 = $posts_rs->create(
             {
                 parent => $cats_post,
                 title => "Building STAF on Mandriva Cooker (and other Linuxes)",
@@ -268,7 +262,6 @@ EOF
 
         my $post2 = $posts_rs->create(
             {
-                blog => 1,
                 title => "Nouveau",
                 body => <<'EOF',
 <p>
@@ -303,7 +296,7 @@ EOF
             second => 5,
         );
 
-        my $nouv_comment_1 = $comments_rs->create(
+        my $nouv_comment_1 = $posts_rs->create(
             {
                 parent => $nouv_post,
                 title => "On the meaning of being Ernest",
@@ -323,7 +316,7 @@ EOF
 
         $comment_date->add (days => 1);
 
-        my $nouv_comment_2 = $comments_rs->create(
+        my $nouv_comment_2 = $posts_rs->create(
             {
                 parent => $nouv_post,
                 title => "Songs of Innocence",
