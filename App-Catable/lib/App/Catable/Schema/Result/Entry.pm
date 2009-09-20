@@ -151,10 +151,6 @@ __PACKAGE__->many_to_many(
     tags   => 'tags_assoc', 
     'tag'
 );
-__PACKAGE__->might_have(
-    comments    => 'App::Catable::Schema::Result::Entry',
-    'parent_id',
-);
 __PACKAGE__->belongs_to(
     parent  => 'App::Catable::Schema::Result::Entry',
     'parent_id'
