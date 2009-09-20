@@ -109,11 +109,11 @@ __PACKAGE__->add_columns(
         data_type => 'datetime',
         is_nullable => 0,
     },
-    blog    => {
-        data_type => 'bigint',
-        is_nullable => 0,
-    },
     parent_id  => {
+        data_type => 'bigint',
+        is_nullable => 1,
+    },
+    author_id  => {
         data_type => 'bigint',
         is_nullable => 1,
     },
@@ -122,13 +122,29 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key( qw( id ) );
 __PACKAGE__->resultset_attributes( { order_by => [ 'pubdate' ] } );
 __PACKAGE__->add_unique_constraint( [ 'pubdate' ] );
-__PACKAGE__->has_one( qw( blog App::Catable::Schema::Blog ) );
+
+__PACKAGE__->belongs_to(
+    author => 'App::Catable::Schema::Result::Account',
+    'author_id'
+);
+
+# Since combining posts and comments into one table I decided to create
+# a link between posts and blogs so we don't have to have a blog ID on
+# comments. A post can now magically be on many blogs. This seems OK with me!
+__PACKAGE__->has_many( 
+    blog_entries => 'App::Catable::Schema::Result::BlogEntry',
+    'entry_id'
+);
+__PACKAGE__->many_to_many(
+    blogs => 'blog_entries', 'blog'
+);
+
 __PACKAGE__->has_many(
-    comments => 'App::Catable::Schema::Comment',
+    comments => 'App::Catable::Schema::Result::Entry',
     'parent_id',
 );
 __PACKAGE__->has_many(
-    tags_assoc => 'App::Catable::Schema::PostTagAssoc',
+    tags_assoc => 'App::Catable::Schema::Result::PostTagAssoc',
     'post_id',
 );
 __PACKAGE__->many_to_many(
@@ -136,11 +152,11 @@ __PACKAGE__->many_to_many(
     'tag'
 );
 __PACKAGE__->might_have(
-    comments    => 'App::Catable::Schema::Entry',
-    { 'foreign.parent_id' => 'self.id' },
+    comments    => 'App::Catable::Schema::Result::Entry',
+    'parent_id',
 );
 __PACKAGE__->belongs_to(
-    parent  => 'App::Catable::Schema::Entry',
+    parent  => 'App::Catable::Schema::Result::Entry',
     'parent_id'
 );
 

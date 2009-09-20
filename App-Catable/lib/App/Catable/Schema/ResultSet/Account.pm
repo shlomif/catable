@@ -1,4 +1,4 @@
-package App::Catable::ResultSet::Account;
+package App::Catable::Schema::ResultSet::Account;
 
 use strict;
 use warnings;
