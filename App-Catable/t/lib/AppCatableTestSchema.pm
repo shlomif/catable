@@ -150,10 +150,10 @@ sub create_test_data {
 
     my $user_id = $schema->resultset('Account')->single( {username => 'user'} )->id;
     $schema->resultset('Blog')->create( {
-        owner   => $user_id,
-        title   => 'Blog',
-        url     => 'usersblog',
-        theme   => 'default',
+        owner_id => $user_id,
+        title    => 'Blog',
+        url      => 'usersblog',
+        theme    => 'default',
     } );
 
     return;
