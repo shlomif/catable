@@ -120,8 +120,8 @@ __PACKAGE__->add_columns(
 );
 
 __PACKAGE__->set_primary_key( qw( id ) );
-__PACKAGE__->resultset_attributes( { order_by => [ 'pubdate' ] } );
-__PACKAGE__->add_unique_constraint( [ 'pubdate' ] );
+__PACKAGE__->resultset_attributes( { order_by => [ qw( pubdate id ) ] } );
+#__PACKAGE__->add_unique_constraint( [ 'pubdate' ] );
 
 __PACKAGE__->belongs_to(
     author => 'App::Catable::Schema::Result::Account',
@@ -187,6 +187,7 @@ sub add_comment
     return $self->create_related( 'comments',
         {
             parent => $self,
+            pubdate => \"DATETIME('NOW')",
             %{$args},
         },
     );
