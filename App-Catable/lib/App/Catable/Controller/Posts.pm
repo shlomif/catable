@@ -136,7 +136,6 @@ sub add_submit : Private {
 
     my $form    = $c->req->args->[0];
     my $params  = $form->params;
-    my $blog_id = $c->stash->{blog}->id;
 
     my $now = DateTime->now();
 
@@ -149,10 +148,10 @@ sub add_submit : Private {
             can_be_published => ($params->{can_be_published} ? 1 : 0),
             pubdate => $now,
             update_date => $now,
-            blog => $blog_id,
             parent_id => undef,
         } );
 
+    $c->stash->{blog}->add_to_posts( $c->stash->{new_post} );
     
     $c->stash->{template} = 'posts/add-submit.tt2';
 
@@ -175,7 +174,7 @@ the scope of the search.
 sub tag :Local :CaptureArgs(1)  {
     my ($self, $c, $tags_query) = @_;
 
-    my $posts_rs = $c->model("BlogDB::Tag")
+    my $posts_rs = $c->model("BlogDB")->resultset("Tag")
                      ->find({label => $tags_query})
                      ->posts;
 
