@@ -109,6 +109,12 @@ sub blog : Chained('/') CaptureArgs(1) {
 
     $c->stash->{blog} 
         = $c->forward( '/blogs/load_blog', [$blog_name] );
+
+    if (! $c->stash->{blog} ) {
+        $c->res->status(404);
+        $c->res->body("Blog $blog_name not found");
+        $c->detach;
+    }
     return;
 }
 
