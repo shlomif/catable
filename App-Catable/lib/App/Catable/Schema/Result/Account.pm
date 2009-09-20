@@ -80,7 +80,7 @@ use base qw( DBIx::Class );
 
 __PACKAGE__->load_components( qw( TimeStamp InflateColumn::DateTime Core ) );
 __PACKAGE__->table( 'account' );
-__PACKAGE__->resultset_class('App::Catable::ResultSet::Account');
+__PACKAGE__->resultset_class('App::Catable::Schema::ResultSet::Account');
 __PACKAGE__->add_columns(
     id => {
         data_type         => 'bigint',
@@ -147,6 +147,16 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key( qw( id ) );
 __PACKAGE__->add_unique_constraint ( [ 'url' ]);
+
+__PACKAGE__->might_have( 
+    blogs => 'App::Catable::Schema::Result::Blog',
+    'owner_id',
+);
+__PACKAGE__->might_have(
+    posts => 'App::Catable::Schema::Result::Entry',
+    'author_id',
+    { where => { 'foreign.parent_id' => 0 }},
+);
 
 =head2 new
 
