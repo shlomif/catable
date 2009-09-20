@@ -116,7 +116,7 @@ sub list : Local
 
     $c->log->debug( sprintf "Found %d posts", scalar $posts_rs->all );
 
-    $c->stash->{posts} = scalar $posts_rs->all;
+    $c->stash->{posts} = [ $posts_rs->all ];
     $c->stash->{template} = 'posts/list.tt2';
     $c->stash->{title} ||= "All posts - Catable";
 
