@@ -4,7 +4,7 @@ action: /register
 
 indicator: submit
 
-auto_id: %n
+auto_id: '%n'
 attributes:
     class: registration-form
 
