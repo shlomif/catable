@@ -5,7 +5,7 @@ use warnings;
 
 =head1 NAME
 
-App::Catable::Schema::Blog - a schema class representing an entire blog!
+App::Catable::Schema::Result::Blog - a schema class representing an entire blog!
 
 =head1 SYNOPSIS
       
