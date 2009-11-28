@@ -2,7 +2,7 @@ action:
 # indicator is the field that is used to test for form submission
 indicator: create
 
-auto_id: %n
+auto_id: '%n'
 attributes:
     class: create-new-blog
 
