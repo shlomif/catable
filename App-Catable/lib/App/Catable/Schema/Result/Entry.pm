@@ -1,23 +1,28 @@
-package App::Catable::Schema::Post;
+package App::Catable::Schema::Result::Entry;
 
 use strict;
 use warnings;
 
 =head1 NAME
 
-App::Catable::Schema::Post - a schema class representing a blog post.
+App::Catable::Schema::Entry - a schema class representing a blog post
+or comment.
 
 =head1 SYNOPSIS
       
     my $schema = App::Catable->model("BlogDB");
 
-    my $posts_rs = $schema->resultset('Post');
+    my $posts_rs = $schema->resultset('Entry');
 
     my $post = $posts_rs->find({
         id => 2_400,
         });
 
     print $post->title();
+
+    my $comments = $post->comments;
+
+    print $_->body for $comments->all;
 
 =head1 DESCRIPTION
 
@@ -64,6 +69,11 @@ The child comments of the post.
 
 The blog on which this post has been posted.
 
+=head2 parent
+
+The parent Entry. If null or zero, this is a post and the "parent"
+is the blog. Otherwise, it is a comment.
+
 =head1 METHODS
 
 =cut
@@ -71,7 +81,7 @@ The blog on which this post has been posted.
 use base qw( DBIx::Class );
 
 __PACKAGE__->load_components( qw( InflateColumn::DateTime Core ) );
-__PACKAGE__->table( 'post' );
+__PACKAGE__->table( 'entry' );
 __PACKAGE__->add_columns(
     id => {
         data_type         => 'bigint',
@@ -99,28 +109,65 @@ __PACKAGE__->add_columns(
         data_type => 'datetime',
         is_nullable => 0,
     },
-    blog    => {
+    parent_id  => {
         data_type => 'bigint',
-        is_nullable => 0,
-    }
+        is_nullable => 1,
+    },
+    author_id  => {
+        data_type => 'bigint',
+        is_nullable => 1,
+    },
 );
 
 __PACKAGE__->set_primary_key( qw( id ) );
-__PACKAGE__->resultset_attributes( { order_by => [ 'pubdate' ] } );
-__PACKAGE__->add_unique_constraint( [ 'pubdate' ] );
-__PACKAGE__->has_one( qw( blog App::Catable::Schema::Blog ) );
+__PACKAGE__->resultset_attributes( { order_by => [ qw( pubdate id ) ] } );
+#__PACKAGE__->add_unique_constraint( [ 'pubdate' ] );
+
+__PACKAGE__->belongs_to(
+    author => 'App::Catable::Schema::Result::Account',
+    'author_id'
+);
+
+# Since combining posts and comments into one table I decided to create
+# a link between posts and blogs so we don't have to have a blog ID on
+# comments. A post can now magically be on many blogs. This seems OK with me!
+__PACKAGE__->has_many( 
+    blog_entries => 'App::Catable::Schema::Result::BlogEntry',
+    'entry_id'
+);
+__PACKAGE__->many_to_many(
+    blogs => 'blog_entries', 'blog'
+);
+
 __PACKAGE__->has_many(
-    comments => 'App::Catable::Schema::Comment',
+    comments => 'App::Catable::Schema::Result::Entry',
     'parent_id',
 );
 __PACKAGE__->has_many(
-    tags_assoc => 'App::Catable::Schema::PostTagAssoc',
+    tags_assoc => 'App::Catable::Schema::Result::PostTagAssoc',
     'post_id',
 );
 __PACKAGE__->many_to_many(
     tags   => 'tags_assoc', 
     'tag'
 );
+__PACKAGE__->belongs_to(
+    parent  => 'App::Catable::Schema::Result::Entry',
+    'parent_id'
+);
+
+=head2 $self->is_post
+
+Helper method that simply returns a true value if this object has no
+parent.
+
+=cut
+
+sub is_post {
+    my $self = shift;
+
+    return $self->parent_id ? 0 : 1;
+}
 
 =head2 $self->add_comment({ %comment_params })
 
@@ -136,6 +183,7 @@ sub add_comment
     return $self->create_related( 'comments',
         {
             parent => $self,
+            pubdate => \"DATETIME('NOW')",
             %{$args},
         },
     );
@@ -240,8 +288,6 @@ sub assign_tags
 =head1 SEE ALSO
 
 L<App::Catable::Schema>, L<App::Catable>, L<DBIx::Class>
-
-L<App::Catable::Schema::Comment>
 
 =head1 AUTHOR
 

@@ -14,7 +14,7 @@ use DateTime;
 my $schema = AppCatableTestSchema->init_schema(no_populate => 0);
 
 {
-    my $posts_rs = $schema->resultset('Post');
+    my $posts_rs = $schema->resultset('Entry');
 
     my $date = DateTime->new(
         year => 2009,
@@ -39,7 +39,6 @@ my $schema = AppCatableTestSchema->init_schema(no_populate => 0);
     {
         my $new_post = $posts_rs->create(
             {
-                blog => 1,
                 title => "A Cute Cat",
                 body => <<'EOF',
 <p>

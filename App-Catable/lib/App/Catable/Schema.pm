@@ -5,11 +5,7 @@ use warnings;
 
 use base 'DBIx::Class::Schema';
 
-__PACKAGE__->load_classes;
-
-
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2009-06-30 19:41:08
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:LzdS+LV0uC4IyGyV8CBUNA
+__PACKAGE__->load_namespaces;
 
 =head1 NAME
 

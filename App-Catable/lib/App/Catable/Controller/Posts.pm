@@ -50,7 +50,9 @@ sub add : Local FormConfig
             ->options(
                 [
                     map { +{ label => $_->title(), value => $_->url(), } }
-                    ($c->model("BlogDB::Blog")->search({owner => $c->user->id()}))
+                    ( $c->model("BlogDB")
+                        ->resultset("Blog")
+                        ->by_users($c->user) )
                 ],
             );
     }
@@ -70,9 +72,11 @@ sub add : Local FormConfig
             # someone fudges with the post_blog parameter under an
             # unprivileged user.
             $c->stash->{blog} =
-                $c->model("BlogDB::Blog")
-                  ->find({url => $c->req->params->{'post_blog'}})
-                  ;
+                $c->model("BlogDB")
+                  ->resultset("Blog")
+                  ->find( {
+                    url => $c->req->params->{'post_blog'}
+                  });
         }
         $c->detach('add_submit', [$form]);
     }
@@ -100,20 +104,19 @@ sub list : Local
     my ($self, $c) = @_;
 
     my %search_params;
-
-    $search_params{can_be_published} = 1;
-    $search_params{pubdate} = { "<=" => \"DATETIME('NOW')" };
-
-    # Add the blog filter if we have a blog.
-    $search_params{blog} = $c->stash->{blog}->id
-        if exists $c->stash->{blog};
     
-    my @posts = $c->model('BlogDB')->resultset('Post')
+    my $posts_rs = 
+      $c->model('BlogDB')
+        ->resultset('Entry')
+        ->published_posts
         ->search( \%search_params );
 
-    $c->log->debug( sprintf "Found %d posts", scalar @posts );
+    $posts_rs = $posts_rs->by_blogs( $c->stash->{blog} )
+        if exists $c->stash->{blog};
 
-    $c->stash->{posts} = \@posts;
+    $c->log->debug( sprintf "Found %d posts", scalar $posts_rs->all );
+
+    $c->stash->{posts} = [ $posts_rs->all ];
     $c->stash->{template} = 'posts/list.tt2';
     $c->stash->{title} ||= "All posts - Catable";
 
@@ -133,22 +136,22 @@ sub add_submit : Private {
 
     my $form    = $c->req->args->[0];
     my $params  = $form->params;
-    my $blog_id = $c->stash->{blog}->id;
 
     my $now = DateTime->now();
 
     # TODO: iterate over blogs when coming from /posts/add
     $c->stash->{new_post}
-    = $c->model('BlogDB')->resultset('Post')
+    = $c->model('BlogDB')->resultset('Entry')
         ->create( {
             title => $params->{post_title},
             body => $params->{post_body},
             can_be_published => ($params->{can_be_published} ? 1 : 0),
             pubdate => $now,
             update_date => $now,
-            blog => $blog_id
+            parent_id => undef,
         } );
 
+    $c->stash->{blog}->add_to_posts( $c->stash->{new_post} );
     
     $c->stash->{template} = 'posts/add-submit.tt2';
 
@@ -171,7 +174,7 @@ the scope of the search.
 sub tag :Local :CaptureArgs(1)  {
     my ($self, $c, $tags_query) = @_;
 
-    my $posts_rs = $c->model("BlogDB::Tag")
+    my $posts_rs = $c->model("BlogDB")->resultset("Tag")
                      ->find({label => $tags_query})
                      ->posts;
 
@@ -211,8 +214,10 @@ sub show :Local Args(1)  {
     $c->log->debug( " == /posts/show/" . $post_id );
     my $post = $c->forward( '/posts/load_post/', [$post_id] );
 
+    # A post can be on many blogs now. However, most will be on just one,
+    # so it should be OK to just take the first blog for styling.
     $c->res->redirect( sprintf '/blog/%s/posts/show/%d',
-                             $post->blog->url,
+                             $post->blogs->first->url,
                              $post->id );
     $c->detach();
 }
@@ -330,7 +335,9 @@ Creates a private URL '/posts/load_post/*'. Returns the post object by ID.
 sub load_post : Private {
     my ($self, $c, $post_id) = @_;
 
-    my $post = $c->model("BlogDB::Post")->find({id => $post_id });
+    my $post = $c->model("BlogDB")
+                 ->resultset("Entry")
+                 ->find({ id => $post_id });
 
     if (!$post)
     {

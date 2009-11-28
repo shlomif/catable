@@ -1,4 +1,4 @@
-package App::Catable::Schema::Blog;
+package App::Catable::Schema::Result::Blog;
 
 use strict;
 use warnings;
@@ -88,7 +88,7 @@ __PACKAGE__->add_columns(
         is_auto_increment => 1,
         is_nullable       => 0,
     },
-    owner => {
+    owner_id => {
         data_type         => 'bigint',
         is_nullable       => 0,
     },
@@ -122,11 +122,16 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key( qw( id ) );
 __PACKAGE__->add_unique_constraint ( [ 'url' ]);
 
-__PACKAGE__->has_one(qw( owner App::Catable::Schema::Account ));
+__PACKAGE__->belongs_to( 
+    owner => 'App::Catable::Schema::Result::Account',
+    'owner_id'
+);
 __PACKAGE__->has_many(
-    posts =>
-    "App::Catable::Schema::Post",
-    "blog"
+    blog_entries => "App::Catable::Schema::Result::BlogEntry",
+    'blog_id',
+);
+__PACKAGE__->many_to_many(
+    posts => 'blog_entries', 'entry'
 );
 
 =head1 SEE ALSO

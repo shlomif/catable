@@ -34,8 +34,6 @@ sub load_blog : Private{
         ->resultset('Blog')
         ->single({ url => $blog_name});
 
-    $c->stash->{blog} = $blog or return;
-
     return $blog;
 }
 
@@ -70,8 +68,8 @@ sub create_blog : Path('/create-blog') Args(0) FormConfig
                         { $_ => $params->{$_} }
                         (qw(url title))
                     ),
-                    theme => "catable",
-                    owner => $c->user->id(),
+                    theme    => "catable",
+                    owner_id => $c->user->id(),
                 }
             );
 

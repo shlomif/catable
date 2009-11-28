@@ -1,4 +1,4 @@
-package App::Catable::Schema::PostTagAssoc;
+package App::Catable::Schema::Result::PostTagAssoc;
 
 use strict;
 use warnings;
@@ -35,11 +35,11 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key( qw( post_id tag_id ) );
 __PACKAGE__->resultset_attributes( { order_by => [ 'post_id', 'tag_id' ] } );
 __PACKAGE__->belongs_to(
-    post => 'App::Catable::Schema::Post',
+    post => 'App::Catable::Schema::Result::Entry',
     'post_id',
 );
 __PACKAGE__->belongs_to(
-    tag => 'App::Catable::Schema::Tag',
+    tag => 'App::Catable::Schema::Result::Tag',
     'tag_id',
 );
 

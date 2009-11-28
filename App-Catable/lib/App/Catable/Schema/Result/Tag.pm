@@ -1,4 +1,4 @@
-package App::Catable::Schema::Tag;
+package App::Catable::Schema::Result::Tag;
 
 use strict;
 use warnings;
@@ -64,7 +64,7 @@ __PACKAGE__->set_primary_key( qw( id ) );
 __PACKAGE__->resultset_attributes( { order_by => [ 'label' ] } );
 __PACKAGE__->add_unique_constraint( [ 'label' ] );
 __PACKAGE__->has_many(
-    posts_assoc => 'App::Catable::Schema::PostTagAssoc',
+    posts_assoc => 'App::Catable::Schema::Result::PostTagAssoc',
     'tag_id',
 );
 __PACKAGE__->many_to_many(

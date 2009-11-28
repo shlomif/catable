@@ -38,7 +38,7 @@ sub are_tags_ok
 }
 
 {
-    my $posts_rs = $schema->resultset('Post');
+    my $posts_rs = $schema->resultset('Entry');
     my $tags_by_label_rs = $schema->resultset('Tag');
     my $assoc_rs = $schema->resultset('PostTagAssoc');
 
@@ -47,7 +47,6 @@ sub are_tags_ok
     {
         my $cat_post = $posts_rs->create(
             {
-                blog => 1,
                 title => "A Cute Cat",
                 body => <<'EOF',
 <p>
@@ -142,7 +141,6 @@ EOF
 
         my $nouv_post = $posts_rs->create(
             {
-                blog => 1,
                 title => "Nouveau",
                 body => <<'EOF',
 <p>
@@ -443,7 +441,6 @@ EOF
 
         my $ocaml_post = $posts_rs->create(
             {
-                blog => 1,
                 title => "Standard ML / O'Caml Tip : Two or More Functions that Call Each Other",
                 body => <<'EOF',
 
