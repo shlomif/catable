@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 9;
+use Test::More tests => 11;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -41,6 +41,23 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
     # TEST
     $mech->get_ok("http://localhost/posts/add");
 
+    {
+        my $forms = $mech->forms();
+
+        # TEST
+        is (scalar(@$forms), 1, "Only one form in the add page after login.");
+
+        $mech->form_number(1);
+
+        my @buttons = $mech->find_all_inputs(type => "submit");
+        
+        # TEST
+        is_deeply(
+            [map { $_->{'value'} } @buttons],
+            ["Preview"],
+            "Only a preview button at first."
+        );
+    }
     # TEST
     $mech->submit_form_ok(
         { 

@@ -31,13 +31,20 @@ sub add : Local FormConfig
 
     my $form = $c->stash->{form};
 
-    if( not $c->user_exists ) {
+    if ( not $c->user_exists ) {
         $c->res->status(401);
         $c->res->body('Must log in');
         $c->detach;
     }
 
-    if( exists $c->stash->{blog} ) {
+    if (! $c->request->param("preview") )
+    {
+        $form->remove_element(
+            $form->get_field( { name => 'submit' } )
+        );
+    }
+
+    if ( exists $c->stash->{blog} ) {
         # Don't show the Blog field at all if we are working on a blog
         $form->remove_element(
             $form->get_field( { name => 'post_blog' } )
