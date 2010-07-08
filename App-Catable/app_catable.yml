@@ -12,12 +12,9 @@ Plugin::Authentication:
             credential:
                 class: OpenID
                 extensions:
-                    'http://openid.net/extensions/sreg/1.1': 1
-                extension_args:
                     - 'http://openid.net/extensions/sreg/1.1'
-                    -
-                        required: 'email,timezone'
-                        optional: 'fullname,nickname,timezone'
+                    - required: 'email,timezone'
+                      optional: 'fullname,nickname,timezone'
                 ua_class: LWPx::ParanoidAgent
             store:
                 class: DBIx::Class

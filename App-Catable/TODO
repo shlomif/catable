@@ -56,3 +56,5 @@ entries to request comments before posting them for real
 * Add SEO-friendly URLs to posts based on the title instead of just the ID.
 like {{ /post/show/my-cat-purred-at-me-today/ }} .
 
+* Make sure the application does not say you can login if you're already
+logged-in.
