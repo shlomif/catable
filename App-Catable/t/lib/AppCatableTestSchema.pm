@@ -3,6 +3,11 @@ package # hide from PAUSE
 
 use strict;
 use warnings;
+
+use Sub::Exporter -setup => {
+    exports => [qw(get_user_id_by_name)],
+};
+
 use App::Catable::Schema;
 use YAML;
 
@@ -140,6 +145,15 @@ sub populate_schema {
     return;
 }
 
+sub get_user_id_by_name {
+    my $schema = shift;
+    my $username = shift;
+
+    return
+        $schema->resultset('Account')
+               ->single( {username => $username} )->id;
+}
+
 sub create_test_data {
     my ($self,$schema) = @_;
 
@@ -148,7 +162,7 @@ sub create_test_data {
         password    => 'password', 
     } );
 
-    my $user_id = $schema->resultset('Account')->single( {username => 'user'} )->id;
+    my $user_id = get_user_id_by_name($schema, 'user');
     $schema->resultset('Blog')->create( {
         owner_id => $user_id,
         title    => 'Blog',

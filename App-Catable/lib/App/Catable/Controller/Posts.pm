@@ -118,7 +118,7 @@ sub list : Local
         ->published_posts
         ->search( \%search_params );
 
-    $posts_rs = $posts_rs->by_blogs( $c->stash->{blog} )
+    $posts_rs = $posts_rs->by_blogs( [ $c->stash->{blog} ] )
         if exists $c->stash->{blog};
 
     $c->log->debug( sprintf "Found %d posts", scalar $posts_rs->all );

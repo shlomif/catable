@@ -46,15 +46,14 @@ sub posts {
 
 =head2 by_blogs
 
-    $rs->by_blogs( $blog_id_or_object, ... );
+    $rs->by_blogs( [$blog_id_or_object1, $blog_id_or_object2...] );
 
 Returns a resultset filtered by the blog(s) you specify.
 
 =cut
 
 sub by_blogs {
-    my $self = shift;
-    my @blogs = @_;
+    my ($self, $blogs_ref) = @_;
 
     my $b_e_rs = $self->related_resultset('blog_entries');
 
@@ -62,7 +61,7 @@ sub by_blogs {
 
     return $b_e_rs->search( {
         "${me}.blog_id" => {
-            '-in' => [ map {_blog_id( $_ ) } @blogs ],
+            '-in' => [ map {_blog_id( $_ ) } @$blogs_ref ],
         },
     } )->related_resultset('entry');
 }
