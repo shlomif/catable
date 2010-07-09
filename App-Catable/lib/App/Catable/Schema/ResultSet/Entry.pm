@@ -35,9 +35,12 @@ Returns all rows in the result set that are posts, i.e. have no parent.
 
 sub posts {
     my $self = shift;
+
+    my $me = $self->current_source_alias;
+
     return $self->search( [
-        { parent_id => undef },
-        { parent_id => 0 }
+        { "${me}.parent_id" => undef },
+        { "${me}.parent_id" => 0 }
     ] );
 }
 
@@ -53,11 +56,15 @@ sub by_blogs {
     my $self = shift;
     my @blogs = @_;
 
-    return $self->related_resultset('blog_entries')->search( {
-        blog_id => {
+    my $b_e_rs = $self->related_resultset('blog_entries');
+
+    my $me = $b_e_rs->current_source_alias;
+
+    return $b_e_rs->search( {
+        "${me}.blog_id" => {
             '-in' => [ map {_blog_id( $_ ) } @blogs ],
         },
-    } );
+    } )->related_resultset('entry');
 }
 
 =head2 published_posts
@@ -71,9 +78,13 @@ method. Published also requires that the pubdate is earlier than now.
 sub published_posts {
     my $self = shift;
 
-    return $self->posts->search( {
-        can_be_published => 1,
-        pubdate => { "<=" => \"DATETIME('NOW')" },
+    my $p_rs = $self->posts;
+
+    my $me = $p_rs->current_source_alias;
+
+    return $p_rs->search( {
+        "${me}.can_be_published" => 1,
+        "${me}.pubdate" => { "<=" => \"DATETIME('NOW')" },
     });
 }
 

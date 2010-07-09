@@ -120,7 +120,7 @@ __PACKAGE__->add_columns(
 );
 
 __PACKAGE__->set_primary_key( qw( id ) );
-__PACKAGE__->resultset_attributes( { order_by => [ qw( pubdate id ) ] } );
+__PACKAGE__->resultset_attributes( { order_by => [ qw( me.pubdate me.id ) ] } );
 #__PACKAGE__->add_unique_constraint( [ 'pubdate' ] );
 
 __PACKAGE__->belongs_to(
