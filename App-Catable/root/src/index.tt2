@@ -5,12 +5,15 @@ Here's what you can find here:
 </p>
 
 <ul>
+[% IF c.user_exists %]
+[% ELSE %]
 <li>
 <a href="[% c.uri_for("/login/openid") %]">Login using OpenID</a>
 </li>
 <li>
 <a href="[% c.uri_for("/login") %]">Login using a Username+Password</a>
 </li>
+[% END %]
 <li>
 <a href="[% c.uri_for("/register") %]">Register a new account</a>
 </li>

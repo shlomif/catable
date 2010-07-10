@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 8;
+use Test::More tests => 9;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -82,6 +82,12 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
     $mech->content_like(
         qr/Logged in as.*?user.*?Log out/ms, 
         "Seems to be logged in" 
+    );
+
+    # TEST
+    $mech->content_unlike(
+        qr{Login},
+        "No links to login since already logged in."
     );
 }
 
