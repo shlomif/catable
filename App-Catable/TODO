@@ -64,3 +64,6 @@ logged-in.
 * Add a breadcrumbs trail to the top of the page.
 
 * Add RSS/Atom feeds.
+
+* Add an option for posts and comment with rel="nofollow".
+
