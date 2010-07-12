@@ -48,7 +48,7 @@ sub create_blog : Path('/create-blog') Args(0) FormConfig
 {
     my ($self, $c) = @_;
 
-    if( not $c->user_exists ) {
+    if ( not $c->user_exists ) {
         $c->res->status( 400 );
         $c->res->body( 'You must log in to create a blog' );
     }

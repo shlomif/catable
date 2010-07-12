@@ -74,7 +74,8 @@ sub add : Local FormConfig
     {
         my $params = $form->params;
 
-        if( exists $params->{post_blog} ) {
+        if ( exists $params->{post_blog} )
+        {
             # TODO - Might be a privilege escalation here in case
             # someone fudges with the post_blog parameter under an
             # unprivileged user.
@@ -185,7 +186,8 @@ sub tag :Local :CaptureArgs(1)  {
                      ->find({label => $tags_query})
                      ->posts;
 
-    if( exists $c->stash->{blog} ) {
+    if ( exists $c->stash->{blog} )
+    {
         $posts_rs = $posts_rs->find({ blog_id => $c->stash->{blog}->id });
     }
 

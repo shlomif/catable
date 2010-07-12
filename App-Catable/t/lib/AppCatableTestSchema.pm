@@ -67,9 +67,13 @@ sub init_schema {
     my $dbpass = $ENV{"CATABLE_TEST_SCHEMA_DBPASS"} || '';
 
     my $schema = App::Catable::Schema->connect( $dsn, $dbuser, $dbpass);
-    if ( !$args{no_deploy} ) {
+    if ( !$args{no_deploy} )
+    {
         __PACKAGE__->deploy_schema( $schema );
-        __PACKAGE__->populate_schema( $schema ) if( !$args{no_populate} );
+        if ( !$args{no_populate} )
+        {
+            __PACKAGE__->populate_schema( $schema ) ;
+        }
     }
     my $config = {
        name => 'App::Catable Test Suite',

@@ -1,6 +1,8 @@
 package App::Catable::View::TT;
 
 use strict;
+use warnings;
+
 use base 'Catalyst::View::TT';
 
 use App::Catable;
