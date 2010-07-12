@@ -13,10 +13,10 @@ Here's what you can find here:
 <li>
 <a href="[% c.uri_for("/login") %]">Login using a Username+Password</a>
 </li>
-[% END %]
 <li>
 <a href="[% c.uri_for("/register") %]">Register a new account</a>
 </li>
+[% END %]
 <li>
 <a href="[% c.uri_for("/create-blog/") %]">Create a new blog</a>
 </li>

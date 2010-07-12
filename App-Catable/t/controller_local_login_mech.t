@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 9;
+use Test::More tests => 10;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -88,6 +88,12 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
     $mech->content_unlike(
         qr{Login},
         "No links to login since already logged in."
+    );
+
+    # TEST
+    $mech->content_unlike(
+        qr{Register},
+        "No links to register a new account since already logged in."
     );
 }
 
