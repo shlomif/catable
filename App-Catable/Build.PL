@@ -36,6 +36,7 @@ my $build = Test::Run::Builder->new(
         'Catalyst::Controller::HTML::FormFu' => 0,
         'DateTime::Format::SQLite' => 0,
         'DBIx::Class' => 0,
+        'DBIx::Class::DeploymentHandler' => 0,
         'DBIx::Class::TimeStamp' => 0.08111,
         'Digest' => 0,
         'HTML::Scrubber' => 0.08,
