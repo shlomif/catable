@@ -34,6 +34,7 @@ my $build = Test::Run::Builder->new(
         'Catalyst::Authentication::Store::DBIx::Class' => 0,
         'Catalyst::View::TT' => 0,
         'Catalyst::Controller::HTML::FormFu' => 0,
+        'Config::JFDI' => 0,
         'DateTime::Format::SQLite' => 0,
         'DBIx::Class' => 0,
         'DBIx::Class::DeploymentHandler' => 0,

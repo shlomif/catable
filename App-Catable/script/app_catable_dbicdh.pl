@@ -8,18 +8,18 @@ use feature ":5.10";
 use aliased 'DBIx::Class::DeploymentHandler' => 'DH';
 use FindBin;
 use lib "$FindBin::Bin/../lib";
-use DeploymentIntro::Schema;
+use App::Catable::Schema;
 use Config::JFDI;
 
-my $config = Config::JFDI->new( name => 'DeploymentIntro' );
+my $config = Config::JFDI->new( name => 'App::Catable' );
 my $config_hash  = $config->get;
-my $connect_info = $config_hash->{"Model::DB"}{"connect_info"};
-my $schema       = DeploymentIntro::Schema->connect($connect_info);
+my $connect_info = $config_hash->{"Model::BlogDB"}{"connect_info"}->[0];
+my $schema       = App::Catable::Schema->connect($connect_info);
 
 my $dh = DH->new({
   schema           => $schema,
   script_directory => "$FindBin::Bin/../dbicdh",
-  databases        => 'PostgreSQL',
+  databases        => 'SQLite',
 });
 
 sub install {

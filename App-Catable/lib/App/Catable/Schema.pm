@@ -34,6 +34,8 @@ sub create_initial_data
     return;
 }
 
+our $VERSION = 1;
+
 =head1 SEE ALSO
 
 L<App::Catable>, L<DBIx::Class>
