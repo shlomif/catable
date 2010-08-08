@@ -223,7 +223,6 @@ It uses an HTTP redirect on purpose.
 sub show :Local Args(1)  {
     my ($self, $c, $post_id) = @_;
 
-    $c->log->debug( " == /posts/show/" . $post_id );
     my $post = $c->forward( '/posts/load_post/', [$post_id] );
 
     # A post can be on many blogs now. However, most will be on just one,
