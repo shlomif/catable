@@ -122,7 +122,10 @@ sub list : Local
     $posts_rs = $posts_rs->by_blogs( [ $c->stash->{blog} ] )
         if exists $c->stash->{blog};
 
+=for logging
+    # Enable in case you want it - otherwise it's just noise on the tests.
     $c->log->debug( sprintf "Found %d posts", scalar $posts_rs->all );
+=cut
 
     $c->stash->{posts} = [ $posts_rs->all ];
     $c->stash->{template} = 'posts/list.tt2';
@@ -413,6 +416,10 @@ sub index : Private {
 =head1 AUTHOR
 
 Shlomi Fish, L<http://www.shlomifish.org/>
+
+=head1 COPYRIGHT
+
+Copyright by Shlomi Fish, 2010.
 
 =head1 LICENSE
 

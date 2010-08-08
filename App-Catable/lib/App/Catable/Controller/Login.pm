@@ -62,7 +62,10 @@ sub login : Global Args(0) FormConfig {
            || $c->uri_for( '/' )
            || do { $c->log->debug( "Didn't know where to go after /login successful" ); $c->res->status( 404 ) };
 
+=for Logging
         $c->log->debug( "Login successful - sending to $next_url" );
+=cut
+
         $c->res->redirect( $next_url );
     }
 }
@@ -72,6 +75,10 @@ sub login : Global Args(0) FormConfig {
 Shlomi Fish, L<http://www.shlomifish.org/>
 
 Alastair Douglas, L<http://www.grammarpolice.co.uk/>
+
+=head1 COPYRIGHT
+
+Copyright by Shlomi Fish, 2010.
 
 =head1 LICENSE
 

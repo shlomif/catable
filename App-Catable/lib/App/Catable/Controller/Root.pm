@@ -105,7 +105,10 @@ The action for /blog/*
 sub blog : Chained('/') CaptureArgs(1) {
     my ($self, $c, $blog_name) = @_; 
 
+=for logging
+    # Enable in case you want it - otherwise it's just noise on the tests.
     $c->log->debug( ' === Root::blog' );
+=cut
 
     $c->stash->{blog} 
         = $c->forward( '/blogs/load_blog', [$blog_name] );

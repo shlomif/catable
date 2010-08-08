@@ -70,7 +70,10 @@ sub register : Global Args(0) FormConfig {
            || $c->uri_for( '/' )
            || do { $c->log->debug( "Didn't know where to go after /register successful" ); $c->res->status( 404 ) };
 
+=for log
         $c->log->debug( "Login successful - sending to $next_url" );
+=cut
+
         $c->res->redirect( $next_url );
     }
 }
