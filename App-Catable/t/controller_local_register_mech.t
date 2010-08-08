@@ -1,6 +1,8 @@
 #!/usr/bin/perl
+
 use strict;
 use warnings;
+
 use Test::More tests => 15;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
@@ -9,6 +11,9 @@ use Test::More tests => 15;
 use vars qw($schema);
 BEGIN 
 { 
+    # This statement aims to silence perl -w.
+    $SQL::Translator::Schema::DEBUG = 0;
+
     $ENV{CATALYST_CONFIG} = "t/var/catable.yml";
     use App::Catable::Model::BlogDB; 
 
