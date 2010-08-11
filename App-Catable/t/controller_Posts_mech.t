@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 15;
+use Test::More tests => 19;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -23,7 +23,11 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 {
     my $mech = Test::WWW::Mechanize::Catalyst->new;
 
-    $mech->get("http://localhost/blog/usersblog/posts/add");
+    my $goto_add_post = sub {
+        $mech->get("http://localhost/blog/usersblog/posts/add");
+    };
+
+    $goto_add_post->();
 
     # TEST
     is( $mech->status, 401, "Cannot add post when not logged in" );
@@ -58,6 +62,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
             "Only a preview button at first."
         );
     }
+
     # TEST
     $mech->submit_form_ok(
         { 
@@ -128,6 +133,62 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
         $mech->content(),
         qr{<a\s*rel="tag category"\s*href="[^"]+/posts/tag/grey">grey</a>}ms,
         "Contains a link to one of the tags.",
+    );
+    
+    $goto_add_post->();
+
+    # TEST
+    $mech->submit_form_ok(
+        { 
+            fields =>
+            {
+                post_blog => "usersblog",
+                post_body => "<p>This is the second post.</p>",
+                post_title => "SECOND POST!!!1",
+                can_be_published => 1,
+                tags => "second post",
+            },
+            button => "preview",
+        },
+        "Submitting the preview form",
+    );
+
+    # TEST
+    $mech->submit_form_ok(
+        {
+            button => "submit",
+        },
+        "Submitting the submit form",    
+    );
+
+    $goto_add_post->();
+
+    # TEST
+    $mech->submit_form_ok(
+        { 
+            fields =>
+            {
+                post_blog => "usersblog",
+                post_body => <<'EOF',
+<p>The third post about cats and what's in between</p>
+<p>Enjoy the <a href="http://en.wiktionary.org/wiki/kitten">English wiktionary 
+definition of "kitten"</a>.</p>
+EOF
+                post_title => "Third post about cats in a row.",
+                can_be_published => 1,
+                tags => "cat, kitten, third, post",
+            },
+            button => "preview",
+        },
+        "Submitting the preview form",
+    );
+
+    # TEST
+    $mech->submit_form_ok(
+        {
+            button => "submit",
+        },
+        "Submitting the submit form",
     );
 }
 
