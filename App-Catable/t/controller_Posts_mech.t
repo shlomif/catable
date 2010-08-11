@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 19;
+use Test::More tests => 21;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -20,14 +20,51 @@ BEGIN
 
 use Test::WWW::Mechanize::Catalyst 'App::Catable';
 
+# TEST:$c=0;
+sub _add_post
+{
+    my $mech = shift;
+    my $fields = shift;
+    my $blurb_base = shift;
+
+    my $blog = "usersblog";
+
+    # TEST:$c++;
+    $mech->get_ok("http://localhost/blog/${blog}/posts/add",
+        "$blurb_base - get to the posts add page."
+    );
+
+    # TEST:$c++;
+    $mech->submit_form_ok(
+        { 
+            fields =>
+            {
+                post_blog => $blog,
+                can_be_published => 1,
+
+                post_body => $fields->{post_body},
+                post_title => $fields->{post_title},
+                tags => join(",", @{$fields->{tags}}),
+            },
+            button => "preview",
+        },
+        "Submitting the preview form",
+    );
+
+    # TEST:$c++;
+    $mech->submit_form_ok(
+        {
+            button => "submit",
+        },
+        "Submitting the submit form",    
+    );
+}
+# TEST:$add_post=$c;
+
 {
     my $mech = Test::WWW::Mechanize::Catalyst->new;
 
-    my $goto_add_post = sub {
-        $mech->get("http://localhost/blog/usersblog/posts/add");
-    };
-
-    $goto_add_post->();
+    $mech->get("http://localhost/blog/usersblog/posts/add");
 
     # TEST
     is( $mech->status, 401, "Cannot add post when not logged in" );
@@ -134,61 +171,31 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
         qr{<a\s*rel="tag category"\s*href="[^"]+/posts/tag/grey">grey</a>}ms,
         "Contains a link to one of the tags.",
     );
-    
-    $goto_add_post->();
-
-    # TEST
-    $mech->submit_form_ok(
-        { 
-            fields =>
-            {
-                post_blog => "usersblog",
-                post_body => "<p>This is the second post.</p>",
-                post_title => "SECOND POST!!!1",
-                can_be_published => 1,
-                tags => "second post",
-            },
-            button => "preview",
-        },
-        "Submitting the preview form",
-    );
-
-    # TEST
-    $mech->submit_form_ok(
+ 
+    # TEST*$add_post
+    _add_post(
+        $mech,
         {
-            button => "submit",
+            post_body => "<p>This is the second post.</p>",
+            post_title => "SECOND POST!!!1",
+            tags => [qw(second post)],
         },
-        "Submitting the submit form",    
+        "Second post",
     );
 
-    $goto_add_post->();
-
-    # TEST
-    $mech->submit_form_ok(
-        { 
-            fields =>
-            {
-                post_blog => "usersblog",
-                post_body => <<'EOF',
+    # TEST*$add_post
+    _add_post(
+        $mech,
+        {
+            post_body => <<'EOF',
 <p>The third post about cats and what's in between</p>
 <p>Enjoy the <a href="http://en.wiktionary.org/wiki/kitten">English wiktionary 
 definition of "kitten"</a>.</p>
 EOF
-                post_title => "Third post about cats in a row.",
-                can_be_published => 1,
-                tags => "cat, kitten, third, post",
-            },
-            button => "preview",
+            post_title => "Third post about cats in a row.",
+            tags => [qw(cat kitten third post)],
         },
-        "Submitting the preview form",
-    );
-
-    # TEST
-    $mech->submit_form_ok(
-        {
-            button => "submit",
-        },
-        "Submitting the submit form",
+        "Third post - wiktionary kitten",
     );
 }
 
