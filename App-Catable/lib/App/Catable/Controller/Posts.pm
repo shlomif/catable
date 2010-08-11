@@ -151,7 +151,7 @@ sub add_submit : Private {
     my $now = DateTime->now();
 
     # TODO: iterate over blogs when coming from /posts/add
-    $c->stash->{new_post}
+    my $new_post = $c->stash->{new_post}
     = $c->model('BlogDB')->resultset('Entry')
         ->create( {
             title => $params->{post_title},
@@ -162,7 +162,9 @@ sub add_submit : Private {
             parent_id => undef,
         } );
 
-    $c->stash->{blog}->add_to_posts( $c->stash->{new_post} );
+    $new_post->assign_tags({ tags => [split/\s*,\s*/, $params->{tags}]},);
+
+    $c->stash->{blog}->add_to_posts( $new_post );
     
     $c->stash->{template} = 'posts/add-submit.tt2';
 

@@ -1,0 +1,1151 @@
+---
+schema:
+  procedures: {}
+  tables:
+    account:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - url
+          match_type: ''
+          name: account_url
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: UNIQUE
+      fields:
+        age:
+          data_type: int
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: age
+          order: 8
+          size:
+            - 3
+        ctime:
+          data_type: datetime
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: ctime
+          order: 11
+          size:
+            - 0
+        gender:
+          data_type: char
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: gender
+          order: 9
+          size:
+            - 1
+        homepage:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: homepage
+          order: 5
+          size:
+            - 1024
+        id:
+          data_type: bigint
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        last_logon_ts:
+          data_type: datetime
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: last_logon_ts
+          order: 10
+          size:
+            - 0
+        mtime:
+          data_type: datetime
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: mtime
+          order: 12
+          size:
+            - 0
+        nickname:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: nickname
+          order: 7
+          size:
+            - 100
+        password:
+          data_type: char
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: password
+          order: 4
+          size:
+            - 40
+        real_name:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: real_name
+          order: 6
+          size:
+            - 100
+        url:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 1
+          name: url
+          order: 2
+          size:
+            - 1024
+        username:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: username
+          order: 3
+          size:
+            - 50
+      indices: []
+      name: account
+      options: []
+      order: 1
+    blog:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - url
+          match_type: ''
+          name: blog_url
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: UNIQUE
+        - deferrable: 1
+          expression: ''
+          fields:
+            - owner_id
+          match_type: ''
+          name: blog_fk_owner_id
+          on_delete: CASCADE
+          on_update: ''
+          options: []
+          reference_fields:
+            - id
+          reference_table: account
+          type: FOREIGN KEY
+      fields:
+        ctime:
+          data_type: datetime
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: ctime
+          order: 6
+          size:
+            - 0
+        id:
+          data_type: bigint
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        mtime:
+          data_type: datetime
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: mtime
+          order: 7
+          size:
+            - 0
+        owner_id:
+          data_type: bigint
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: owner_id
+          order: 2
+          size:
+            - 0
+        theme:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: theme
+          order: 5
+          size:
+            - 1024
+        title:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: title
+          order: 4
+          size:
+            - 255
+        url:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 1
+          name: url
+          order: 3
+          size:
+            - 32
+      indices:
+        - fields:
+            - owner_id
+          name: blog_idx_owner_id
+          options: []
+          type: NORMAL
+      name: blog
+      options: []
+      order: 3
+    blog_entry:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - blog_id
+            - entry_id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - blog_id
+          match_type: ''
+          name: blog_entry_fk_blog_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: blog
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - entry_id
+          match_type: ''
+          name: blog_entry_fk_entry_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: entry
+          type: FOREIGN KEY
+      fields:
+        blog_id:
+          data_type: bigint
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: blog_id
+          order: 1
+          size:
+            - 0
+        entry_id:
+          data_type: bigint
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: entry_id
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - blog_id
+          name: blog_entry_idx_blog_id
+          options: []
+          type: NORMAL
+        - fields:
+            - entry_id
+          name: blog_entry_idx_entry_id
+          options: []
+          type: NORMAL
+      name: blog_entry
+      options: []
+      order: 5
+    entry:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - author_id
+          match_type: ''
+          name: entry_fk_author_id
+          on_delete: CASCADE
+          on_update: ''
+          options: []
+          reference_fields:
+            - id
+          reference_table: account
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - parent_id
+          match_type: ''
+          name: entry_fk_parent_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: entry
+          type: FOREIGN KEY
+      fields:
+        author_id:
+          data_type: bigint
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: author_id
+          order: 8
+          size:
+            - 0
+        body:
+          data_type: blob
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: body
+          order: 3
+          size:
+            - 0
+        can_be_published:
+          data_type: bool
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: can_be_published
+          order: 4
+          size:
+            - 0
+        id:
+          data_type: bigint
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        parent_id:
+          data_type: bigint
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: parent_id
+          order: 7
+          size:
+            - 0
+        pubdate:
+          data_type: datetime
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: pubdate
+          order: 5
+          size:
+            - 0
+        title:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: title
+          order: 2
+          size:
+            - 400
+        update_date:
+          data_type: datetime
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: update_date
+          order: 6
+          size:
+            - 0
+      indices:
+        - fields:
+            - author_id
+          name: entry_idx_author_id
+          options: []
+          type: NORMAL
+        - fields:
+            - parent_id
+          name: entry_idx_parent_id
+          options: []
+          type: NORMAL
+      name: entry
+      options: []
+      order: 4
+    post_tag_assoc:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - post_id
+            - tag_id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - post_id
+          match_type: ''
+          name: post_tag_assoc_fk_post_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: entry
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - tag_id
+          match_type: ''
+          name: post_tag_assoc_fk_tag_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: tag
+          type: FOREIGN KEY
+      fields:
+        post_id:
+          data_type: bigint
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: post_id
+          order: 1
+          size:
+            - 0
+        tag_id:
+          data_type: bigint
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: tag_id
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - post_id
+          name: post_tag_assoc_idx_post_id
+          options: []
+          type: NORMAL
+        - fields:
+            - tag_id
+          name: post_tag_assoc_idx_tag_id
+          options: []
+          type: NORMAL
+      name: post_tag_assoc
+      options: []
+      order: 6
+    tag:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - label
+          match_type: ''
+          name: tag_label
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: UNIQUE
+      fields:
+        id:
+          data_type: bigint
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        label:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 1
+          name: label
+          order: 2
+          size:
+            - 80
+      indices: []
+      name: tag
+      options: []
+      order: 2
+  triggers: {}
+  views: {}
+translator:
+  add_drop_table: 0
+  filename: ~
+  no_comments: 0
+  parser_args:
+    package: &1 !!perl/hash:App::Catable::Schema
+      class_mappings:
+        App::Catable::Schema::Result::Account: Account
+        App::Catable::Schema::Result::Blog: Blog
+        App::Catable::Schema::Result::BlogEntry: BlogEntry
+        App::Catable::Schema::Result::Entry: Entry
+        App::Catable::Schema::Result::PostTagAssoc: PostTagAssoc
+        App::Catable::Schema::Result::Tag: Tag
+        DBIx::Class::DeploymentHandler::VersionStorage::Standard::VersionResult: __VERSION
+      source_registrations:
+        Account: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            age:
+              data_type: int
+              extra: {}
+              is_nullable: 1
+              size: 3
+            ctime:
+              _inflate_info:
+                deflate: !!perl/code '{ "DUMMY" }'
+                inflate: !!perl/code '{ "DUMMY" }'
+              data_type: datetime
+              dynamic_default_on_create: get_timestamp
+              extra: {}
+              is_nullable: 0
+            gender:
+              data_type: char
+              extra: {}
+              is_nullable: 1
+              size: 1
+            homepage:
+              data_type: varchar
+              extra: {}
+              is_nullable: 1
+              size: 1024
+            id:
+              data_type: bigint
+              extra: {}
+              is_auto_increment: 1
+              is_nullable: 0
+            last_logon_ts:
+              _inflate_info:
+                deflate: !!perl/code '{ "DUMMY" }'
+                inflate: !!perl/code '{ "DUMMY" }'
+              data_type: datetime
+              dynamic_default_on_create: get_timestamp
+              extra: {}
+              is_nullable: 0
+            mtime:
+              _inflate_info:
+                deflate: !!perl/code '{ "DUMMY" }'
+                inflate: !!perl/code '{ "DUMMY" }'
+              data_type: datetime
+              dynamic_default_on_create: get_timestamp
+              dynamic_default_on_update: get_timestamp
+              extra: {}
+              is_nullable: 0
+            nickname:
+              data_type: varchar
+              extra: {}
+              is_nullable: 1
+              size: 100
+            password:
+              data_type: char
+              extra: {}
+              is_nullable: 1
+              size: 40
+            real_name:
+              data_type: varchar
+              extra: {}
+              is_nullable: 1
+              size: 100
+            url:
+              data_type: varchar
+              extra: {}
+              is_nullable: 1
+              size: 1024
+            username:
+              data_type: varchar
+              extra: {}
+              is_nullable: 1
+              size: 50
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - id
+            - url
+            - username
+            - password
+            - homepage
+            - real_name
+            - nickname
+            - age
+            - gender
+            - last_logon_ts
+            - ctime
+            - mtime
+          _primaries: &2
+            - id
+          _relationships:
+            blogs:
+              attrs:
+                accessor: single
+                cascade_delete: 1
+                cascade_update: 1
+                join_type: LEFT
+              class: App::Catable::Schema::Result::Blog
+              cond:
+                foreign.owner_id: self.id
+              source: App::Catable::Schema::Result::Blog
+            posts:
+              attrs:
+                accessor: single
+                cascade_delete: 1
+                cascade_update: 1
+                join_type: LEFT
+                where:
+                  foreign.parent_id: 0
+              class: App::Catable::Schema::Result::Entry
+              cond:
+                foreign.author_id: self.id
+              source: App::Catable::Schema::Result::Entry
+          _unique_constraints:
+            account_url:
+              - url
+            primary: *2
+          name: account
+          result_class: App::Catable::Schema::Result::Account
+          resultset_attributes: {}
+          resultset_class: App::Catable::Schema::ResultSet::Account
+          schema: *1
+          source_name: Account
+          sqlt_deploy_callback: default_sqlt_deploy_hook
+        Blog: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            ctime:
+              _inflate_info:
+                deflate: !!perl/code '{ "DUMMY" }'
+                inflate: !!perl/code '{ "DUMMY" }'
+              data_type: datetime
+              dynamic_default_on_create: get_timestamp
+              extra: {}
+              is_nullable: 0
+            id:
+              data_type: bigint
+              extra: {}
+              is_auto_increment: 1
+              is_nullable: 0
+            mtime:
+              _inflate_info:
+                deflate: !!perl/code '{ "DUMMY" }'
+                inflate: !!perl/code '{ "DUMMY" }'
+              data_type: datetime
+              dynamic_default_on_create: get_timestamp
+              dynamic_default_on_update: get_timestamp
+              extra: {}
+              is_nullable: 0
+            owner_id:
+              data_type: bigint
+              extra: {}
+              is_nullable: 0
+            theme:
+              data_type: varchar
+              extra: {}
+              is_nullable: 0
+              size: 1024
+            title:
+              data_type: varchar
+              extra: {}
+              is_nullable: 0
+              size: 255
+            url:
+              data_type: varchar
+              extra: {}
+              is_nullable: 0
+              size: 32
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - id
+            - owner_id
+            - url
+            - title
+            - theme
+            - ctime
+            - mtime
+          _primaries: &3
+            - id
+          _relationships:
+            blog_entries:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: App::Catable::Schema::Result::BlogEntry
+              cond:
+                foreign.blog_id: self.id
+              source: App::Catable::Schema::Result::BlogEntry
+            owner:
+              attrs:
+                accessor: single
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: App::Catable::Schema::Result::Account
+              cond:
+                foreign.id: self.owner_id
+              source: App::Catable::Schema::Result::Account
+          _unique_constraints:
+            blog_url:
+              - url
+            primary: *3
+          name: blog
+          result_class: App::Catable::Schema::Result::Blog
+          resultset_attributes: {}
+          resultset_class: App::Catable::Schema::ResultSet::Blog
+          schema: *1
+          source_name: Blog
+          sqlt_deploy_callback: default_sqlt_deploy_hook
+        BlogEntry: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            blog_id:
+              data_type: bigint
+              is_nullable: 0
+            entry_id:
+              data_type: bigint
+              is_nullable: 0
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - blog_id
+            - entry_id
+          _primaries: &4
+            - blog_id
+            - entry_id
+          _relationships:
+            blog:
+              attrs:
+                accessor: single
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: App::Catable::Schema::Result::Blog
+              cond:
+                foreign.id: self.blog_id
+              source: App::Catable::Schema::Result::Blog
+            entry:
+              attrs:
+                accessor: single
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: App::Catable::Schema::Result::Entry
+              cond:
+                foreign.id: self.entry_id
+              source: App::Catable::Schema::Result::Entry
+          _unique_constraints:
+            primary: *4
+          name: blog_entry
+          result_class: App::Catable::Schema::Result::BlogEntry
+          resultset_attributes: {}
+          resultset_class: DBIx::Class::ResultSet
+          schema: *1
+          source_name: BlogEntry
+          sqlt_deploy_callback: default_sqlt_deploy_hook
+        Entry: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            author_id:
+              data_type: bigint
+              extra: {}
+              is_nullable: 1
+            body:
+              data_type: blob
+              extra: {}
+              is_nullable: 1
+            can_be_published:
+              data_type: bool
+              extra: {}
+              is_nullable: 0
+            id:
+              data_type: bigint
+              extra: {}
+              is_auto_increment: 1
+              is_nullable: 0
+            parent_id:
+              data_type: bigint
+              extra: {}
+              is_nullable: 1
+            pubdate:
+              _inflate_info:
+                deflate: !!perl/code '{ "DUMMY" }'
+                inflate: !!perl/code '{ "DUMMY" }'
+              data_type: datetime
+              extra: {}
+              is_nullable: 0
+            title:
+              data_type: varchar
+              extra: {}
+              is_nullable: 0
+              size: 400
+            update_date:
+              _inflate_info:
+                deflate: !!perl/code '{ "DUMMY" }'
+                inflate: !!perl/code '{ "DUMMY" }'
+              data_type: datetime
+              extra: {}
+              is_nullable: 0
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - id
+            - title
+            - body
+            - can_be_published
+            - pubdate
+            - update_date
+            - parent_id
+            - author_id
+          _primaries: &5
+            - id
+          _relationships:
+            author:
+              attrs:
+                accessor: single
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: App::Catable::Schema::Result::Account
+              cond:
+                foreign.id: self.author_id
+              source: App::Catable::Schema::Result::Account
+            blog_entries:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: App::Catable::Schema::Result::BlogEntry
+              cond:
+                foreign.entry_id: self.id
+              source: App::Catable::Schema::Result::BlogEntry
+            comments:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: App::Catable::Schema::Result::Entry
+              cond:
+                foreign.parent_id: self.id
+              source: App::Catable::Schema::Result::Entry
+            parent:
+              attrs:
+                accessor: single
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: App::Catable::Schema::Result::Entry
+              cond:
+                foreign.id: self.parent_id
+              source: App::Catable::Schema::Result::Entry
+            tags_assoc:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: App::Catable::Schema::Result::PostTagAssoc
+              cond:
+                foreign.post_id: self.id
+              source: App::Catable::Schema::Result::PostTagAssoc
+          _unique_constraints:
+            primary: *5
+          name: entry
+          result_class: App::Catable::Schema::Result::Entry
+          resultset_attributes:
+            order_by:
+              - me.pubdate
+              - me.id
+          resultset_class: App::Catable::Schema::ResultSet::Entry
+          schema: *1
+          source_name: Entry
+          sqlt_deploy_callback: default_sqlt_deploy_hook
+        PostTagAssoc: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            post_id:
+              data_type: bigint
+              is_nullable: 0
+            tag_id:
+              data_type: bigint
+              is_nullable: 0
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - post_id
+            - tag_id
+          _primaries: &6
+            - post_id
+            - tag_id
+          _relationships:
+            post:
+              attrs:
+                accessor: single
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: App::Catable::Schema::Result::Entry
+              cond:
+                foreign.id: self.post_id
+              source: App::Catable::Schema::Result::Entry
+            tag:
+              attrs:
+                accessor: single
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: App::Catable::Schema::Result::Tag
+              cond:
+                foreign.id: self.tag_id
+              source: App::Catable::Schema::Result::Tag
+          _unique_constraints:
+            primary: *6
+          name: post_tag_assoc
+          result_class: App::Catable::Schema::Result::PostTagAssoc
+          resultset_attributes:
+            order_by:
+              - post_id
+              - tag_id
+          resultset_class: DBIx::Class::ResultSet
+          schema: *1
+          source_name: PostTagAssoc
+          sqlt_deploy_callback: default_sqlt_deploy_hook
+        Tag: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            id:
+              data_type: bigint
+              is_auto_increment: 1
+              is_nullable: 0
+            label:
+              data_type: varchar
+              is_nullable: 0
+              size: 80
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - id
+            - label
+          _primaries: &7
+            - id
+          _relationships:
+            posts_assoc:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: App::Catable::Schema::Result::PostTagAssoc
+              cond:
+                foreign.tag_id: self.id
+              source: App::Catable::Schema::Result::PostTagAssoc
+          _unique_constraints:
+            primary: *7
+            tag_label:
+              - label
+          name: tag
+          result_class: App::Catable::Schema::Result::Tag
+          resultset_attributes:
+            order_by:
+              - label
+          resultset_class: DBIx::Class::ResultSet
+          schema: *1
+          source_name: Tag
+          sqlt_deploy_callback: default_sqlt_deploy_hook
+        __VERSION: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            ddl:
+              data_type: text
+              is_nullable: 1
+            id:
+              data_type: int
+              is_auto_increment: 1
+            upgrade_sql:
+              data_type: text
+              is_nullable: 1
+            version:
+              data_type: varchar
+              size: 50
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - id
+            - version
+            - ddl
+            - upgrade_sql
+          _primaries: &8
+            - id
+          _relationships: {}
+          _unique_constraints:
+            dbix_class_deploymenthandler_versions_version:
+              - version
+            primary: *8
+          name: dbix_class_deploymenthandler_versions
+          result_class: DBIx::Class::DeploymentHandler::VersionStorage::Standard::VersionResult
+          resultset_attributes: {}
+          resultset_class: DBIx::Class::DeploymentHandler::VersionStorage::Standard::VersionResultSet
+          schema: *1
+          source_name: __VERSION
+          sqlt_deploy_callback: default_sqlt_deploy_hook
+      storage: !!perl/hash:DBIx::Class::Storage::DBI
+        _connect_info:
+          - dbi:SQLite:catable.db
+        _dbh_gen: 0
+        _dbi_connect_info:
+          - dbi:SQLite:catable.db
+          - ~
+          - ~
+          - &9
+            AutoCommit: 1
+            PrintError: 0
+            RaiseError: 1
+        _dbic_connect_attributes: *9
+        _in_dbh_do: 0
+        _sql_maker: ~
+        _sql_maker_opts: {}
+        debugobj: !!perl/hash:DBIx::Class::Storage::Statistics {}
+        savepoints: []
+        schema: *1
+        transaction_depth: 0
+    sources:
+      - Entry
+      - PostTagAssoc
+      - BlogEntry
+      - Account
+      - Blog
+      - Tag
+  parser_type: SQL::Translator::Parser::DBIx::Class
+  producer_args: {}
+  producer_type: SQL::Translator::Producer::YAML
+  show_warnings: 0
+  trace: 0
+  version: 0.11006

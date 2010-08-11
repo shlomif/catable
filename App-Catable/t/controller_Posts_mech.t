@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 14;
+use Test::More tests => 15;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -67,6 +67,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
                 post_body => "<p>Kit Kit Catty Skooter</p>",
                 post_title => "Grey and White Cat",
                 can_be_published => 1,
+                tags => "grey, white, cat",
             },
             button => "preview",
         },
@@ -120,6 +121,13 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
         $mech->content, 
         qr{Kit Kit Catty Skooter},
         "Followed to the post OK. Contains the body."
+    );
+
+    # TEST
+    like(
+        $mech->content(),
+        qr{<a\s*rel="tag category"\s*href="[^"]+/posts/tag/grey">grey</a>}ms,
+        "Contains a link to one of the tags.",
     );
 }
 

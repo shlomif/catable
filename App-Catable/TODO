@@ -23,6 +23,8 @@
     - Add support for more complex queries than just a single tag.
     - Write more extensive tests.
 
+* Make sure each post displays the tags on the post page.
+
 * Add custom authentication (with a login form).
 
 * Add support for WordPress-based themes/styles/skins.
