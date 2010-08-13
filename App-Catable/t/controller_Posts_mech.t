@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 21;
+use Test::More tests => 25;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -197,6 +197,32 @@ EOF
         },
         "Third post - wiktionary kitten",
     );
+
+    # TEST:$access_second_post=2;
+    my $access_second_post = sub {
+        $mech->get_ok("http://localhost/posts/list", "List of posts");
+
+        $mech->follow_link_ok(
+            {
+                text_regex => qr{SECOND POST},
+            },
+            "Can access the second post for finding the links."
+        );
+    };
+
+    # TEST*$access_second_post
+    $access_second_post->();
+
+    # TEST
+    $mech->follow_link_ok(
+        {
+            url_regex => qr{Previous: Grey and White Cat},
+        },
+        "Follow the link to the previous post.",
+    );
+
+    # TEST
+    $mech->content_like(qr{Kit Kit Catty Skooter}, "Went to the first post.");
 }
 
 sub login {

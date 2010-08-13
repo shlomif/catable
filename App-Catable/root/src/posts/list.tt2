@@ -11,6 +11,7 @@
 [% FOREACH post IN posts %]
 <div style="display:block">
     <a href="[% c.uri_for('/posts/show', post.id) %]">
+    [%# TOOD : Possible XSS / HTML injection vulnerability here. %]
         [% post.title %]</a>
 </div>
 [% END %]

@@ -24,6 +24,12 @@ href="[% HTML.escape(c.uri_for('/posts/tag', tag.label()))
 [%- END %]
 </p>
 </div>
+<div class="nav-links">
+[% IF prev_post %]
+<p class="prev">
+<a href="[% c.uri_for('/posts/show', prev_post.id) %]" rel="nav prev">Previous: [% HTML.escape(prev_post.title) %]</a> 
+</p>
+</div>
 </div>
 
 <div id="comments" class="comments">

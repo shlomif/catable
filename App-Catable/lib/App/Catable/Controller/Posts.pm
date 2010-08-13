@@ -111,13 +111,11 @@ sub list : Local
 {
     my ($self, $c) = @_;
 
-    my %search_params;
-    
     my $posts_rs = 
       $c->model('BlogDB')
         ->resultset('Entry')
         ->published_posts
-        ->search( \%search_params );
+        ->search( {} );
 
     $posts_rs = $posts_rs->by_blogs( [ $c->stash->{blog} ] )
         if exists $c->stash->{blog};
@@ -264,6 +262,16 @@ sub show_by_blog :Chained('/blog') PathPart('posts/show')
     $c->stash->{template} = 'posts/show.tt2';
     $c->stash (post => $post);
     $c->stash (scrubber => $c->forward('default_scrubber') );
+    
+    my $posts_rs =
+     $c->model('BlogDB')
+        ->resultset('Entry')
+        ->published_posts
+        ->search( {} );
+
+    $posts_rs = $posts_rs->by_blogs( [ $c->stash->{blog} ] )
+        if exists $c->stash->{blog};
+
     return;
 }
 
