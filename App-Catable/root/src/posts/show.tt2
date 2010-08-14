@@ -30,6 +30,11 @@ href="[% HTML.escape(c.uri_for('/posts/tag', tag.label()))
 <a href="[% c.uri_for('/posts/show', prev_post.id) %]" rel="nav prev">Previous: [% HTML.escape(prev_post.title) %]</a> 
 </p>
 [% END %]
+[% IF next_post %]
+<p class="next">
+<a href="[% c.uri_for('/posts/show', next_post.id) %]" rel="nav next">Next: [% HTML.escape(next_post.title) %]</a> 
+</p>
+[% END %]
 </div>
 </div>
 

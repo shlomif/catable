@@ -291,6 +291,23 @@ sub show_by_blog :Chained('/blog') PathPart('posts/show')
 
     $c->stash(prev_post => $prev_post_rs->first());
 
+    my $next_post_rs = $posts_rs->search(
+        { 
+            "${me}.pubdate" =>
+            {
+                '>',
+                $c->model('BlogDB')->storage->datetime_parser
+                       ->format_datetime($post->pubdate),
+            },
+        },
+        {
+            order_by => "${me}.pubdate",
+            limit => 1,
+        },
+    );
+
+    $c->stash(next_post => $next_post_rs->first());
+    
     return;
 }
 

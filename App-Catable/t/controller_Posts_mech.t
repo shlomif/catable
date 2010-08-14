@@ -1,7 +1,9 @@
 #!/usr/bin/perl
+
 use strict;
 use warnings;
-use Test::More tests => 25;
+
+use Test::More tests => 29;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -33,6 +35,10 @@ sub _add_post
     $mech->get_ok("http://localhost/blog/${blog}/posts/add",
         "$blurb_base - get to the posts add page."
     );
+
+    # Sleeping one second so the datetime will be different between the
+    # posts.
+    sleep(1);
 
     # TEST:$c++;
     $mech->submit_form_ok(
@@ -223,6 +229,23 @@ EOF
 
     # TEST
     $mech->content_like(qr{Kit Kit Catty Skooter}, "Went to the first post.");
+
+    # TEST*$access_second_post
+    $access_second_post->();
+
+    # TEST
+    $mech->follow_link_ok(
+        {
+            text_regex => qr{Next: Third post about cats in a row},
+        },
+        "Follow the link to the third post.",
+    );
+
+    # TEST
+    $mech->content_like(
+        qr{\Qhttp://en.wiktionary.org/wiki/kitten\E}, 
+        "Went to the third post.",
+    );
 }
 
 sub login {
