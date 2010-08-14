@@ -216,7 +216,7 @@ EOF
     # TEST
     $mech->follow_link_ok(
         {
-            url_regex => qr{Previous: Grey and White Cat},
+            text_regex => qr{Previous: Grey and White Cat},
         },
         "Follow the link to the previous post.",
     );

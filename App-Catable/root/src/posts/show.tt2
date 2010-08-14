@@ -29,6 +29,7 @@ href="[% HTML.escape(c.uri_for('/posts/tag', tag.label()))
 <p class="prev">
 <a href="[% c.uri_for('/posts/show', prev_post.id) %]" rel="nav prev">Previous: [% HTML.escape(prev_post.title) %]</a> 
 </p>
+[% END %]
 </div>
 </div>
 

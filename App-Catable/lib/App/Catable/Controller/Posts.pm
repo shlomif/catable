@@ -271,6 +271,25 @@ sub show_by_blog :Chained('/blog') PathPart('posts/show')
 
     $posts_rs = $posts_rs->by_blogs( [ $c->stash->{blog} ] )
         if exists $c->stash->{blog};
+    
+    my $me = $posts_rs->current_source_alias;
+
+    my $prev_post_rs = $posts_rs->search(
+        { 
+            "${me}.pubdate" =>
+            {
+                '<',
+                $c->model('BlogDB')->storage->datetime_parser
+                       ->format_datetime($post->pubdate),
+            },
+        },
+        {
+            order_by => { -desc => "${me}.pubdate", },
+            limit => 1,
+        },
+    );
+
+    $c->stash(prev_post => $prev_post_rs->first());
 
     return;
 }
