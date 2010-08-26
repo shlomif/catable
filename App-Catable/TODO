@@ -69,3 +69,11 @@ logged-in.
 
 * Add an option for posts and comment with rel="nofollow".
 
+* Add an ability to review posts.
+    * Sample Workflow:
+        * Sophie writes a post and before publishing it, she inputs it into
+        Catable, where it resides in a non-publically visible location.
+        * She allows Jane and Jack to view the post, and copy-edit it.
+        * When she's happy with the post, she makes it public.
+
+* Add livejournal.com-like "Friends-only" posts and private posts.
