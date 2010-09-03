@@ -4,6 +4,8 @@
 
 * Style the "/create-blog/" form better.
 
+* http://localhost.localdomain:3000/blog should not mirror the front page.
+
 * Comments:
     - add nested comments.
     - add reply to comments.
