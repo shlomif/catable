@@ -6,7 +6,10 @@
 [% BLOCK display_post %]
 
 <div class="post asset-body">
-<h3 class="entry-title">[% HTML.escape(post.title()) %]</h3>
+<h3 class="entry-title">
+[%- IF header_link %]<a href="[%c.uri_for('/posts/show', post.id) %]">[% END -%]
+[%- HTML.escape(post.title()) -%]
+[%- IF header_link %]</a>[% END %]</h3>
 
 <p>
 <b>Posted at:</b>
@@ -42,13 +45,13 @@ href="[% HTML.escape(c.uri_for('/posts/tag', tag.label()))
 </div>
 </div>
 
-<div id="comments" class="comments">
+<div [%UNLESS no_ids %]id="comments" [% END %]class="comments">
 [% # TODO: Add the comment count. 
 %]
 <div class="comments-content">
 [% comments = post.comments_rs() %]
 [% WHILE( comment = comments.next() ) %]
-<div id="comment-[% comment.id() %]" class="comment">
+<div [% UNLESS no_ids %]id="comment-[% comment.id() %]" [% END %]class="comment">
 <div class="inner">
 <div class="comment-content">
 <h2 class="comment-title">[% HTML.escape(comment.title()) %]</h2>
@@ -68,13 +71,13 @@ href="[% HTML.escape(c.uri_for('/posts/tag', tag.label()))
 
 </div>
 </div>
-<div class="comments-open" id="comments-open">
+<div class="comments-open" [% UNLESS no_ids %]id="comments-open"[% END %]>
 
 <h2 class="comments-open-header">Add New Comment</h2>
 
 <div class="comments-content">
 
-<div id="comment-preview" class="comment">
+<div [% UNLESS no_ids %]id="comment-preview" [% END %]class="comment">
 <div class="inner">
 <div class="comment-content">
 <h2 class="comment-title">[% HTML.escape( c.req.params.title ) %]</h2>
@@ -86,9 +89,11 @@ href="[% HTML.escape(c.uri_for('/posts/tag', tag.label()))
 </div>
 </div>
 
+[% IF (NOT header_link) %]
 <div class="comments-open-content">
 [%form%]
 </div>
+[% END %]
 
 </div>
 </div>

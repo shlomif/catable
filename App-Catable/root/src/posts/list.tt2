@@ -1,3 +1,4 @@
+[% PROCESS "posts/display_block.tt2" %]
 [%- USE HTML -%]
 
 [% IF blog %]
@@ -9,9 +10,5 @@
 [% END %]
 
 [% FOREACH post IN posts %]
-<div style="display:block">
-    <a href="[% c.uri_for('/posts/show', post.id) %]">
-    [%# TOOD : Possible XSS / HTML injection vulnerability here. %]
-        [% post.title %]</a>
-</div>
+[% PROCESS display_post post = post , header_link = 1 , no_ids = 1 %]
 [% END %]

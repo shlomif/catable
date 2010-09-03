@@ -129,6 +129,8 @@ sub list : Local
     $c->stash->{template} = 'posts/list.tt2';
     $c->stash->{title} ||= "All posts - Catable";
 
+    $c->stash (scrubber => $c->forward('default_scrubber') );
+
     return;
 }
 

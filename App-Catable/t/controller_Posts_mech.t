@@ -3,7 +3,9 @@
 use strict;
 use warnings;
 
-use Test::More tests => 29;
+use lib 't/lib';
+
+use Test::More tests => 30;
 
 # Lots of stuff to get Test::WWW::Mechanize::Catalyst to work with
 # the testing model.
@@ -14,13 +16,12 @@ BEGIN
     $ENV{CATALYST_CONFIG} = "t/var/catable.yml";
     use App::Catable::Model::BlogDB; 
 
-    use lib 't/lib';
     use AppCatableTestSchema;
 
     $schema = AppCatableTestSchema->init_schema(no_populate => 0);
 }
 
-use Test::WWW::Mechanize::Catalyst 'App::Catable';
+use MyTest::Mech 'App::Catable';
 
 # TEST:$c=0;
 sub _add_post
@@ -68,7 +69,7 @@ sub _add_post
 # TEST:$add_post=$c;
 
 {
-    my $mech = Test::WWW::Mechanize::Catalyst->new;
+    my $mech = MyTest::Mech->new;
 
     $mech->get("http://localhost/blog/usersblog/posts/add");
 
@@ -151,6 +152,12 @@ sub _add_post
         $mech->content, 
         qr/Grey and White Cat/, 
         "Contains the submitted body",
+    );
+
+    # TEST
+    $mech->tree_matches_xpath(
+        q{//p[contains(text(), 'Kit Kit Catty Skooter')]},
+        "The body of the post gets displayed",
     );
 
     # TEST
