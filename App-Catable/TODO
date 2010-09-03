@@ -69,3 +69,8 @@ logged-in.
 
 * Add an option for posts and comment with rel="nofollow".
 
+* Add a plugin to syndicate articles on social bookmarking sites:
+    - Addtoany button.
+    - AddThis
+    - ShareThis
+    - individual blogging buttons (see the WordPress plugin).
