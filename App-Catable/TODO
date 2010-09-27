@@ -1,5 +1,3 @@
-* Security: add "STRICT => 1," to the Catalyst:::View::TT configuration.
-
 * Security: convert to http://search.cpan.org/dist/Template-Stash-AutoEscape/
 once a new version is released with our necessitating .escape or .raw 
 annotations:

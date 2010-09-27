@@ -25,3 +25,5 @@ prevention.
 
 * Implement comments.
 
+* Security: add "STRICT => 1," to the Catalyst:::View::TT configuration.
+
