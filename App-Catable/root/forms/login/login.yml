@@ -2,7 +2,7 @@ action: /login
 # indicator is the field that is used to test for form submission
 indicator: submit
 
-auto_id: '%n'
+auto_id: '%f_%n'
 attributes:
     class: login-form
 

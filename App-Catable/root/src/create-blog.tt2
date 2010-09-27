@@ -1,3 +1,4 @@
+[% title = 'Create a new blog' %]
 [% IF NOT submitted %]
 [% form %]
 [% ELSE %]

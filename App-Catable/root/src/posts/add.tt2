@@ -1,5 +1,7 @@
 [%- USE HTML -%]
 [% title = 'Add new post' -%]
+
+[% IF (c.req.method == 'POST') %]
 <h2 id="preview">Post Preview</h2>
 
 <div class="post">
@@ -10,6 +12,7 @@
 %]
 [% c.req.params.post_body %]
 </div>
+[% END %]
 
 <h2>Submission Form</h2>
 

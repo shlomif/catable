@@ -4,7 +4,7 @@ action:
 indicator: submit
 id: add-comment-form
 
-auto_id: '%n'
+auto_id: '%f_%n'
 attributes:
     class: add-comment-form
 

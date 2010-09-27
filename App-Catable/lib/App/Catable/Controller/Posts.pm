@@ -127,6 +127,9 @@ sub list : Local
 
     $c->stash->{posts} = [ $posts_rs->all ];
     $c->stash->{template} = 'posts/list.tt2';
+    $c->stash->{blog} ||= ''; # To satisfy TT's STRICT => 1.
+    $c->stash->{prev_post} ||= ''; # To satisfy TT's STRICT => 1.
+    $c->stash->{next_post} ||= ''; # To satisfy TT's STRICT => 1.
     $c->stash->{title} ||= "All posts - Catable";
 
     $c->stash (scrubber => $c->forward('default_scrubber') );
@@ -207,6 +210,9 @@ sub tag :Local :CaptureArgs(1)  {
     $c->stash( posts => [ $posts_rs->all ]);
 
     $c->stash->{template} = 'posts/list.tt2';
+    $c->stash->{prev_post} ||= ''; # To satisfy TT's STRICT => 1.
+    $c->stash->{next_post} ||= ''; # To satisfy TT's STRICT => 1.
+    $c->stash->{blog} ||= ''; # To satisfy TT's STRICT => 1.
 }
 
 =head2 show
@@ -291,7 +297,7 @@ sub show_by_blog :Chained('/blog') PathPart('posts/show')
         },
     );
 
-    $c->stash(prev_post => $prev_post_rs->first());
+    $c->stash(prev_post => ($prev_post_rs->first() || ''));
 
     my $next_post_rs = $posts_rs->search(
         { 
@@ -308,7 +314,7 @@ sub show_by_blog :Chained('/blog') PathPart('posts/show')
         },
     );
 
-    $c->stash(next_post => $next_post_rs->first());
+    $c->stash(next_post => ($next_post_rs->first() || ''));
     
     return;
 }

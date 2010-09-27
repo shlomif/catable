@@ -1,3 +1,4 @@
+[% title = 'Login' %]
 [% IF error %]
   <div class="error">[% error %]</div>
 [% END %]

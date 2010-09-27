@@ -15,6 +15,7 @@ __PACKAGE__->config(
     App::Catable->path_to( 'root', 'src' ),
     ],
     WRAPPER => "wrapper.tt2",
+    STRICT => 1,
 );
 
 =head1 NAME

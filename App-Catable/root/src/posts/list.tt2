@@ -1,3 +1,4 @@
+[% title = (title || 'List Posts') %]
 [% PROCESS "posts/display_block.tt2" %]
 [%- USE HTML -%]
 

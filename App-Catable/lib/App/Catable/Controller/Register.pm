@@ -34,6 +34,10 @@ sub register : Global Args(0) FormConfig {
     # If we do this here, we can return later without having to worry.
     # If register succeeds we redirect anyway.
     $c->stash->{template} = 'register.tt2';
+
+    # Make 'error' empty by default to make TT2's STRICT => 1 empty.
+    # If needed, we can set it to a non-empty value.
+    $c->stash->{error} = '';
     
     # Avoid an empty session var, Just In Case.
     $c->session->{goto_after_register} = delete $c->session->{goto_after_login} 

@@ -45,6 +45,10 @@ sub login : Global Args(0) FormConfig {
     # If login succeeds we redirect anyway.
     $c->stash->{template} = 'login.tt2';
 
+    # Make 'error' empty by default to make TT2's STRICT => 1 empty.
+    # If needed, we can set it to a non-empty value.
+    $c->stash->{error} = '';
+
     if ($form->submitted_and_valid) {
         my $login_params = $form->params;
 

@@ -2,4 +2,4 @@
 
 [%# TODO - possible XSS here. %]
 [% title = post.title() _ " - Catable" -%]
-[% PROCESS display_post post = post %]
+[% PROCESS display_post post = post, header_link = '', no_ids = '' %]
