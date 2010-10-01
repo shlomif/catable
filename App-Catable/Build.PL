@@ -41,6 +41,7 @@ my $build = Test::Run::Builder->new(
         'DBIx::Class::TimeStamp' => 0.08111,
         'Digest' => 0,
         'HTML::Scrubber' => 0.08,
+        'LWPx::ParanoidAgent' => 0,
         'YAML' => 0,
     },
     license => "mit",
