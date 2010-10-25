@@ -22,16 +22,13 @@
 <b>Tags:</b>
 [% tags_rs = post.tags_rs %]
 [% first_tag = 1 %]
-[%- TRY -%]
-[% WHILE( tag = tags_rs.next ) -%]
+[% WHILE ( tag = next_in_rs(tags_rs) ) -%]
 [%- IF NOT first_tag %], [% END -%]
 <a rel="tag category" 
 href="[% HTML.escape(c.uri_for('/posts/tag', tag.label())) 
 %]">[% tag.label() %]</a>
 [%- first_tag = '' -%]
 [%- END %]
-[% CATCH var.undef %]
-[% END %]
 </p>
 </div>
 <div class="nav-links">
@@ -53,8 +50,7 @@ href="[% HTML.escape(c.uri_for('/posts/tag', tag.label()))
 %]
 <div class="comments-content">
 [% comments = post.comments_rs() %]
-[% TRY %]
-[% WHILE( comment = comments.next() ) %]
+[% WHILE ( comment = next_in_rs(comments) ) %]
 <div [% UNLESS no_ids %]id="comment-[% comment.id() %]" [% END %]class="comment">
 <div class="inner">
 <div class="comment-content">
@@ -71,8 +67,6 @@ href="[% HTML.escape(c.uri_for('/posts/tag', tag.label()))
 </div>
 </div>
 </div>
-[% END %]
-[% CATCH var.undef %]
 [% END %]
 
 </div>
