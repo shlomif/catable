@@ -44,12 +44,7 @@ newswire of recent blogs and posts.
         - There may be some more-or-less standard template that these
         themes are using, still.
 
-* Add preview to comments.
-
-
 * Implement several blogs in one application.
-
-* Add previews for the posts / comments.
 
 * Implement a base table/class for post and comments.
 
