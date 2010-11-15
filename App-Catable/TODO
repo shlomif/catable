@@ -90,3 +90,6 @@ like {{ /post/show/my-cat-purred-at-me-today/ }} .
     - AddThis
     - ShareThis
     - individual blogging buttons (see the WordPress plugin).
+
+* Add nested comments (comments to comments (to comments... and so forth)).
+
