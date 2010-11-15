@@ -73,8 +73,6 @@ like {{ /post/show/my-cat-purred-at-me-today/ }} .
 * Make sure the application does not say you can login if you're already
 logged-in.
 
-* Add a link to the next post / previous post on each post.
-
 * Add a breadcrumbs trail to the top of the page.
 
 * Add RSS/Atom feeds.

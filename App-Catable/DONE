@@ -27,3 +27,6 @@ prevention.
 
 * Security: add "STRICT => 1," to the Catalyst:::View::TT configuration.
 
+* Add a link to the next post / previous post on each post.
+
+
