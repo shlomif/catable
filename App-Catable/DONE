@@ -29,4 +29,6 @@ prevention.
 
 * Add a link to the next post / previous post on each post.
 
+* Make sure the application does not say you can login if you're already
+logged-in.
 
