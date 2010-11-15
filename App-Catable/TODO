@@ -74,7 +74,7 @@ like {{ /post/show/my-cat-purred-at-me-today/ }} .
 
 * Add RSS/Atom feeds.
 
-* Add an option for posts and comment with rel="nofollow".
+* Add an option for posts and comments with rel="nofollow".
 
 * Add an ability to review posts.
     * Sample Workflow:
