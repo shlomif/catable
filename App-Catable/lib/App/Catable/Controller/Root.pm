@@ -15,7 +15,7 @@ __PACKAGE__->config->{namespace} = '';
 App::Catable::Controller::Root - Root Controller for App::Catable
 
 =head1 DESCRIPTION
-
+ 
 [enter your description here]
 
 =head1 METHODS
@@ -25,6 +25,11 @@ App::Catable::Controller::Root - Root Controller for App::Catable
 =head2 default
 
 =cut
+
+sub index : Path : Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{template} = 'index.tt2';	
+}
 
 sub default : Private {
     my ( $self, $c ) = @_;
