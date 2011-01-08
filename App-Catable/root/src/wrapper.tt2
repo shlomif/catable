@@ -42,10 +42,9 @@ Not logged in.
 </div>
 </div>
 [% IF c.has_notifications %]
-==
 <ul>
-	[% FOREACH message IN c.notifications %]
-	<li>--[% message %]</li>
+	[% FOREACH message IN c.flush_notifications %]
+	<li>[% message %]</li>
 	[% END %]
 </ul>
 [% END %]
