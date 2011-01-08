@@ -16,6 +16,7 @@ my $build = Test::Run::Builder->new(
         "HTML::Lint" => 0,
         "Test::Trap" => 0,
         "Test::WWW::Mechanize::Catalyst" => 0,
+        "Test::WWW::Mechanize::LibXML" => 0,
     },
     requires => 
     {
