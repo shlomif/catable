@@ -30,8 +30,8 @@ sub default : Private {
     my ( $self, $c ) = @_;
 
     $c->response->status(404);
-    $c->add_notification('Page not found');
-    $c->stash->{template} = 'index.tt2';
+    $c->stash->{title} = 'Page Not Found';
+    $c->stash->{template} = '404.tt2';
 
     return;
 }
