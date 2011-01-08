@@ -41,6 +41,14 @@ Not logged in.
 </p>
 </div>
 </div>
+[% IF c.has_notifications %]
+==
+<ul>
+	[% FOREACH message IN c.notifications %]
+	<li>--[% message %]</li>
+	[% END %]
+</ul>
+[% END %]
 <div id="content">
 <div id="content-inner">
 [% content %]
