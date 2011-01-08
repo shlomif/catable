@@ -29,6 +29,8 @@ App::Catable::Controller::Root - Root Controller for App::Catable
 sub default : Private {
     my ( $self, $c ) = @_;
 
+    $c->response->status(404);
+    $c->add_notification('Page not found');
     $c->stash->{template} = 'index.tt2';
 
     return;
@@ -146,13 +148,6 @@ Attempt to render a view, if needed.
 
 sub end : ActionClass('RenderView') {}
 
-# Provided so tests can use notify without relying on any other mechanism
-sub _test_notify : Local {
-	my ($self, $c) = @_;
-	$c->add_notification("Hello, world!");
-	$c->stash->{'template'} = 'index.tt2';
-	return;
-}
 =head1 AUTHOR
 
 Shlomi Fish, L<http://www.shlomifish.org/>
