@@ -27,8 +27,8 @@ App::Catable::Controller::Root - Root Controller for App::Catable
 =cut
 
 sub index : Path : Args(0) {
-	my ( $self, $c ) = @_;
-	$c->stash->{template} = 'index.tt2';	
+    my ( $self, $c ) = @_;
+    $c->stash->{template} = 'index.tt2';    
 }
 
 sub default : Private {
