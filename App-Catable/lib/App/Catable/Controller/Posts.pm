@@ -209,10 +209,15 @@ sub tag :Local :CaptureArgs(1)  {
 
     $c->stash( posts => [ $posts_rs->all ]);
 
+    use HTML::Entities qw(encode_entities);
+    $c->stash->{'title'} = 'All posts tagged with ' . encode_entities($tags_query);
     $c->stash->{template} = 'posts/list.tt2';
     $c->stash->{prev_post} ||= ''; # To satisfy TT's STRICT => 1.
     $c->stash->{next_post} ||= ''; # To satisfy TT's STRICT => 1.
     $c->stash->{blog} ||= ''; # To satisfy TT's STRICT => 1.
+
+    #TODO: Move scrubber into $c
+    $c->stash (scrubber => $c->forward('default_scrubber') );
 }
 
 =head2 show
