@@ -197,16 +197,16 @@ sub tag :Local :CaptureArgs(1)  {
     if (!$tags_rs)
     {
         #$c->res->code( 404 );
-	$c->stash->{'template'} = 'posts/no_tag_found.tt2';
-	$c->stash->{'tags_query'} = $tags_query;
+        $c->stash->{'template'} = 'posts/no_tag_found.tt2';
+        $c->stash->{'tags_query'} = $tags_query;
         $c->detach; 
     } else {
-	$posts_rs = $tags_rs->posts;
+        $posts_rs = $tags_rs->posts;
     }
 
     unless(defined($posts_rs) && $posts_rs->count > 0) 
     {
-	$c->stash->{'template'} = 'posts/no_posts_found.tt2';
+        $c->stash->{'template'} = 'posts/no_posts_found.tt2';
         $c->detach; 
     }
 
