@@ -190,26 +190,35 @@ the scope of the search.
 sub tag :Local :CaptureArgs(1)  {
     my ($self, $c, $tags_query) = @_;
 
-    my $posts_rs = $c->model("BlogDB")->resultset("Tag")
-                     ->find({label => $tags_query})
-                     ->posts;
+    my $tags_rs = $c->model("BlogDB")->resultset("Tag")
+                     ->find({label => $tags_query});
+
+    my $posts_rs;
+    if (!$tags_rs)
+    {
+        #$c->res->code( 404 );
+	$c->stash->{'template'} = 'posts/no_tag_found.tt2';
+	$c->stash->{'tags_query'} = $tags_query;
+        $c->detach; 
+    } else {
+	$posts_rs = $tags_rs->posts;
+    }
+
+    unless(defined($posts_rs) && $posts_rs->count > 0) 
+    {
+	$c->stash->{'template'} = 'posts/no_posts_found.tt2';
+        $c->detach; 
+    }
 
     if ( exists $c->stash->{blog} )
     {
         $posts_rs = $posts_rs->find({ blog_id => $c->stash->{blog}->id });
     }
 
-    # TODO: find out how to check there were results.
-    if (!$posts_rs)
-    {
-        $c->res->code( 404 );
-        $c->res->body( "Tag '$tags_query' not found." );
-        $c->detach;
-    }
-
     $c->stash( posts => [ $posts_rs->all ]);
 
     use HTML::Entities qw(encode_entities);
+    
     $c->stash->{'title'} = 'All posts tagged with ' . encode_entities($tags_query);
     $c->stash->{template} = 'posts/list.tt2';
     $c->stash->{prev_post} ||= ''; # To satisfy TT's STRICT => 1.
