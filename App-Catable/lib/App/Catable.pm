@@ -67,23 +67,23 @@ $c->has_notifications - for use in templating
 =cut
 
 sub add_notification {
-	my ($c, $message) = @_;
-	$c->session->{'notifications'} = [] unless defined $c->session->{'notifications'};
-	push(@{ $c->session->{'notifications'} }, $message);
+    my ($c, $message) = @_;
+    $c->session->{'notifications'} = [] unless defined $c->session->{'notifications'};
+    push(@{ $c->session->{'notifications'} }, $message);
 
-	return;
+    return;
 }
 
 sub has_notifications {
-	my $c = shift;
-	return (defined $c->session->{'notifications'} && @{ $c->session->{'notifications'} }) ? 1 : ''; 
+    my $c = shift;
+    return (defined $c->session->{'notifications'} && @{ $c->session->{'notifications'} }) ? 1 : ''; 
 }
 
 sub flush_notifications {
-	my $c = shift;
-	my @notifications = @{ $c->session->{'notifications'} };
-	delete $c->session->{'notifications'};
-	return @notifications;
+    my $c = shift;
+    my @notifications = @{ $c->session->{'notifications'} };
+    delete $c->session->{'notifications'};
+    return \@notifications;
 }
 
 =head1 SEE ALSO
