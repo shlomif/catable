@@ -22,6 +22,8 @@ App::Catable::Controller::Root - Root Controller for App::Catable
 
 =cut
 
+=head2 index
+
 =head2 default
 
 =cut
