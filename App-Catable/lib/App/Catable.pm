@@ -91,9 +91,9 @@ For use in templating.
 
 sub flush_notifications {
     my $c = shift;
-    my @notifications = @{ $c->session->{'notifications'} };
+    my $notifications = $c->session->{'notifications'};
     delete $c->session->{'notifications'};
-    return \@notifications;
+    return $notifications;
 }
 
 =head1 SEE ALSO
