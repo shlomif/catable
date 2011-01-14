@@ -7,26 +7,26 @@
 
 <div class="post asset-body">
 <h3 class="entry-title">
-[%- IF header_link %]<a href="[%c.uri_for('/posts/show', post.id) %]">[% END -%]
-[%- HTML.escape(post.title()) -%]
-[%- IF header_link %]</a>[% END %]</h3>
+[%- IF header_link.raw %]<a href="[%c.uri_for('/posts/show', post.id.raw).escape %]">[% END -%]
+[%- post.title().escape -%]
+[%- IF header_link.raw %]</a>[% END %]</h3>
 
 <p>
 <b>Posted at:</b>
-[% HTML.escape(post.pubdate().strftime("%H:%M:%S %d-%m-%Y")) %]
+[% post.pubdate().strftime("%H:%M:%S %d-%m-%Y").escape %]
 </p>
 
-[% scrubber.scrub(post.body()) %]
+[% scrubber.scrub(post.body().raw).raw %]
 <div class="tags">
 <p>
 <b>Tags:</b>
 [% tags_rs = post.tags_rs %]
 [% first_tag = 1 %]
 [% WHILE ( tag = next_in_rs(tags_rs) ) -%]
-[%- IF NOT first_tag %], [% END -%]
+[%- IF NOT first_tag.raw %], [% END -%]
 <a rel="tag category" 
-href="[% HTML.escape(c.uri_for('/posts/tag', tag.label())) 
-%]">[% tag.label() %]</a>
+href="[% c.uri_for('/posts/tag', tag.label().raw).escape 
+%]">[% tag.label().escape %]</a>
 [%- first_tag = '' -%]
 [%- END %]
 </p>
@@ -34,35 +34,35 @@ href="[% HTML.escape(c.uri_for('/posts/tag', tag.label()))
 <div class="nav-links">
 [% IF prev_post %]
 <p class="prev">
-<a href="[% c.uri_for('/posts/show', prev_post.id) %]" rel="nav prev">Previous: [% HTML.escape(prev_post.title) %]</a> 
+<a href="[% c.uri_for('/posts/show', prev_post.id.raw).escape %]" rel="nav prev">Previous: [% prev_post.title.escape %]</a> 
 </p>
 [% END %]
 [% IF next_post %]
 <p class="next">
-<a href="[% c.uri_for('/posts/show', next_post.id) %]" rel="nav next">Next: [% HTML.escape(next_post.title) %]</a> 
+<a href="[% c.uri_for('/posts/show', next_post.id.raw).escape %]" rel="nav next">Next: [% next_post.title.escape %]</a> 
 </p>
 [% END %]
 </div>
 </div>
 
-<div [%UNLESS no_ids %]id="comments" [% END %]class="comments">
+<div [%UNLESS no_ids.raw %]id="comments" [% END %]class="comments">
 [% # TODO: Add the comment count. 
 %]
 <div class="comments-content">
 [% comments = post.comments_rs() %]
 [% WHILE ( comment = next_in_rs(comments) ) %]
-<div [% UNLESS no_ids %]id="comment-[% comment.id() %]" [% END %]class="comment">
+<div [% UNLESS no_ids.raw %]id="comment-[% comment.id().escape %]" [% END %]class="comment">
 <div class="inner">
 <div class="comment-content">
-<h2 class="comment-title">[% HTML.escape(comment.title()) %]</h2>
+<h2 class="comment-title">[% comment.title().escape %]</h2>
 
 <p class="posted-date">
 <b>Posted at:</b>
-[% HTML.escape(comment.pubdate().strftime("%H:%M:%S %d-%m-%Y")) %]
+[% comment.pubdate().strftime("%H:%M:%S %d-%m-%Y").escape %]
 </p>
 
 <div class="body">
-[% scrubber.scrub(comment.body()) %]
+[% scrubber.scrub(comment.body().raw).raw %]
 </div>
 </div>
 </div>
@@ -71,27 +71,27 @@ href="[% HTML.escape(c.uri_for('/posts/tag', tag.label()))
 
 </div>
 </div>
-<div class="comments-open" [% UNLESS no_ids %]id="comments-open"[% END %]>
+<div class="comments-open" [% UNLESS no_ids.raw %]id="comments-open"[% END %]>
 
 <h2 class="comments-open-header">Add New Comment</h2>
 
 <div class="comments-content">
 
-[% IF c.req.method == 'POST' %]
-<div [% UNLESS no_ids %]id="comment-preview" [% END %]class="comment">
+[% IF c.req.method.raw == 'POST' %]
+<div [% UNLESS no_ids.raw %]id="comment-preview" [% END %]class="comment">
 <div class="inner">
 <div class="comment-content">
-<h2 class="comment-title">[% HTML.escape( c.req.params.title ) %]</h2>
+<h2 class="comment-title">[% c.req.params.title.escape %]</h2>
 
 <div class="body">
-[% scrubber.scrub( c.req.params.body ) %]
+[% scrubber.scrub( c.req.params.body.raw ).raw %]
 </div>
 </div>
 </div>
 </div>
 [% END %]
 
-[% IF (NOT header_link) %]
+[% IF (NOT header_link.raw) %]
 <div class="comments-open-content">
 [%form%]
 </div>

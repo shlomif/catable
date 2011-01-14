@@ -14,7 +14,7 @@ The comment was posted. Now you can:
     ) %]">View the comment in its original context</a> (on the post page).
 </li>
 <li>
-<a href="[% HTML.escape(c.uri_for('/comments/show/', comment.id())) %]">See
+<a href="[% c.uri_for('/comments/show/', comment.id().raw).escape %]">See
 the comment</a>
 </li>
 </ul>

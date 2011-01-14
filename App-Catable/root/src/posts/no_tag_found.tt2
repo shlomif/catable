@@ -1,4 +1,4 @@
 [% title = 'Tag Could Not Be Found' %]
 <h1>Tag Could Not Be Found</h1>
 
-<p>The tag <strong>[% tags_query | html %]</strong> couldn't be found in our database. Please go back and try another.</p>
+<p>The tag <strong>[% tags_query.escape %]</strong> couldn't be found in our database. Please go back and try another.</p>

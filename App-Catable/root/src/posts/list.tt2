@@ -1,11 +1,11 @@
-[% title = (title || 'List Posts') %]
+[% title = (title.raw || 'List Posts') %]
 [% PROCESS "posts/display_block.tt2" %]
 [%- USE HTML -%]
 
 [% IF blog %]
 <ul class="menu">
 <li>
-<a href="[% c.uri_for("/blog", blog.url, "posts", "add") %]">Add new post</a>
+<a href="[% c.uri_for("/blog", blog.url.raw, "posts", "add").escape %]">Add new post</a>
 </li>
 </ul>
 [% END %]

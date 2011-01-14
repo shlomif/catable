@@ -1,5 +1,5 @@
 [% title = 'Register' %]
-[% IF error %]
-  <div class="error">[% error %]</div>
+[% IF error.raw %]
+  <div class="error">[% error.escape %]</div>
 [% END %]
 [% form %]

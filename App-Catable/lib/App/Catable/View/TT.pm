@@ -7,6 +7,8 @@ use Catalyst::View::TT 0.35;
 
 use base 'Catalyst::View::TT';
 
+use Template::Stash::AutoEscaping;
+
 use App::Catable;
 
 sub next_in_rs {
@@ -26,6 +28,13 @@ __PACKAGE__->config(
     WRAPPER => "wrapper.tt2",
     STRICT => 1,
     expose_methods => [qw/next_in_rs/],
+    STASH => Template::Stash::AutoEscaping->new(
+        {
+            die_on_unescaped => 1,
+            method_for_escape => 'escape',
+            method_for_raw => 'raw',
+        }
+    ),
 );
 
 

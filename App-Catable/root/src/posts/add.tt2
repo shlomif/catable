@@ -1,16 +1,16 @@
 [%- USE HTML -%]
 [% title = 'Add new post' -%]
 
-[% IF (c.req.method == 'POST') %]
+[% IF (c.req.method.raw == 'POST') %]
 <h2 id="preview">Post Preview</h2>
 
 <div class="post">
-<h3>[% HTML.escape(c.req.params.post_title) %]</h3>
+<h3>[% c.req.params.post_title.escape %]</h3>
 
 [% # TODO : verify that the HTML does not contain any malicious code
    # and is well-formed.
 %]
-[% c.req.params.post_body %]
+[% c.req.params.post_body.raw %]
 </div>
 [% END %]
 

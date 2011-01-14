@@ -5,7 +5,7 @@
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US">
 <head>
-<title>Catable[% IF title; " - " _ HTML.escape(title) ; END %]</title>
+<title>Catable[% IF title.raw; " - " _ title.escape ; END %]</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/themes/mt/themes-base/blog.css') %]" />
 <link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/themes/mt/cityscape-portland/screen.css') %]" media="screen, projection" title="portland" />
@@ -22,7 +22,7 @@
 <div id="header">
 <div id="header-inner">
 <div id="header-content">
-<h1 id="header-name"><a href="[% c.uri_for('/') %]">[% IF title; HTML.escape(title); ELSE; "Catable" ; END %]</a></h1>
+<h1 id="header-name"><a href="[% c.uri_for('/') %]">[% IF title.raw; title.escape; ELSE; "Catable" ; END %]</a></h1>
 <h2 id="header-description">Catable - CATAlyst BLog Engine - a free
 and open source software Catalyst-based blog engine under the MIT/X11 Licence.
 Based on Catalyst, DBIx::Class and other modern technologies.</h2>
@@ -32,8 +32,8 @@ Based on Catalyst, DBIx::Class and other modern technologies.</h2>
 <div id="user">
 <div id="user-inner">
 <p class="login">
-[% IF c.user_exists %]
-Logged in as <b>[% HTML.escape(c.user.display) %]</b> (<a href="[% c.uri_for('/logout') %]">Log out</a>)
+[% IF c.user_exists.raw %]
+Logged in as <b>[% c.user.display.escape %]</b> (<a href="[% c.uri_for('/logout') %]">Log out</a>)
 [% ELSE %]
 Not logged in.
 (<a href="[% c.uri_for('/login/openid') %]">Login using OpenID</a>)
@@ -41,16 +41,16 @@ Not logged in.
 </p>
 </div>
 </div>
-[% IF c.has_notifications %]
+[% IF c.has_notifications.raw %]
 <ul>
 	[% FOREACH message IN c.flush_notifications %]
-	<li>[% message %]</li>
+	<li>[% message.escape %]</li>
 	[% END %]
 </ul>
 [% END %]
 <div id="content">
 <div id="content-inner">
-[% content %]
+[% content.raw %]
 </div>
 </div>
 <div id="footer">

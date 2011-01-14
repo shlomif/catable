@@ -1,5 +1,5 @@
 [% title = 'Create a new blog' %]
-[% IF NOT submitted %]
+[% IF NOT submitted.raw %]
 [% form %]
 [% ELSE %]
 <p>
@@ -8,10 +8,10 @@ New blog created successfully.
 
 <ul>
 <li>
-<a href="[% c.uri_for('/') %]">Return to the front page.</a>
+<a href="[% c.uri_for('/').escape %]">Return to the front page.</a>
 </li>
 <li>
-<a href="[% c.uri_for('/blog', url) %]">Go see the blog</a>
+<a href="[% c.uri_for('/blog', url.raw).escape %]">Go see the blog</a>
 </li>
 </ul>
 

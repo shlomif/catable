@@ -5,7 +5,7 @@ Here's what you can find here:
 </p>
 
 <ul>
-[% IF c.user_exists %]
+[% IF c.user_exists.raw %]
 [% ELSE %]
 <li>
 <a href="[% c.uri_for("/login/openid") %]">Login using OpenID</a>

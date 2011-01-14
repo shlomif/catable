@@ -1,5 +1,5 @@
 [% PROCESS "posts/display_block.tt2" %]
 
 [%# TODO - possible XSS here. %]
-[% title = post.title() _ " - Catable" -%]
+[% title = post.title().raw _ " - Catable" -%]
 [% PROCESS display_post post = post, header_link = '', no_ids = '' %]
