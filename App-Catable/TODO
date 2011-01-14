@@ -1,8 +1,5 @@
-* Security: convert to http://search.cpan.org/dist/Template-Stash-AutoEscape/
-once a new version is released with our necessitating .escape or .raw 
-annotations:
-
-    - http://github.com/mala/Template-Stash-AutoEscape/issues#issue/2
+* Security: convert to 
+http://search.cpan.org/dist/Template-Stash-AutoEscaping/ .
 
 * Implement a list of recent blog posts.
 
