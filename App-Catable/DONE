@@ -36,3 +36,6 @@ logged-in.
 
 * Add previews to comments.
 
+* Security: convert to 
+http://search.cpan.org/dist/Template-Stash-AutoEscaping/ .
+

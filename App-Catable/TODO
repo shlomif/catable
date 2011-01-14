@@ -1,6 +1,3 @@
-* Security: convert to 
-http://search.cpan.org/dist/Template-Stash-AutoEscaping/ .
-
 * Implement a list of recent blog posts.
 
 * Root directory ( http://localhost.localdomain:3000/ ) should contain a 
