@@ -81,3 +81,7 @@ like {{ /post/show/my-cat-purred-at-me-today/ }} .
 
 * Add nested comments (comments to comments (to comments... and so forth)).
 
+* Add a tagline feature for a blog.
+    Like : 
+        - Title: "Confessions of a cat."
+        - Tagline: "Pawing at random things and meowing."
