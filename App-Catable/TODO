@@ -3,7 +3,6 @@
 * Root directory ( http://localhost.localdomain:3000/ ) should contain a 
 newswire of recent blogs and posts.
 
-
 * Style the "add new post" form better.
 
 * Style the "/create-blog/" form better.
