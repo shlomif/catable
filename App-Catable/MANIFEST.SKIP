@@ -53,3 +53,4 @@ t\/var\/catable\.db
 t\/var\/catable\.yml
 
 ^MYMETA.yml$
+^MYMETA\.json$
