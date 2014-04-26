@@ -18,7 +18,7 @@ my $build = Test::Run::Builder->new(
         "Test::WWW::Mechanize::Catalyst" => 0,
         "Test::WWW::Mechanize::LibXML" => 0,
     },
-    requires => 
+    requires =>
     {
         'Catalyst' => '5.80005',
         'Catalyst::Action::RenderView' => 0,
