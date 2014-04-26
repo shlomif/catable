@@ -5,6 +5,7 @@ Build
 catable.db
 catable.db.old
 MANIFEST
+META.json
 META.yml
 MYMETA.yml
 MYMETA.json
