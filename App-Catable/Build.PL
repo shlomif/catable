@@ -11,6 +11,10 @@ use Test::Run::Builder;
 
 my $build = Test::Run::Builder->new(
     module_name => "App::Catable",
+    configure_requires =>
+    {
+        'Module::Build' => '0.36',
+    },
     build_requires =>
     {
         "HTML::Lint" => 0,
