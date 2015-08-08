@@ -163,7 +163,7 @@ sub create_test_data {
 
     $schema->resultset('Account')->create( {
         username    => 'user',
-        password    => 'password', 
+        password    => 'password',
     } );
 
     my $user_id = get_user_id_by_name($schema, 'user');

@@ -97,7 +97,7 @@ EOF
 
         # TEST
         ok ($blogging_tag, "Cat tag was initialiased.");
-        
+
         # TEST
         ok ($cats_tag->id() != $blogging_tag->id(),
             "The cats and blogging tags are different."
@@ -123,13 +123,13 @@ EOF
             my $cat_post_tags_rs = $cat_post->tags_by_label_rs();
 
             # TEST
-            ok ($cat_post_tags_rs, 
+            ok ($cat_post_tags_rs,
                 "Post->tags_by_label_rs() returned a proper result set."
             );
 
             my $tag1 = $cat_post_tags_rs->next();
             # TEST
-            is ($tag1->label(), "cats", 
+            is ($tag1->label(), "cats",
                 "Got the right label for the first tag"
             );
 
@@ -145,8 +145,8 @@ EOF
                 body => <<'EOF',
 <p>
 Having seen <a href="http://nouveau.freedesktop.org/wiki">Nouveau</a>,
-the open source 3-D drivers for Nvidia cards, mentioned in 
-<a href="http://lwn.net/">Linux Weekly News</a> and recalling 
+the open source 3-D drivers for Nvidia cards, mentioned in
+<a href="http://lwn.net/">Linux Weekly News</a> and recalling
 that I wanted to help work on them myself, I decided to use some of my
 free time to give it a try.
 </p>
@@ -181,7 +181,7 @@ EOF
             ok ($nouv_post_tags_rs, '$nouveau->tags_by_label_rs() is true.');
 
             # TEST
-            ok (!defined($nouv_post_tags_rs->next()), 
+            ok (!defined($nouv_post_tags_rs->next()),
                 '$nouv_post_tags_rs returns 0 results.'
             );
         }
@@ -209,7 +209,7 @@ EOF
             is ($tag2->label(), "cats", "Second tag is blogging.");
 
             # TEST
-            ok (!defined($nouv_post_tags_rs->next()), 
+            ok (!defined($nouv_post_tags_rs->next()),
                 '$nouv_post_tags_rs returns 2 results.'
             );
         }
@@ -218,13 +218,13 @@ EOF
             my $cat_post_tags_rs = $cat_post->tags_by_label_rs();
 
             # TEST
-            ok ($cat_post_tags_rs, 
+            ok ($cat_post_tags_rs,
                 "CatPost->tags_by_label_rs() returned a proper result set 2nd time."
             );
 
             my $tag1 = $cat_post_tags_rs->next();
             # TEST
-            is ($tag1->label(), "cats", 
+            is ($tag1->label(), "cats",
                 "Got the right label for the first tag 2nd time"
             );
 
@@ -312,19 +312,19 @@ EOF
             my $cat_post_tags_rs = $cat_post->tags_by_label_rs();
 
             # TEST
-            ok ($cat_post_tags_rs, 
+            ok ($cat_post_tags_rs,
                 "CatPost->tags_by_label_rs() after NouvPost->tags_del()"
             );
 
             my $tag1 = $cat_post_tags_rs->next();
             # TEST
-            is ($tag1->label(), "cats", 
-                "Got tag after NouvPost->tags_del()" 
+            is ($tag1->label(), "cats",
+                "Got tag after NouvPost->tags_del()"
             );
 
             # TEST
             ok (!defined($cat_post_tags_rs->next()),
-                "No more CatsPost->tags - after NouvPost->tags_del()", 
+                "No more CatsPost->tags - after NouvPost->tags_del()",
             );
         }
 
@@ -339,7 +339,7 @@ EOF
                 tags => [$food_tag,],
             }
         );
-    
+
         # TEST
         are_tags_ok(
             $nouv_post,
@@ -428,7 +428,7 @@ EOF
             );
 
             # TEST
-            like ($post->body(), 
+            like ($post->body(),
                 qr{\Q<a href="http://nouveau.freedesktop.org/wiki">Nouveau</a>\E},
                 "Post[1].Body is OK."
             );
@@ -467,15 +467,15 @@ Printf.printf "func2(5) = %d\n" (func2 5);;
 </pre>
 
 <p>
-For more information refer <a href="http://caml.inria.fr/pub/old_caml_site/caml-list/1650.html">to 
+For more information refer <a href="http://caml.inria.fr/pub/old_caml_site/caml-list/1650.html">to
 this O'Caml related resource</a> and to
 <a href="http://www.cs.cornell.edu/courses/cs312/2006sp/lectures/lec03.html">this
-Standard ML related resource</a>. I had problems finding this because I 
+Standard ML related resource</a>. I had problems finding this because I
 searched for "call each other" instead of "mutually recursive".
 </p>
 
 <p>
-BTW, I was surprised to learn that Caml/O'Caml and SML are very incompatible. 
+BTW, I was surprised to learn that Caml/O'Caml and SML are very incompatible.
 I thought that generally O'Caml was a superset of SML, but as it turns out
 O'Caml cannot compile a lot of SML code. Apparently they both diverged from
 an early "ML" proto-language and went on their own ways.
@@ -522,7 +522,7 @@ EOF
             );
 
             # TEST
-            like ($post->body(), 
+            like ($post->body(),
                 qr{\Q<a href="http://nouveau.freedesktop.org/wiki">Nouveau</a>\E},
                 "Horses.Post[0].Body is OK."
             );
@@ -535,13 +535,13 @@ EOF
             ok ($post, "2nd horses-related post.");
 
             # TEST
-            is ($post->title(), 
+            is ($post->title(),
                 "Standard ML / O'Caml Tip : Two or More Functions that Call Each Other",
                 "Horses.Post[1].Title is OK."
             );
 
             # TEST
-            like ($post->body(), 
+            like ($post->body(),
                 qr{SML},
                 "Horses.Post[1].Body is OK."
             );

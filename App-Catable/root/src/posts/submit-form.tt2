@@ -19,7 +19,7 @@
 <td>Publish?</td>
 <td><input type="checkbox"
     name="can_be_published"
-    [% IF can_be_published %]checked="checked"[% END %] 
+    [% IF can_be_published %]checked="checked"[% END %]
 /></td>
 </tr>
 

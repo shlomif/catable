@@ -1,9 +1,9 @@
 /*
 
-A Six Apart theme adapted for Movable Type default templates 
-name: Cityscape Portland  
-designer: Tiffany Chow  
-designer_url: http://tiffany.vox.com/ 
+A Six Apart theme adapted for Movable Type default templates
+name: Cityscape Portland
+designer: Tiffany Chow
+designer_url: http://tiffany.vox.com/
 layouts: layout-wtt, layout-twt, layout-wt, layout-tw
 */
 
@@ -139,13 +139,13 @@ body {
 /* Global ----------------------------------------------------------------- */
 
 body {
-    color: #333;  
-    font-family: "trebuchet ms", arial, "hirakakupro-w3", osaka, "ms pgothic", sans-serif;   
-    background: #124344 url(body.gif) repeat-y  top center; 
+    color: #333;
+    font-family: "trebuchet ms", arial, "hirakakupro-w3", osaka, "ms pgothic", sans-serif;
+    background: #124344 url(body.gif) repeat-y  top center;
 }
 
 a {
-    color: #3d6dae; 
+    color: #3d6dae;
 }
 
 a:hover {
@@ -173,9 +173,9 @@ a:hover {
 
 /* Header ----------------------------------------------------------------- */
 
-#header { 
-    border-color: #27455a;  
-    background: #b3c9e3 url(header.png) no-repeat bottom left; 
+#header {
+    border-color: #27455a;
+    background: #b3c9e3 url(header.png) no-repeat bottom left;
 }
 
 #header a {
@@ -187,22 +187,22 @@ a:hover {
     height: 72px;
 }
 #header-content {
-    width: 844px; 
-    min-height: 72px; 
+    width: 844px;
+    min-height: 72px;
     margin: 20px 0 100px 20px;
 }
 
 #header-name {
-    color: #003c6a;  
-    font-family: "century gothic", futura, arial, helvetica, "hirakakupro-w3", osaka, "ms pgothic", sans-serif; 
+    color: #003c6a;
+    font-family: "century gothic", futura, arial, helvetica, "hirakakupro-w3", osaka, "ms pgothic", sans-serif;
     font-size: 28px;
     font-weight: bold;
 }
 
 #header-description {
-    color: #003c6a;  
-    font-family: "century gothic", futura, arial, helvetica, "hirakakupro-w3", osaka, "ms pgothic", sans-serif;  
-    font-weight: bold; 
+    color: #003c6a;
+    font-family: "century gothic", futura, arial, helvetica, "hirakakupro-w3", osaka, "ms pgothic", sans-serif;
+    font-weight: bold;
 }
 
 
@@ -217,7 +217,7 @@ a:hover {
 .search-form-header,
 .search-results-header {
     font-family: "century gothic", futura, arial, helvetica, "hirakakupro-w3", osaka, "ms pgothic", sans-serif;
-} 
+}
 
 .asset-name,
 .asset-name a,
@@ -263,15 +263,15 @@ a:hover {
 .widget a,
 .archive-widget .widget-list .item {
     color: #4c6885;
-} 
+}
 
 .widget-header {
     padding: 5px 15px;
     font-size: 12px;
-    font-weight: bold; 
-    font-family: "century gothic", futura, arial, helvetica, "hirakakupro-w3", osaka, "ms pgothic", sans-serif; 
-    background: url(widget-header.gif) repeat top left #587fa5; 
-}  
+    font-weight: bold;
+    font-family: "century gothic", futura, arial, helvetica, "hirakakupro-w3", osaka, "ms pgothic", sans-serif;
+    background: url(widget-header.gif) repeat top left #587fa5;
+}
 .widget .widget-header {
     border-left: 1px solid #fff;
 }
@@ -287,7 +287,7 @@ a:hover {
 
 .embed-asset-widget .widget-header {
     margin-bottom: 10px;
-}  
+}
 .widget-header,
 .widget-header a {
     text-decoration: none;
@@ -296,7 +296,7 @@ a:hover {
 
 .widget-header .edit a {
     border-left-color: #fff
-} 
+}
 .widget .widget-header a:hover {
     text-decoration: underline;
 }
@@ -307,12 +307,12 @@ a:hover {
 
 .media-stream-widget img {
     border: 1px solid #999;
-} 
+}
 .widget-header .edit a,
 .archive-widget .widget-list .item a,
 .archive-widget .widget-list .item {
     font-weight: normal;
-} 
+}
 
 .widget-header {
     font-size: 14px;
@@ -367,8 +367,8 @@ a:hover {
 
 /* Footer ----------------------------------------------------------------- */
 
-#footer { 
-    background-color: #27455a; 
+#footer {
+    background-color: #27455a;
 }
 
 #footer-content {

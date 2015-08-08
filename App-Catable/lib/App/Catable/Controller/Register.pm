@@ -38,9 +38,9 @@ sub register : Global Args(0) FormConfig {
     # Make 'error' empty by default to make TT2's STRICT => 1 empty.
     # If needed, we can set it to a non-empty value.
     $c->stash->{error} = '';
-    
+
     # Avoid an empty session var, Just In Case.
-    $c->session->{goto_after_register} = delete $c->session->{goto_after_login} 
+    $c->session->{goto_after_register} = delete $c->session->{goto_after_login}
         if $c->session->{goto_after_login};
 
     if ($form->submitted_and_valid) {
@@ -52,12 +52,12 @@ sub register : Global Args(0) FormConfig {
 
         unless ($c->model('BlogDB')
                       ->resultset('Account')
-                      ->create( { 
-                                  %$params, 
-#                                  options => { password_salt => $salt, 
-#                                  %{ $c->config('Plugin::Authentication')->{local}->{credential} } 
+                      ->create( {
+                                  %$params,
+#                                  options => { password_salt => $salt,
+#                                  %{ $c->config('Plugin::Authentication')->{local}->{credential} }
 #                                  }
-                                } ) ) 
+                                } ) )
         {
             # Uncomment this when we have implemented real exceptions
             $c->stash->{error} = "Fail."; #$error->message;
@@ -69,7 +69,7 @@ sub register : Global Args(0) FormConfig {
             password => $params->{password}, },
             'local', # realm
         );
-        my $next_url 
+        my $next_url
             = delete $c->session->{goto_after_register}
            || $c->uri_for( '/' )
            || do { $c->log->debug( "Didn't know where to go after /register successful" ); $c->res->status( 404 ) };

@@ -8,7 +8,7 @@ use warnings;
 App::Catable::Schema::Result::Blog - a schema class representing an entire blog!
 
 =head1 SYNOPSIS
-      
+
     my $schema = App::Catable->model("BlogDB");
 
     my $blog_rs = $schema->resultset('Blog');
@@ -48,7 +48,7 @@ This is the path part that will identify this user's blog. Whether this
 is generated or selected by the user can be left up to the sysadmin of
 the Catable installation.
 
-=head2 title 
+=head2 title
 
 This is the blog title and is (may be) printed on the blog's page.
 
@@ -122,7 +122,7 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key( qw( id ) );
 __PACKAGE__->add_unique_constraint ( [ 'url' ]);
 
-__PACKAGE__->belongs_to( 
+__PACKAGE__->belongs_to(
     owner => 'App::Catable::Schema::Result::Account',
     'owner_id'
 );

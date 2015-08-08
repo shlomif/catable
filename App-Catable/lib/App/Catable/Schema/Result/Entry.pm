@@ -9,7 +9,7 @@ App::Catable::Schema::Entry - a schema class representing a blog post
 or comment.
 
 =head1 SYNOPSIS
-      
+
     my $schema = App::Catable->model("BlogDB");
 
     my $posts_rs = $schema->resultset('Entry');
@@ -131,7 +131,7 @@ __PACKAGE__->belongs_to(
 # Since combining posts and comments into one table I decided to create
 # a link between posts and blogs so we don't have to have a blog ID on
 # comments. A post can now magically be on many blogs. This seems OK with me!
-__PACKAGE__->has_many( 
+__PACKAGE__->has_many(
     blog_entries => 'App::Catable::Schema::Result::BlogEntry',
     'entry_id'
 );
@@ -148,7 +148,7 @@ __PACKAGE__->has_many(
     'post_id',
 );
 __PACKAGE__->many_to_many(
-    tags   => 'tags_assoc', 
+    tags   => 'tags_assoc',
     'tag'
 );
 __PACKAGE__->belongs_to(
@@ -197,7 +197,7 @@ to the label. See: L<App::Catable::Schema::Tag> .
 =cut
 
 sub tags_by_label_rs
-{ 
+{
     my $self = shift;
 
     return $self->tags_rs->search_rs({}, { order_by => 'tag.label' });
@@ -209,10 +209,10 @@ sub _get_tags_list
     my $list = shift;
 
     my $tags_rs = $self->result_source->schema->resultset('Tag');
-    return 
+    return
     [
-        map 
-        { 
+        map
+        {
               (ref($_) eq "")
             ? $tags_rs->find_or_create({label => $_})
             : $_
@@ -281,7 +281,7 @@ sub assign_tags
     my $args = shift;
 
     $self->clear_tags();
-    
+
     return $self->add_tags($args);
 }
 

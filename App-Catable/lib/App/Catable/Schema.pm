@@ -12,7 +12,7 @@ __PACKAGE__->load_namespaces;
 App::Catable::Schema - the main schema module.
 
 =head1 SYNOPSIS
-      
+
     my $schema = App::Catable->model("BlogDB")
 
 =head1 DESCRIPTION

@@ -19,7 +19,7 @@ Catalyst Controller.
 
 =head2 add
 
-Add a post to *any* blog that the user is able to add a post to. 
+Add a post to *any* blog that the user is able to add a post to.
 
 http://localhost:3000/posts/add
 
@@ -111,7 +111,7 @@ sub list : Local
 {
     my ($self, $c) = @_;
 
-    my $posts_rs = 
+    my $posts_rs =
       $c->model('BlogDB')
         ->resultset('Entry')
         ->published_posts
@@ -168,7 +168,7 @@ sub add_submit : Private {
     $new_post->assign_tags({ tags => [split/\s*,\s*/, $params->{tags}]},);
 
     $c->stash->{blog}->add_to_posts( $new_post );
-    
+
     $c->stash->{template} = 'posts/add-submit.tt2';
 
     return;
@@ -199,15 +199,15 @@ sub tag :Local :CaptureArgs(1)  {
         #$c->res->code( 404 );
         $c->stash->{'template'} = 'posts/no_tag_found.tt2';
         $c->stash->{'tags_query'} = $tags_query;
-        $c->detach; 
+        $c->detach;
     } else {
         $posts_rs = $tags_rs->posts;
     }
 
-    unless(defined($posts_rs) && $posts_rs->count > 0) 
+    unless(defined($posts_rs) && $posts_rs->count > 0)
     {
         $c->stash->{'template'} = 'posts/no_posts_found.tt2';
-        $c->detach; 
+        $c->detach;
     }
 
     if ( exists $c->stash->{blog} )
@@ -218,7 +218,7 @@ sub tag :Local :CaptureArgs(1)  {
     $c->stash( posts => [ $posts_rs->all ]);
 
     use HTML::Entities qw(encode_entities);
-    
+
     $c->stash->{'title'} = 'All posts tagged with ' . encode_entities($tags_query);
     $c->stash->{template} = 'posts/list.tt2';
     $c->stash->{prev_post} ||= ''; # To satisfy TT's STRICT => 1.
@@ -257,14 +257,14 @@ sub show :Local Args(1)  {
 
 =head2 show_by_blog
 
-Chains from the '/blog/load_blog' function. This handles the URL 
+Chains from the '/blog/load_blog' function. This handles the URL
 '/blog/*/post/show/*'.
 
 This is for the direct URL, or for a forwarded request from '/posts/show/*'
 
 =cut
 
-sub show_by_blog :Chained('/blog') PathPart('posts/show') 
+sub show_by_blog :Chained('/blog') PathPart('posts/show')
                   Args(1) FormConfig('posts/comment') {
     my ($self, $c, $post_id) = @_;
 
@@ -284,7 +284,7 @@ sub show_by_blog :Chained('/blog') PathPart('posts/show')
     $c->stash->{template} = 'posts/show.tt2';
     $c->stash (post => $post);
     $c->stash (scrubber => $c->forward('default_scrubber') );
-    
+
     my $posts_rs =
      $c->model('BlogDB')
         ->resultset('Entry')
@@ -293,11 +293,11 @@ sub show_by_blog :Chained('/blog') PathPart('posts/show')
 
     $posts_rs = $posts_rs->by_blogs( [ $c->stash->{blog} ] )
         if exists $c->stash->{blog};
-    
+
     my $me = $posts_rs->current_source_alias;
 
     my $prev_post_rs = $posts_rs->search(
-        { 
+        {
             "${me}.pubdate" =>
             {
                 '<',
@@ -314,7 +314,7 @@ sub show_by_blog :Chained('/blog') PathPart('posts/show')
     $c->stash(prev_post => ($prev_post_rs->first() || ''));
 
     my $next_post_rs = $posts_rs->search(
-        { 
+        {
             "${me}.pubdate" =>
             {
                 '>',
@@ -329,7 +329,7 @@ sub show_by_blog :Chained('/blog') PathPart('posts/show')
     );
 
     $c->stash(next_post => ($next_post_rs->first() || ''));
-    
+
     return;
 }
 
@@ -438,7 +438,7 @@ http://localhost:3000/posts/add-comment
 
 =cut
 
-sub add_comment : Private { 
+sub add_comment : Private {
     my ($self, $c) = @_;
 
     my $req = $c->request;
@@ -470,7 +470,7 @@ sub add_comment : Private {
     return;
 }
 
-=head2 index 
+=head2 index
 
 =cut
 
@@ -490,7 +490,7 @@ Copyright by Shlomi Fish, 2010.
 
 =head1 LICENSE
 
-This library is distributed under the MIT/X11 License: 
+This library is distributed under the MIT/X11 License:
 
 L<http://www.opensource.org/licenses/mit-license.php>
 

@@ -2,7 +2,7 @@
 the title.
     - Fixed by getting rid of the "META" and just doing "title = ".
 
-* Add <h1> to the page. 
+* Add <h1> to the page.
 
 * Add basic list view
 
@@ -17,7 +17,7 @@ the title.
 
 * Implement the add new post storage.
 
-* Move the M::I-based Makefile.PL away to rejects/ because it messes up the 
+* Move the M::I-based Makefile.PL away to rejects/ because it messes up the
 inc/ directory when run
 
 * Implement a basic HTML validation and cross-site-scripting (XSS)
@@ -36,6 +36,6 @@ logged-in.
 
 * Add previews to comments.
 
-* Security: convert to 
+* Security: convert to
 http://search.cpan.org/dist/Template-Stash-AutoEscaping/ .
 

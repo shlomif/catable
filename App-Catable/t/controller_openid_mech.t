@@ -7,10 +7,10 @@ use Test::More tests => 2;
 # the testing model.
 
 use vars qw($schema);
-BEGIN 
-{ 
+BEGIN
+{
     $ENV{CATALYST_CONFIG} = "t/var/catable.yml";
-    use App::Catable::Model::BlogDB; 
+    use App::Catable::Model::BlogDB;
 
     use lib 't/lib';
     use AppCatableTestSchema;

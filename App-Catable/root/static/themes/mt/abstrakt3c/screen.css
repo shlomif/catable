@@ -26,7 +26,7 @@ layouts: layout-wtt
 	font-family: "Trebuchet MS";
 	font-size: 2em;
 	font-weight: bold;
-	
+
 }
 
 #header-description
@@ -59,7 +59,7 @@ a
 
 .asset-body
 {
-	font-family: Georgia, serif;	
+	font-family: Georgia, serif;
 	font-size: 1.1em;
 	line-height: 1.3em;
 	text-align: left;

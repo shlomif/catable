@@ -11,10 +11,10 @@ use Test::More tests => 30;
 # the testing model.
 
 use vars qw($schema);
-BEGIN 
-{ 
+BEGIN
+{
     $ENV{CATALYST_CONFIG} = "t/var/catable.yml";
-    use App::Catable::Model::BlogDB; 
+    use App::Catable::Model::BlogDB;
 
     use AppCatableTestSchema;
 
@@ -43,7 +43,7 @@ sub _add_post
 
     # TEST:$c++;
     $mech->submit_form_ok(
-        { 
+        {
             fields =>
             {
                 post_blog => $blog,
@@ -63,7 +63,7 @@ sub _add_post
         {
             button => "submit",
         },
-        "Submitting the submit form",    
+        "Submitting the submit form",
     );
 }
 # TEST:$add_post=$c;
@@ -98,7 +98,7 @@ sub _add_post
         $mech->form_number(1);
 
         my @buttons = $mech->find_all_inputs(type => "submit");
-        
+
         # TEST
         is_deeply(
             [map { $_->{'value'} } @buttons],
@@ -109,7 +109,7 @@ sub _add_post
 
     # TEST
     $mech->submit_form_ok(
-        { 
+        {
             fields =>
             {
                 post_blog => "usersblog",
@@ -135,7 +135,7 @@ sub _add_post
         {
             button => "submit",
         },
-        "Submitting the submit form",    
+        "Submitting the submit form",
     );
 
     # TEST
@@ -149,8 +149,8 @@ sub _add_post
 
     # TEST
     like(
-        $mech->content, 
-        qr/Grey and White Cat/, 
+        $mech->content,
+        qr/Grey and White Cat/,
         "Contains the submitted body",
     );
 
@@ -162,7 +162,7 @@ sub _add_post
 
     # TEST
     $mech->get_ok("http://localhost/blog/usersblog");
-    
+
     # TEST
     $mech->follow_link_ok(
         {
@@ -173,7 +173,7 @@ sub _add_post
 
     # TEST
     like(
-        $mech->content, 
+        $mech->content,
         qr{Kit Kit Catty Skooter},
         "Followed to the post OK. Contains the body."
     );
@@ -184,7 +184,7 @@ sub _add_post
         qr{<a\s*rel="tag category"\s*href="[^"]+/posts/tag/grey">grey</a>}ms,
         "Contains a link to one of the tags.",
     );
- 
+
     # TEST*$add_post
     _add_post(
         $mech,
@@ -202,7 +202,7 @@ sub _add_post
         {
             post_body => <<'EOF',
 <p>The third post about cats and what's in between</p>
-<p>Enjoy the <a href="http://en.wiktionary.org/wiki/kitten">English wiktionary 
+<p>Enjoy the <a href="http://en.wiktionary.org/wiki/kitten">English wiktionary
 definition of "kitten"</a>.</p>
 EOF
             post_title => "Third post about cats in a row.",
@@ -250,7 +250,7 @@ EOF
 
     # TEST
     $mech->content_like(
-        qr{\Qhttp://en.wiktionary.org/wiki/kitten\E}, 
+        qr{\Qhttp://en.wiktionary.org/wiki/kitten\E},
         "Went to the third post.",
     );
 }
@@ -261,7 +261,7 @@ sub login {
     my $password = shift;
 
     $mech->get( "http://localhost/login" );
-    
+
     $mech->submit_form(
         fields =>
         {

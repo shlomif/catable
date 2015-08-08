@@ -34,8 +34,8 @@ TODO: {
     );
 
     # TEST
-    ok( !request('/posts/add-submit')->is_success, 
-        'vanilla add-submit request should fail' 
+    ok( !request('/posts/add-submit')->is_success,
+        'vanilla add-submit request should fail'
     );
 
     {
@@ -50,7 +50,7 @@ TODO: {
         )
         );
 
-        # TEST  
+        # TEST
         ok(
             $response->is_success(),
             "request with preview, title and body should succeed."

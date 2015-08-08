@@ -9,7 +9,7 @@ App::Catable::Schema::Tag - a schema class representing a tag (or "label" or
 "keyword").
 
 =head1 SYNOPSIS
-      
+
     my $schema = App::Catable->model("BlogDB");
 
     my $tags_rs = $schema->resultset('Tag');
@@ -68,7 +68,7 @@ __PACKAGE__->has_many(
     'tag_id',
 );
 __PACKAGE__->many_to_many(
-    posts   => 'posts_assoc', 
+    posts   => 'posts_assoc',
     'post'
 );
 

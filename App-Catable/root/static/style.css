@@ -27,7 +27,7 @@ span.error_message, span.error_constraint_required {
     margin-bottom: 1em;
 }
 
-.add-post-form label, .add-post-form textarea, 
+.add-post-form label, .add-post-form textarea,
 .add-post-form input, .add-post-form select
 {
     vertical-align: top;

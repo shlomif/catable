@@ -7,8 +7,8 @@
 #        FILES:  ---
 #         BUGS:  ---
 #        NOTES:  ---
-#       AUTHOR:  YOUR NAME (), 
-#      COMPANY:  
+#       AUTHOR:  YOUR NAME (),
+#      COMPANY:
 #      VERSION:  1.0
 #      CREATED:  07/08/09 21:29:37
 #     REVISION:  ---
@@ -22,16 +22,16 @@ use Test::More tests => 1;                      # last test to print
 {
     sleep(1);
     my $mech = Test::WWW::Mechanize::Catalyst->new;
-    
+
     # TEST
     $mech->get_ok("http://localhost/blog/usersblog/posts/add");
 
     # TEST
     $mech->submit_form_ok(
-        { 
+        {
             fields =>
             {
-                body => 
+                body =>
     qq{<p><a href="http://www.shlomifish.org/">Shlomif Lopmonyotron</a></p>},
                 title => "Link to Shlomif Homepage",
                 tags => "perl, catable, catalyst, cats",
@@ -52,7 +52,7 @@ use Test::More tests => 1;                      # last test to print
         {
             button => "submit",
         },
-        "Submitting the submit form",    
+        "Submitting the submit form",
     );
 
     # TEST

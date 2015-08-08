@@ -54,7 +54,7 @@ sub do_test_run_tests
         Test::Run::CmdLine::Iface->new(
             {
                 'test_files' => [glob("t/*.t")],
-            }   
+            }
             # 'backend_params' => $self->_get_backend_params(),
         );
 
@@ -63,7 +63,7 @@ sub do_test_run_tests
 
 sub ACTION_tags
 {
-    return 
+    return
         system(qw(
             ctags -f tags --recurse --totals
     		--exclude=blib/ --exclude=t/lib

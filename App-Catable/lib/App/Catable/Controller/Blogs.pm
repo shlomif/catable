@@ -29,7 +29,7 @@ See also C<blog> in C<App::Catable::Controller::Root>.
 sub load_blog : Private{
     my ($self, $c, $blog_name) = @_;
 
-    my $blog = 
+    my $blog =
         $c->model('BlogDB')
         ->resultset('Blog')
         ->single({ url => $blog_name});
@@ -39,7 +39,7 @@ sub load_blog : Private{
 
 =head2 $self->create_blog($c)
 
-Creates a new blog. Handles the '/create-blog' URL - accepts no arguments and 
+Creates a new blog. Handles the '/create-blog' URL - accepts no arguments and
 ends the chain.
 
 =cut
@@ -64,7 +64,7 @@ sub create_blog : Path('/create-blog') Args(0) FormConfig
         $c->model('BlogDB')->resultset('Blog')
             ->create(
                 {
-                    (map 
+                    (map
                         { $_ => $params->{$_} }
                         (qw(url title))
                     ),
@@ -82,7 +82,7 @@ sub create_blog : Path('/create-blog') Args(0) FormConfig
 
 =head2 list_posts
 
-Handles the URL C</blog/*>. Chains from C<sub blog> in 
+Handles the URL C</blog/*>. Chains from C<sub blog> in
 Controller::Root to load the actual blog and ends the chain.
 
 Lists all posts in this blog. Forwards to Controller::Posts to do the
@@ -111,10 +111,10 @@ Merely forwards control to the C<add> action in the Posts controller.
 
 =cut
 
-sub add_post : Chained('/blog') PathPart('posts/add') 
+sub add_post : Chained('/blog') PathPart('posts/add')
                   Args(0) {
     my ($self, $c) = @_;
-    
+
     $c->detach( '/posts/add' );
 }
 
@@ -143,7 +143,7 @@ Alastair Douglas L<http://www.grammarpolice.co.uk/>
 
 =head1 LICENSE
 
-This library is distributed under the MIT/X11 License: 
+This library is distributed under the MIT/X11 License:
 
 L<http://www.opensource.org/licenses/mit-license.php>
 

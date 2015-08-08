@@ -52,7 +52,7 @@ sub login : Global Args(0) FormConfig {
     if ($form->submitted_and_valid) {
         my $login_params = $form->params;
 
-        unless ($c->authenticate( { 
+        unless ($c->authenticate( {
                     username => $login_params->{user},
                     password => $login_params->{pass}, },
                     "local", # realm
@@ -61,7 +61,7 @@ sub login : Global Args(0) FormConfig {
             return;
         }
 
-        my $next_url 
+        my $next_url
             = delete $c->session->{goto_after_login}
            || $c->uri_for( '/' )
            || do { $c->log->debug( "Didn't know where to go after /login successful" ); $c->res->status( 404 ) };
@@ -86,7 +86,7 @@ Copyright by Shlomi Fish, 2010.
 
 =head1 LICENSE
 
-This library is distributed under the MIT/X11 License: 
+This library is distributed under the MIT/X11 License:
 
 L<http://www.opensource.org/licenses/mit-license.php>
 

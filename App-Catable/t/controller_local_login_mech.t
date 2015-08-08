@@ -7,10 +7,10 @@ use Test::More tests => 10;
 # the testing model.
 
 use vars qw($schema);
-BEGIN 
-{ 
+BEGIN
+{
     $ENV{CATALYST_CONFIG} = "t/var/catable.yml";
-    use App::Catable::Model::BlogDB; 
+    use App::Catable::Model::BlogDB;
 
     use lib 't/lib';
     use AppCatableTestSchema;
@@ -35,7 +35,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 
     # TEST
     $mech->submit_form_ok(
-        { 
+        {
             fields =>
             {
                 user => "user",
@@ -51,7 +51,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 
     # TEST
     $mech->submit_form_ok(
-        { 
+        {
             fields =>
             {
                 user => "nobody",
@@ -67,7 +67,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 
     # TEST
     $mech->submit_form_ok(
-        { 
+        {
             fields =>
             {
                 user => "user",
@@ -80,8 +80,8 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 
     # TEST
     $mech->content_like(
-        qr/Logged in as.*?user.*?Log out/ms, 
-        "Seems to be logged in" 
+        qr/Logged in as.*?user.*?Log out/ms,
+        "Seems to be logged in"
     );
 
     # TEST

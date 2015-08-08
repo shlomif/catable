@@ -17,7 +17,7 @@ body {
     background-repeat: no-repeat;
     background-position: bottom right;
     margin-bottom: -1em;
-    
+
     height: 200px;
     padding-left: 10px;
 }
@@ -31,7 +31,7 @@ body {
     /* derived from http://www.flickr.com/photos/8078381@N03/2683238976/ */
     /* http://creativecommons.org/licenses/by/2.0/deed.en */
     text-align: center;
-    
+
     border-left-color: rgb(200,75,75);
     border-left-style: solid;
     border-left-width: 4px;
@@ -51,14 +51,14 @@ body {
     margin-right: 275px;
     margin-left: 10px;
     margin-top: -17px;
-    
+
     padding: 0.5em;
-    
+
     font-size: 1em;
     font-weight: bold;
     height: 120px;
     overflow: hidden;
-    
+
     text-align: left;
 }
 
@@ -91,14 +91,14 @@ body {
     border-color: rgb(200,75,75);
     border-style: solid;
     border-width: 2px;
-    
+
     width: 100%;
 }
 
 .add_post tr th {
     background-color: rgb(200,75,75);
     color: white;
-    
+
     border-color: rgb(180,180,180);
     border-style: solid;
     border-width: 2px;
@@ -123,11 +123,11 @@ body {
     border-left-color: rgb(200,75,75);
     border-left-style: solid;
     border-left-width: 4px;
-    
+
     border-right-color: rgb(200,75,75);
     border-right-style: solid;
     border-right-width: 4px;
-    
+
     background-color: white;
 }
 
@@ -221,5 +221,5 @@ body {
     padding: 0.5em;
     margin-right: 1em;
     margin-left: 1em;
-    
+
 }

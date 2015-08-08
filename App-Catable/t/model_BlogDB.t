@@ -56,7 +56,7 @@ EOF
         # TEST
         ok ($new_post, "Post could be initialised.");
 
-        $post_id = $new_post->id();        
+        $post_id = $new_post->id();
     }
 
     {
@@ -77,28 +77,28 @@ EOF
 
         # TEST
         is ($cats_post->pubdate->month(), 6, "Month is OK.");
-        
+
         # TEST
         is (
-            $cats_post->update_date->month(), 7, 
+            $cats_post->update_date->month(), 7,
             "update_date Month is OK."
         );
 
         # TEST
         is (
-            $cats_post->update_date->second(), 57, 
+            $cats_post->update_date->second(), 57,
             "update_date Second field is OK."
         );
 
         # TEST
         is (
-            $cats_post->update_date->day(), 1, 
+            $cats_post->update_date->day(), 1,
             "update_date Second field is OK."
         );
 
         # TEST
         is (
-            $cats_post->update_date->year(), 2009, 
+            $cats_post->update_date->year(), 2009,
             "update_date Year field is OK."
         );
 

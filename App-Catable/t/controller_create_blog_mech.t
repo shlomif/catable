@@ -7,10 +7,10 @@ use Test::More tests => 22;
 # the testing model.
 
 use vars qw($schema);
-BEGIN 
-{ 
+BEGIN
+{
     $ENV{CATALYST_CONFIG} = "t/var/catable.yml";
-    use App::Catable::Model::BlogDB; 
+    use App::Catable::Model::BlogDB;
 
     use lib 't/lib';
     use AppCatableTestSchema;
@@ -49,9 +49,9 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 
     # TEST
     $mech->content_like(
-        qr/Logged in as.*?user.*?Log out/ms, 
-        "Seems to be logged in" 
-    );    
+        qr/Logged in as.*?user.*?Log out/ms,
+        "Seems to be logged in"
+    );
 
     # TEST
     $mech->get_ok("http://localhost/");
@@ -81,7 +81,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
     $mech->content_like(
         qr{New blog created successfully}i,
     );
-    
+
     # TEST
     $mech->follow_link_ok(
         {
@@ -137,9 +137,9 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 
     # TEST
     $mech->content_like(
-        qr/Logged in as.*?user.*?Log out/ms, 
-        "Seems to be logged in" 
-    );    
+        qr/Logged in as.*?user.*?Log out/ms,
+        "Seems to be logged in"
+    );
 
     # TEST
     $mech->get_ok("http://localhost/");
@@ -169,7 +169,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
     $mech->content_like(
         qr{New blog created successfully}i,
     );
-    
+
     # TEST
     $mech->follow_link_ok(
         {

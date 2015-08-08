@@ -1,4 +1,4 @@
-action: 
+action:
 # indicator is the field that is used to test for form submission
 indicator: create
 

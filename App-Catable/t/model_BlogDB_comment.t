@@ -56,7 +56,7 @@ EOF
         # TEST
         ok ($new_post, "Post could be initialised.");
 
-        $post_id = $new_post->id();        
+        $post_id = $new_post->id();
     }
 
     my $comment_id;
@@ -79,9 +79,9 @@ EOF
                 title => "Vim Tip: Copying Some Non-Adjacent Lines to a Register",
                 body => <<'EOF',
 <p>
-Here's a vim tip on how to copy some non adjacent lines to a register 
+Here's a vim tip on how to copy some non adjacent lines to a register
 (<tt>"r</tt>), but first the story that made me find out about how to
-do it exactly. I need to add full POD (Perl's documentation format) 
+do it exactly. I need to add full POD (Perl's documentation format)
 coverage to a Perl module I inherited. What it means is that every
 top-level function (or at least those that do not start with a "_") should
 have their own entries. In Perl the function definitions goes like that:
@@ -112,7 +112,7 @@ EOF
         ok ($comment, "Comment was found.");
 
         # TEST
-        is ($comment->title(), 
+        is ($comment->title(),
             "Vim Tip: Copying Some Non-Adjacent Lines to a Register",
             "Comment title is OK."
         );
@@ -132,7 +132,7 @@ EOF
         ok ($parent_post, "Parent post for comment is valid");
 
         # TEST
-        is ($parent_post->id(), $post_id, 
+        is ($parent_post->id(), $post_id,
             "Parent post has the right post ID",
         );
 
@@ -141,7 +141,7 @@ EOF
 
         # TEST
         like (
-            $parent_post->body(), qr{\Qhttp://geminigeek.com/\E}, 
+            $parent_post->body(), qr{\Qhttp://geminigeek.com/\E},
             "body is OK.",
         );
     }
@@ -198,7 +198,7 @@ EOF
     }
 
     # TEST:$c=0;
-    my $test_cats_post_function = 
+    my $test_cats_post_function =
     sub
     {
         my $cats_post = $posts_rs->find( { id => $post_id } );
@@ -225,7 +225,7 @@ EOF
         is ($comment2->id(), $comment2_id, "Comment #2 ID");
 
         # TEST:$c++;
-        is ($comment2->title(), 
+        is ($comment2->title(),
             "Building STAF on Mandriva Cooker (and other Linuxes)",
             "Comment #2 Title",
         );
@@ -237,7 +237,7 @@ EOF
         is ($comment2->update_date->minute(), 45, "Comment #2 update minute");
 
         # TEST:$c++;
-        ok ($comment2->can_be_published(), 
+        ok ($comment2->can_be_published(),
             "Comment #2 can_be_published is True."
         );
     };
@@ -266,8 +266,8 @@ EOF
                 body => <<'EOF',
 <p>
 Having seen <a href="http://nouveau.freedesktop.org/wiki">Nouveau</a>,
-the open source 3-D drivers for Nvidia cards, mentioned in 
-<a href="http://lwn.net/">Linux Weekly News</a> and recalling 
+the open source 3-D drivers for Nvidia cards, mentioned in
+<a href="http://lwn.net/">Linux Weekly News</a> and recalling
 that I wanted to help work on them myself, I decided to use some of my
 free time to give it a try.
 </p>
@@ -281,7 +281,7 @@ EOF
         # TEST
         ok ($post2, "Post could be initialised.");
 
-        $post2_id = $post2->id();        
+        $post2_id = $post2->id();
     }
 
     {

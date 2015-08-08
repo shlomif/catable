@@ -10,7 +10,7 @@ App::Catable::Schema::Result::BlogEntry - a schema class representing a blog
 entry.
 
 =head1 SYNOPSIS
-      
+
     TBD
 
 =cut
@@ -31,9 +31,9 @@ __PACKAGE__->add_columns(
 );
 __PACKAGE__->set_primary_key( qw( blog_id entry_id ) );
 
-__PACKAGE__->belongs_to( 
+__PACKAGE__->belongs_to(
     'blog' => 'App::Catable::Schema::Result::Blog',
-    'blog_id' 
+    'blog_id'
 );
 __PACKAGE__->belongs_to(
     'entry' => 'App::Catable::Schema::Result::Entry',

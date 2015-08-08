@@ -9,13 +9,13 @@ use Test::More tests => 15;
 # the testing model.
 
 use vars qw($schema);
-BEGIN 
-{ 
+BEGIN
+{
     # This statement aims to silence perl -w.
     $SQL::Translator::Schema::DEBUG = 0;
 
     $ENV{CATALYST_CONFIG} = "t/var/catable.yml";
-    use App::Catable::Model::BlogDB; 
+    use App::Catable::Model::BlogDB;
 
     use lib 't/lib';
     use AppCatableTestSchema;
@@ -30,10 +30,10 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 
     # TEST
     $mech->get_ok(
-        "http://localhost/", 
+        "http://localhost/",
         "Got to the front page"
     );
-    
+
     # TEST
     $mech->follow_link_ok(
         {
@@ -44,7 +44,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 
     # TEST
     $mech->submit_form_ok(
-        { 
+        {
             fields =>
             {
                 username => "",
@@ -58,13 +58,13 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 
     # TEST
     $mech->content_contains(
-        'This field is required', 
+        'This field is required',
         "Login failed - did not provide username"
     );
 
     # TEST
     $mech->submit_form_ok(
-        { 
+        {
             fields =>
             {
                 username => "user",
@@ -83,7 +83,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 
     # TEST
     $mech->submit_form_ok(
-        { 
+        {
             fields =>
             {
                 username => "user",
@@ -97,13 +97,13 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 
     # TEST
     $mech->content_contains(
-        'Does not match', 
+        'Does not match',
         "Login failed - wrong repeated password"
     );
 
     # TEST
     $mech->submit_form_ok(
-        { 
+        {
             fields =>
             {
                 username => "user",
@@ -140,7 +140,7 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 
     # TEST
     $mech->submit_form_ok(
-        { 
+        {
             fields =>
             {
                 user => "user",

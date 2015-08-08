@@ -15,7 +15,7 @@ __PACKAGE__->config->{namespace} = '';
 App::Catable::Controller::Root - Root Controller for App::Catable
 
 =head1 DESCRIPTION
- 
+
 [enter your description here]
 
 =head1 METHODS
@@ -30,7 +30,7 @@ App::Catable::Controller::Root - Root Controller for App::Catable
 
 sub index : Path : Args(0) {
     my ( $self, $c ) = @_;
-    $c->stash->{template} = 'index.tt2';    
+    $c->stash->{template} = 'index.tt2';
 }
 
 sub default : Private {
@@ -97,7 +97,7 @@ http://localhost:3000/logout/
 =cut
 
 sub logout : Local {
-    my ($self, $c) = @_; 
+    my ($self, $c) = @_;
 
     $c->logout();
     $c->response->body ("You have been logged out.");
@@ -112,14 +112,14 @@ The action for /blog/*
 =cut
 
 sub blog : Chained('/') CaptureArgs(1) {
-    my ($self, $c, $blog_name) = @_; 
+    my ($self, $c, $blog_name) = @_;
 
 =for logging
     # Enable in case you want it - otherwise it's just noise on the tests.
     $c->log->debug( ' === Root::blog' );
 =cut
 
-    $c->stash->{blog} 
+    $c->stash->{blog}
         = $c->forward( '/blogs/load_blog', [$blog_name] );
 
     if (! $c->stash->{blog} ) {
@@ -140,9 +140,9 @@ fragmenting the code into lots of small files.
 =cut
 
 sub post : Chained('/') CaptureArgs(1) {
-    my ($self, $c, $post_id) = @_; 
+    my ($self, $c, $post_id) = @_;
 
-    $c->stash->{post} 
+    $c->stash->{post}
         = $c->forward( '/posts/load_post/', [$post_id] );
     return;
 }
@@ -151,7 +151,7 @@ sub post : Chained('/') CaptureArgs(1) {
 
 Attempt to render a view, if needed.
 
-=cut 
+=cut
 
 sub end : ActionClass('RenderView') {}
 
@@ -161,7 +161,7 @@ Shlomi Fish, L<http://www.shlomifish.org/>
 
 =head1 LICENSE
 
-This library is distributed under the MIT/X11 License: 
+This library is distributed under the MIT/X11 License:
 
 L<http://www.opensource.org/licenses/mit-license.php>
 

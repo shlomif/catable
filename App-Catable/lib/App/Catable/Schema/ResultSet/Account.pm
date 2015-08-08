@@ -20,7 +20,7 @@ sub auto_create
 App::Catable::ResultSet::Account - resultset for an account. Needed by OpenID.
 
 =head1 SYNOPSIS
-      
+
     TBD
 
 =head1 DESCRIPTION

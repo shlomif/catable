@@ -8,7 +8,7 @@ use warnings;
 App::Catable::Schema::PostTagAssoc - a posts <-> tags association.
 
 =head1 SYNOPSIS
-      
+
 =head1 DESCRIPTION
 
 This table/class associates posts with tags/labels/keywords.

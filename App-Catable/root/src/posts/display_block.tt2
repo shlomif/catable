@@ -24,8 +24,8 @@
 [% first_tag = 1 %]
 [% WHILE ( tag = next_in_rs(tags_rs) ) -%]
 [%- IF NOT first_tag.raw %], [% END -%]
-<a rel="tag category" 
-href="[% c.uri_for('/posts/tag', tag.label().raw).escape 
+<a rel="tag category"
+href="[% c.uri_for('/posts/tag', tag.label().raw).escape
 %]">[% tag.label().escape %]</a>
 [%- first_tag = '' -%]
 [%- END %]
@@ -34,19 +34,19 @@ href="[% c.uri_for('/posts/tag', tag.label().raw).escape
 <div class="nav-links">
 [% IF prev_post %]
 <p class="prev">
-<a href="[% c.uri_for('/posts/show', prev_post.id.raw).escape %]" rel="nav prev">Previous: [% prev_post.title.escape %]</a> 
+<a href="[% c.uri_for('/posts/show', prev_post.id.raw).escape %]" rel="nav prev">Previous: [% prev_post.title.escape %]</a>
 </p>
 [% END %]
 [% IF next_post %]
 <p class="next">
-<a href="[% c.uri_for('/posts/show', next_post.id.raw).escape %]" rel="nav next">Next: [% next_post.title.escape %]</a> 
+<a href="[% c.uri_for('/posts/show', next_post.id.raw).escape %]" rel="nav next">Next: [% next_post.title.escape %]</a>
 </p>
 [% END %]
 </div>
 </div>
 
 <div [%UNLESS no_ids.raw %]id="comments" [% END %]class="comments">
-[% # TODO: Add the comment count. 
+[% # TODO: Add the comment count.
 %]
 <div class="comments-content">
 [% comments = post.comments_rs() %]

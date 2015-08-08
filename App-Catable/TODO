@@ -1,6 +1,6 @@
 * Implement a list of recent blog posts.
 
-* Root directory ( http://localhost.localdomain:3000/ ) should contain a 
+* Root directory ( http://localhost.localdomain:3000/ ) should contain a
 newswire of recent blogs and posts.
 
 * Style the "add new post" form better.

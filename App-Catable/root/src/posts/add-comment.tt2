@@ -9,7 +9,7 @@ The comment was posted. Now you can:
 <ul>
 <li>
 <a href="[% HTML.escape(
-    c.uri_for('/posts/show', comment.parent().id(), ) _ 
+    c.uri_for('/posts/show', comment.parent().id(), ) _
     '#comment' _ comment.id()
     ) %]">View the comment in its original context</a> (on the post page).
 </li>

@@ -10,7 +10,7 @@ use Catalyst::Runtime '5.80';
 #         -Debug: activates the debug mode for very useful log messages
 #   ConfigLoader: will load the configuration from a YAML file in the
 #                 application's home directory
-# Static::Simple: will serve static files from the application's root 
+# Static::Simple: will serve static files from the application's root
 #                 directory
 
 #-Debug
@@ -28,7 +28,7 @@ use Catalyst qw/
 
 our $VERSION = '0.01';
 
-# Configure the application. 
+# Configure the application.
 #
 # Note that settings in App::Catable.yml (or other external
 # configuration file that you set up manually) take precedence
@@ -37,7 +37,7 @@ our $VERSION = '0.01';
 # with a external configuration file acting as an override for
 # local deployment.
 
-__PACKAGE__->config( 
+__PACKAGE__->config(
     name => 'App::Catable',
 );
 
@@ -64,7 +64,7 @@ engine freely available under the MIT/X11 License.
 
 Add a notification to be shown to a visitor, e.g. "You have been logged out"
 
-=head2 $c->has_notifications 
+=head2 $c->has_notifications
 
 For use in templating.
 
@@ -80,7 +80,7 @@ sub add_notification {
 
 sub has_notifications {
     my $c = shift;
-    return (defined $c->session->{'notifications'} && @{ $c->session->{'notifications'} }) ? 1 : ''; 
+    return (defined $c->session->{'notifications'} && @{ $c->session->{'notifications'} }) ? 1 : '';
 }
 
 =head2 my \@notifications = $c->flush_notifications()
@@ -106,7 +106,7 @@ Shlomi Fish, L<http://www.shlomifish.org/>
 
 =head1 LICENSE
 
-This library is distributed under the MIT/X11 License: 
+This library is distributed under the MIT/X11 License:
 
 L<http://www.opensource.org/licenses/mit-license.php>
 

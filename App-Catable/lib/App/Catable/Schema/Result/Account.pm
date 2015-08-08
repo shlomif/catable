@@ -10,7 +10,7 @@ use Digest;
 App::Catable::Schema::Account - a schema class representing an account.
 
 =head1 SYNOPSIS
-      
+
     my $schema = App::Catable->model("BlogDB");
 
     my $account_rs = $schema->resultset('Account');
@@ -148,7 +148,7 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key( qw( id ) );
 __PACKAGE__->add_unique_constraint ( [ 'url' ]);
 
-__PACKAGE__->might_have( 
+__PACKAGE__->might_have(
     blogs => 'App::Catable::Schema::Result::Blog',
     'owner_id',
 );
@@ -165,12 +165,12 @@ __PACKAGE__->might_have(
 Hashref containing C<username> and C<password>. You may also pass in a hashref under
 the C<options> key. That hashref is used as follows.
 
-The password will be hashed using the SHA-1 algorithm unless you pass in a type in 
+The password will be hashed using the SHA-1 algorithm unless you pass in a type in
 the C<password_type> hash key.
 
 For convenience, and to make it easier to borrow code, the hashing types supported
 are the same as those supported by the Catalyst Authentication plugin's Password
-credential type (as of Authentication v0.10011) - C<clear>, C<crypted>, 
+credential type (as of Authentication v0.10011) - C<clear>, C<crypted>,
 C<salted_hash>, C<hashed>.
 
 To support the C<salted_hash> and C<hashed> types you need to therefore pass
@@ -181,7 +181,7 @@ To support the C<crypted> type you will have to also provide a C<password_salt>.
 is only used to create the password, and if you're using crypted then I assume you know
 how it all works anyway.
 
-Bright sparks will notice, then, that this means you can combine the 
+Bright sparks will notice, then, that this means you can combine the
 C<$c->config('Plugin::Authentication')->{$realm}->{credential}> config to the
 Authentication plugin with a C<password_salt> if you are using C<crypted>, and pass
 this whole hash as a reference under C<options>.
@@ -200,9 +200,9 @@ sub new {
 
     my $password = $self->password;
 
-    if ($options->{'password_type'} eq 'crypted') {   
+    if ($options->{'password_type'} eq 'crypted') {
         $password = crypt( $password, $options->{password_salt} );
-    } 
+    }
     elsif ($options->{'password_type'} eq 'salted_hash') {
         require Crypt::SaltedHash;
         my $salt_len = $options->{'password_salt_len'} ? $options->{'password_salt_len'} : 0;
@@ -211,7 +211,7 @@ sub new {
         $shash->add( $args->{password} );
 
         $password = $shash->generate;
-    } 
+    }
     elsif ($options->{'password_type'} eq 'hashed') {
         my $d = Digest->new( $options->{'password_hash_type'} );
         $d->add( $options->{'password_pre_salt'} || '' );
@@ -231,7 +231,7 @@ sub new {
 
 =head2 $self->display()
 
-The display name for the account - either the username or the OpenID URL. 
+The display name for the account - either the username or the OpenID URL.
 
 =cut
 

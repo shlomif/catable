@@ -44,13 +44,13 @@ App::Catable::View::TT - TT View for App::Catable
 
 =head1 DESCRIPTION
 
-TT View for App::Catable. 
+TT View for App::Catable.
 
 =head1 METHODS
 
 =head2 next_in_rs($self, $c, $rs)
 
-An exposed method that is useful to fetch the next result of a 
+An exposed method that is useful to fetch the next result of a
 L<DBIx::Class> resultset. It returns
 an empty string (which is still false) instead of undef() as the next result
 or the next result if it's a valid result.
@@ -73,7 +73,7 @@ Shlomi Fish, L<http://www.shlomifish.org/>
 
 =head1 LICENSE
 
-This library is distributed under the MIT/X11 License: 
+This library is distributed under the MIT/X11 License:
 
 L<http://www.opensource.org/licenses/mit-license.php>
 

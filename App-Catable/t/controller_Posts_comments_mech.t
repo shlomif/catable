@@ -7,10 +7,10 @@ use Test::More tests => 17;
 # the testing model.
 
 use vars qw($schema);
-BEGIN 
-{ 
+BEGIN
+{
     $ENV{CATALYST_CONFIG} = "t/var/catable.yml";
-    use App::Catable::Model::BlogDB; 
+    use App::Catable::Model::BlogDB;
 
     use lib 't/lib';
     use AppCatableTestSchema;
@@ -49,16 +49,16 @@ use Test::WWW::Mechanize::Catalyst 'App::Catable';
 
     # TEST
     $mech->content_like(
-        qr/Logged in as.*?user.*?Log out/ms, 
-        "Seems to be logged in" 
-    );    
+        qr/Logged in as.*?user.*?Log out/ms,
+        "Seems to be logged in"
+    );
 
     # TEST
     $mech->get_ok("http://localhost/posts/add");
 
     # TEST
     $mech->submit_form_ok(
-        { 
+        {
             fields =>
             {
                 post_body => <<'EOF',
@@ -67,14 +67,14 @@ I've been chatting on Instant Messaging today, and accidently typed "lough"
 instead of "laugh". I noticed the spell checker did not highlight it when
 I corrected my mistake and decided to check what it means. Here's
 <a href="http://www.google.com/search?hl=en&amp;lr=&amp;ie=UTF-8&amp;oe=UTF-8&amp;c2coff=1&amp;safe=off&amp;defl=en&amp;q=define:lough&amp;sa=X&amp;oi=glossary_definition&amp;ct=title">the definition of "lough"</a> -
-it's Irish for "lake". 
+it's Irish for "lake".
 </p>
 
 <p>
-It reminded me of "loch" (which is the Scottish Gaelic equivalent) 
+It reminded me of "loch" (which is the Scottish Gaelic equivalent)
 and the English word "lake" so I checked their etymologies on m-w.com. Turns
-out they all stem from the same root, which is common in many 
-<a href="http://en.wikipedia.org/wiki/Indo-European_languages">Indo-European 
+out they all stem from the same root, which is common in many
+<a href="http://en.wikipedia.org/wiki/Indo-European_languages">Indo-European
 languages</a>.
 </p>
 
@@ -103,7 +103,7 @@ EOF
         {
             button => "submit",
         },
-        "Submitting the submit form",    
+        "Submitting the submit form",
     );
 
     # TEST
@@ -116,15 +116,15 @@ EOF
     );
 
     # TEST
-    like( $mech->content, 
-          qr/Word of the Day: Lough/, 
+    like( $mech->content,
+          qr/Word of the Day: Lough/,
           "Contains the submitted post" );
 
     my $post_uri = $mech->uri();
 
     # TEST
     $mech->submit_form_ok(
-        { 
+        {
             fields =>
             {
                 body => <<'EOF',
@@ -147,7 +147,7 @@ EOF
 
     # TEST
     $mech->submit_form_ok(
-        { 
+        {
             button => "submit",
             form_id => "add-comment-form"
         },
